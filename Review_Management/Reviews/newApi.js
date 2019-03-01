@@ -106,7 +106,7 @@ app.post('/user/employee/review',function(req,res){
 //     "QAReview":
 //     "QARating":
 //     "FirstLevelId":
-//     "SecondLevelId":
+//     "SecondLevelI":
 //     "EmployeeCode":
 //   }
 

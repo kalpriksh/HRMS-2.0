@@ -5,10 +5,9 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../public/css/admin.css">
-    <title>Developer</title>
+    <link rel="stylesheet" href="../public/css/ReviewsTeamLead.css">
+    <title>Team lead</title>
   </head>
-
   <body>
 
     <nav class="navbar ">
@@ -45,8 +44,18 @@
                   <li class = "nav-item">
                       <a href = "#" class="nav-link" data-toggle="collapse" data-target="#projects">Project(s) </a>
                   </li>
-                  <li class = "nav-item">
+                  <!-- <li class = "nav-item">
                       <a href = "#" class="nav-link" data-toggle="collapse" data-target="#projects">Reviews </a>
+                  </li> -->
+                  <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      Reviews
+                    </a>
+                    <div class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
+                      <a class="dropdown-item" href="#" > Self </a>
+                      <div class="dropdown-divider"></div>
+                      <a class="dropdown-item" href="TLWritereview.html">Other employees</a>
+                    </div>
                   </li>
                </ul>
            </div>
@@ -56,24 +65,19 @@
                    <a href = "#" class="nav-link">Log-out </a>
                </li>
            </ul>
+
+
       </div>
    </nav>
 
 
-    <div class="container-fluid">
-      <div id = "rolelabel">
+    <div class="container">
 
+      <ul id = "Level1_list" >
+      </ul>
 
+      <div id="level2" class = "text-center">
       </div>
-
-      <div id="level1label">
-      </div>
-
-      <div class="level2label">
-
-
-      </div>
-
     </div>
 
   </body>
@@ -83,5 +87,5 @@
       crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.4/js/tether.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" ></script>
-    <script src="../public/js/admin.js"></script>
+    <script src="../public/js/ReviewsTeamLead.js"></script>
   </html>

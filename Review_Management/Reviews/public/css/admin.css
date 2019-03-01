@@ -1,0 +1,28 @@
+*{
+  padding: 0;
+  margin: 0;
+}
+
+.imgheader{
+  height: 80px;
+  padding: 10px;
+}
+
+.navbar-color-set a{
+  color: white !important;
+}
+.navbar-bgcolor-set{
+  background-color: bg-dark;
+}
+
+ul{
+  list-style-type: none;
+  margin-left:  50px;
+}
+li{
+  margin-top: 20px;
+}
+/* input[type="button"]{
+      width: 50px;
+
+} */
