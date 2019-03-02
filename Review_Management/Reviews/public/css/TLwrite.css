@@ -1,0 +1,59 @@
+*{
+  padding: 0;
+  margin: 0;
+}
+nav{
+  padding: 0;
+}
+.rowheight{
+  padding: 10px;
+  /* display: flex;
+  flex-direction: row;
+  justify-content: space-between; */
+}
+.imgheader{
+  height: 56px;
+}
+
+.navbar-color-set a{
+    color: white !important;
+}
+
+@media (min-width: 500px) {
+  .NameHeader{
+    /* On small screens, we are no longer using row direction but column */
+    float: right;
+    padding-right: 10px;
+    padding-top: 15px;
+  }
+
+}
+.container{
+  padding: 0;
+}
+ul{
+  list-style-type: none;
+}
+li{
+  margin: 10px;
+}
+#review_table{
+  width: 90%;
+  margin: 10px auto;
+  display: inline-table;
+  overflow: auto;
+}
+textarea{
+  width: 100%;
+  min-width: 100px;
+  height: 100%;
+}
+td{
+  word-wrap: break-word;
+
+}
+#employee_table{
+  width: 70%;
+  min-width: 300px;
+  margin: 0 auto;
+}

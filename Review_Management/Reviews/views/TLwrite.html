@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="../public/css/TLwrite.css">
+  <title>Team Lead Self Review</title>
+</head>
+<body>
+    <div class="rowheight ">
+      <img src="../public/images/logo.png" class=" imgheader " alt="LOGO">
+      <h6 class="NameHeader text-center"> Taran Pal Singh </h6>
+      <br>
+    </div>
+
+    <nav class = "navbar navbar-expand-md bg-dark navbar-dark">
+     <div class = "container-fluid navbar-color-set">
+         <button class="navbar-toggler"
+                 type="button"
+                 data-toggle="collapse"
+                 data-target="#navBarMenu"
+                 aria-controls="navBarMenu"
+                 aria-expanded="false"
+                 aria-label="Toggle navigation">
+                       <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse " id = "navBarMenu">
+              <ul class="nav ">
+                  <li class = "nav-item">
+                      <a href="#" class="nav-link" data-toggle="collapse" data-target="#details">Details </a>
+                   </li>
+                  <li class = "nav-item">
+                      <a href = "#" class="nav-link" data-toggle="collapse" data-target="#skilltable">Skills </a>
+                  </li>
+                  <li class = "nav-item">
+                      <a href = "#" class="nav-link" data-toggle="collapse" data-target="#leavedetail">Leaves </a>
+                  </li>
+                  <li class = "nav-item">
+                      <a href = "#" class="nav-link" data-toggle="collapse" data-target="#projects">Project(s) </a>
+                  </li>
+                  <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle " href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      Reviews
+                    </a>
+                    <div class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
+                      <a class="dropdown-item " href="TL.html" > Self </a>
+                      <div class="dropdown-divider"></div>
+                      <a class="dropdown-item active" href="TLwrite.html">Other employees</a>
+                    </div>
+                  </li>
+               </ul>
+           </div>
+
+           <ul class = "nav navbar-right">
+               <li class = "nav-item">
+                   <a href = "#" class="nav-link">Log-out </a>
+               </li>
+           </ul>
+
+      </div>
+   </nav>
+
+
+    <div class="container profileDetails">
+      <table class="table table-bordered bg-light">
+          <tr>
+            <th scope="col" class="text-center" id = "Project_written">Project </th>
+            <th scope="col" class="text-center" id = "emp_project_diplay">ERP</th>
+            <!-- // will come from ajax call -->
+            <th scope="col" class="text-center">Employee Code</th>
+            <th scope="col" class="text-center" id = "emp_code_diplay">INT012 </th>
+          </tr>
+      </table>
+    </div>
+
+
+    <div class="container text-center" id = "employee_list">
+    </div>
+
+    <div class="container">
+
+      <div id = "Level1_list" >
+      </div>
+      <div id = "level2" class="text-center" >
+      </div>
+
+    </div>
+
+</body>
+<script
+  src="https://code.jquery.com/jquery-3.3.1.js"
+  integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+  crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.4/js/tether.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" ></script>
+<script src="../public/js/TLwrite.js"></script>
+</html>
