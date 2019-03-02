@@ -1,16 +1,16 @@
 $(document).ready(function(){
 
-  $.ajax({
-    "async": false,
-    "crossDomain": true,
-    "url": "http://localhost:3333/api/skills/Allskills",  // To add skills in the Select2
-    "method": "GET",
-    "data":"",
-    success: function(res){
-
-
-    }
-  });
+  // $.ajax({
+  //   "async": false,
+  //   "crossDomain": true,
+  //   "url": "http://localhost:3333/api/skills/Allskills",  // To add skills in the Select2
+  //   "method": "GET",
+  //   "data":"",
+  //   success: function(res){
+  //
+  //
+  //   }
+  // });
     //  ajax call for level 1
     level1 = ["Development", "growth", "Skills", "blaa"];
     var myul = document.getElementById("Level1_list");

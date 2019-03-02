@@ -19,7 +19,7 @@ $(document).ready(function(){
 });
 
 function showlevel1(ide){
-  console.log("ide: " + ide);
+  console.log("showlevel1 ide: " + ide);  //  HR or Developer
   level1 = ["Development", "growth", "Skills", "blaa"];
   var mylevel1 = document.getElementById(ide + "div");
   const level1html = `
@@ -50,7 +50,7 @@ function showlevel1(ide){
 }
 
 function showlevel2(ide){
-  console.log("ide: " + ide);
+  console.log("showlevel2 ide: " + ide);        // HRDevelopment
   level1 = ["Development 2", "growth 2", "Skills 2", "blaa 2"];
   var mylevel1 = document.getElementById(ide + "div");
   const level1html = `
@@ -62,13 +62,13 @@ function showlevel2(ide){
 
     <li>
 
-      <div class="row">
+      <div class="row" >
         <div class="col-sm-3">
             <input type="text"  class="form-control" name = "newlevel">
         </div>
-        <div class="col-sm-3">
+        <div class="col-sm-3" name = ${ide}>
 
-            <button type="submit" class="btn btn-primary">Add New</button>
+            <button type="submit" id = "" onclick = "Addbtn(this.parentNode.parentNode.parentNode.parentNode.parentNode.id)" class="btn btn-primary">wdwAdd New</button>
         </div>
       </div>
 
@@ -78,4 +78,8 @@ function showlevel2(ide){
   console.log(mylevel1);
   mylevel1.innerHTML = level1html;
 
+}
+
+function Addbtn(ide){
+  console.log("It's parent Id is: " + ide);
 }
