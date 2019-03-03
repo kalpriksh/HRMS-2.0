@@ -1,4 +1,8 @@
-	Create table Roles(
+	
+create procedure RequiredTables
+as
+	create database Reviews
+	create table Roles(
 		Id int Primary key identity(1,1),
 		Name varchar(max)
 			)
@@ -9,7 +13,7 @@
 			)
 
 	Create table RolesFirstLevel(
-		
+		Id int Primary Key identity(1,1),
 		RoleId int
 		FOREIGN KEY (RoleId) REFERENCES Roles(Id),
 		FirstLevelId int,
@@ -23,6 +27,7 @@
 			)
 
 	create table EmployeeReviews(
+		Id int Primary Key identity(1,1),
 		FirstLevelId int,
 		SecondLevelId int,
 		Own_Review varchar(max),
@@ -34,29 +39,14 @@
 		Foreign Key(SecondLevelId) references SecondLevel(Id)
 
 			)
+
 		create table FirstSecondLevel(
+		Id int Primary Key identity(1,1),
 		FirstLevelId int,
 		SecondLevelId int,
 		foreign key(FirstLevelId) references FirstLevel(Id),
 		foreign key(SecondLevelId) references SecondLevel(Id),
 		)
-	
-
-	
-	select * from Roles
-	select * from RolesFirstLevel
-	select * from FirstLevel
-	select * from SecondLevel
-	select * from FirstSecondLevel
-	select * from EmployeeReviews
-	select * from FirstSecondLevel
-
-	drop table Roles
-	drop table RolesFirstLevel
-	drop table FirstLevel
-	drop table SecondLevel
-	drop table FirstSecondLevel
-	drop table EmployeeReviews
 
 
 	insert into Roles (Name)
@@ -108,7 +98,28 @@
 	(4,1,'Problem Solver',5,'one more Problem solverv review',4 ,14),
 	(3,4,'Problem Solver for a differnt person',5,'one more Problem solver review fora different person',4 ,15),
 	(3,3,'Problem Solver for a differnt person',5,NULL,4 ,15)
+	
 
+	
+	select * from Roles
+	select * from RolesFirstLevel
+	select * from FirstLevel
+	select * from SecondLevel
+	select * from FirstSecondLevel
+	select * from EmployeeReviews
+	select * from FirstSecondLevel
+go
+
+	drop table Roles
+	drop table RolesFirstLevel
+	drop table FirstLevel
+	drop table SecondLevel
+	drop table FirstSecondLevel
+	drop table EmployeeReviews
+
+
+	
+	drop procedure RequiredTables
 	
 	
 	select * from EmployeeReviews where Empcode=14;
