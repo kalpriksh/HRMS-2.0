@@ -2,16 +2,18 @@ $(document).ready(function(){
 
     level1 = ["Development", "Growth", "Skills", "blaa"];
 
+    var mylevel1 = document.getElementById("Level1_list");
+
+
     const level1html = `
       <ul>
         ${level1.map(level => `
         <li><a href="#" onclick = "showlevel2(this.id,)" id = ${ level}> ${level } </a>
-        <div id = ${level + "div"} > </div>
+        <div id = ${level + "div"}></div>
         </li>
       `).join('')}
       </ul>`
     ;
-    var mylevel1 = document.getElementById("Level1_list");
     mylevel1.innerHTML = level1html;
 
 });
@@ -45,84 +47,92 @@ const myOBJ = [
 
 function showlevel2(id){
   //ajax call for level2 parameters
-
-  var qa_reviewed = false;
-
-  myOBJ.forEach(function(element){
-    if( (element.QaReview) || (element.QaRating) ){
-        qa_reviewed = true;
-    }
-    else{
-    }
-  });
-
-  const table_headings = `
-  <div class = " table-responsive">
-  <table class = "table table-bordered table-striped" id = "review_table">
-    <thead>
-    <tr>
-      <th scope="col">
-          <p>  Parameters </p>
-      </th>
-      <th scope="col">
-          <p>  Self Review </p>
-      </th>
-      ${qa_reviewed ? `
-      <th scope="col">
-          <p>  QA Review </p>
-      </th>
-      `:``}
-      <th scope="col">
-          <p>  self rating </p>
-      </th>
-      ${qa_reviewed ? `
-      <th scope="col">
-          <p>  QA rating </p>
-      </th>
-      `: ``}
-
-    </tr>
-    </thead>
-    <tbody>
-
-      ${myOBJ.map(obj => `
-            <tr>
-              <td scope="col">${obj.level2}</td>
-              <td scope="col">
-              ${obj.SelfReview == "" ?`<textarea id=${"Review"+((obj.level2).split(" ").join(""))} name="SelfReview"></textarea>`:`${obj.SelfReview}`
-              }</td>
-
-              ${qa_reviewed ? `
-              <td scope="col">
-                  ${obj.QaReview}
-              </td>
-              `:``}
-
-              <td scope="col">
-              ${obj.SelfReview == "" ?`  <input type="number" id=${"Rating"+((obj.level2).split(" ").join(""))} name="" value= ${obj.SelfRating}>`:`${obj.SelfRating}`
-              }</td>
-
-              ${qa_reviewed ? `
-              <td scope="col">
-                ${obj.QaRating}
-              </td>
-              `:``}
-              </tr>
-      `).join('')}
-
-
-  </table>
-  <br>
-  <button id = ${id} onclick = "submitlevel1(this.id)" class = "btn btn-primary btn-lg float-right">SUBMIT</button>
-  </div>
-  `;
-
   var mylevel2 = document.getElementById(id+"div");
-  // (mylevel2.parentNode).setAttribute("class","border border-primary");
-  (mylevel2.parentNode).style.border = "2px solid blue";
-  (mylevel2.parentNode).style.padding = "20px";
-  mylevel2.innerHTML = table_headings;
+  if(mylevel2.innerHTML == ""){
+    var qa_reviewed = false;
 
+    myOBJ.forEach(function(element){
+      if( (element.QaReview) || (element.QaRating) ){
+          qa_reviewed = true;
+      }
+      else{
+      }
+    });
+
+    const table_headings = `
+    <div class = " table-responsive">
+    <table class = "table table-bordered table-striped" id = "review_table">
+      <thead>
+      <tr>
+        <th scope="col">
+            <p>  Parameters </p>
+        </th>
+        <th scope="col">
+            <p>  Self Review </p>
+        </th>
+        ${qa_reviewed ? `
+        <th scope="col">
+            <p>  QA Review </p>
+        </th>
+        `:``}
+        <th scope="col">
+            <p>  self rating </p>
+        </th>
+        ${qa_reviewed ? `
+        <th scope="col">
+            <p>  QA rating </p>
+        </th>
+        `: ``}
+
+      </tr>
+      </thead>
+      <tbody>
+
+        ${myOBJ.map(obj => `
+              <tr>
+                <td scope="col">${obj.level2}</td>
+                <td scope="col">
+                ${obj.SelfReview == "" ?`<textarea id=${"Review"+((obj.level2).split(" ").join(""))} name="SelfReview"></textarea>`:`${obj.SelfReview}`
+                }</td>
+
+                ${qa_reviewed ? `
+                <td scope="col">
+                    ${obj.QaReview}
+                </td>
+                `:``}
+
+                <td scope="col">
+                ${obj.SelfReview == "" ?`  <input type="number" id=${"Rating"+((obj.level2).split(" ").join(""))} name="" value= ${obj.SelfRating}>`:`${obj.SelfRating}`
+                }</td>
+
+                ${qa_reviewed ? `
+                <td scope="col">
+                  ${obj.QaRating}
+                </td>
+                `:``}
+                </tr>
+        `).join('')}
+
+
+    </table>
+    <br>
+    <button id = ${id} onclick = "submitlevel1(this.id)" class = "btn btn-primary btn-lg float-right">SUBMIT</button>
+    </div>
+    `;
+
+
+    // (mylevel2.parentNode).setAttribute("class","border border-primary");
+    (mylevel2.parentNode).style.border = "2px solid blue";
+    (mylevel2.parentNode).style.padding = "20px";
+    mylevel2.innerHTML = table_headings;
+  }
+  else{
+    mylevel2.innerHTML = "";
+    (mylevel2.parentNode).style.border = "0";
+    (mylevel2.parentNode).style.padding = "0";
+    // mylevel2.innerHTML = table_headings;
+
+  }
 }
 
 

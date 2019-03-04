@@ -15,9 +15,10 @@
   background-color: bg-dark;
 }
 
-ul{
+#body ul{
   list-style-type: none;
-  margin-left:  50px;
+  margin-left:  20px;
+  padding: 20px;
 }
 li{
   margin-top: 20px;
