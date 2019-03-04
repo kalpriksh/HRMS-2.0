@@ -22,15 +22,15 @@ const myOBJ = [
     {
       level2 : "Technical",
       SelfReview : " Good Job..............",
-      QaReview : "dwdwdwewdwekfbwekjvbvkvkvervbebvk brvkjbfekjvbkfevbkjbv jkebvkfevbekvbkvbwkbvkwbvkvbk",
+      QaReview : "ddwdwdwd",
       SelfRating : 8,
-      QaRating : ""
+      QaRating : "1"
     },
 
     {
       level2 : "Team play",
       SelfReview : " Good Job..............",
-      QaReview : "dwdwdwewdwek",
+      QaReview : "",
       SelfRating :"8",
       QaRating : ""
     },
@@ -52,11 +52,7 @@ function showlevel2(id){
 
   myOBJ.forEach(function(element){
     if( (element.QaReview) || (element.QaRating) ){
-        console.log("Problem" + element.level2);
         qa_reviewed = true;
-    }
-    else{
-      console.log("Not a problem " + element.level2);
     }
   });
 
