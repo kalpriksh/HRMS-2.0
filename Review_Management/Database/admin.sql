@@ -34,8 +34,31 @@ go
 exec NewRole QA;
 
 
+/*to create new level1 parameters*/
+create procedure NewLv1Parameter @FirstLevel varchar(20)
+as
+	if not exists( select * from FirstLevel where Name=@FirstLevel)
+	begin
+		insert into FirstLevel values(@FirstLevel)
+	end
+go
 
-/*to create and map new first level with old Role if not exists*/
+exec NewLv1Parameter 'abcd'
+
+
+/*to create new level 2 parameters*/
+create procedure NewLv2Parameter @SecondLevel varchar(20)
+as
+	if not exists( select * from SecondLevel where Name=@SecondLevel)
+	begin
+		insert into SecondLevel values(@SecondLevel)
+	end
+go
+
+exec NewLv2Parameter 'xyzzz'
+
+
+/*to map given role with first level parameter if it does not already exists*/
 
 create procedure mapRoleFirstLevel (@Role varchar(30) ,@FirstLevelName varchar(30))
 as
@@ -52,8 +75,7 @@ drop procedure mapRoleFirstLevel
 exec mapRoleFirstLevel Dev, Effectiveness
 
 
-
-/*old role-- new p1--new p2*/
+/*Role--> new Lv1Parameter--> new Lv2Parameter*/
 create procedure proc1 (@Role varchar(30), @FirstLevelName varchar(30),@SecondLevelName varchar(30))
 as
 	if not exists (select * from FirstLevel where Name=@FirstLevelName )
@@ -72,22 +94,6 @@ as
 		end
 go
 
-exec proc1 'HR','blaa','zzy'
+exec proc1 'HR','Delivery','zzy'
 drop procedure proc1
 
-
-
-/*role--old parameter mapping in RolesFirstLevel*/
-create procedure proc2 (@Role varchar(20),@FirstLevelName varchar(20))
-as
-	declare @x int; declare @y int; declare @z int;
-	exec @x = getRoleId @Role;
-	exec @y = getLevel1Id @FirstLevelName;
-	if not exists (select * from RolesFirstLevel where RoleId=@x and FirstLevelId=@y )
-begin
-	insert into RolesFirstLevel(RoleId,FirstLevelId) values(@x,@y)
-end 
-
-exec proc2 
-drop procedure proc2 
-q
