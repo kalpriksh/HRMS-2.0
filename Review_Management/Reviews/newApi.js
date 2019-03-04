@@ -20,8 +20,8 @@ var result1;
 var sqlConfig = {
     user: 'sa',
     password: 'password',
-    server: 'localhost',
-    database: 'Review_Management'
+    server: 'CYG220',
+    database: 'Review_Mangement'
 }
 
 //All the api listed
@@ -44,7 +44,7 @@ app.post('/user/employee',function(req,res){
       }
       else {
         console.log(recordset.recordset);
-        res.sendSta(recordset.recordset);
+        res.send(recordset.recordset);
       }
       sql.close();
     });
