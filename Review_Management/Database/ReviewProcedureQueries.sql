@@ -7,10 +7,10 @@
 
 		where Roles.Name=@Role
 	GO
-		
+
 	create procedure RoleSecondLevelName @FirstLevelName varchar(30)
 		as
-		select SecondLevel.Name
+		select Secon	dLevel.Name
 		from FirstSecondLevel
 		inner join FirstLevel on FirstLevel.Id=FirstSecondLevel.FirstLevelId
 		inner join SecondLevel on SecondLevel.Id=FirstSecondLevel.SecondLevelId
@@ -53,7 +53,7 @@
 		@FirstLevel varchar(30),
 		@EmployeeId int
 	as
-		select SecondLevel.Name,Own_Review,Own_Rating,QA_Review,QA_Rating 
+		select SecondLevel.Name,Own_Review,Own_Rating,QA_Review,QA_Rating
 		from EmployeeReviews
 		inner join SecondLevel on SecondLevel.Id=EmployeeReviews.SecondLevelId
 		inner join FirstLevel on FirstLevel.Id=EmployeeReviews.FirstLevelId
