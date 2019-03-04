@@ -107,7 +107,7 @@ app.post('/user/employee/review',function(req,res){
 app.post('/user/employee/single-review',function(req,res){
   sql.connect(sqlConfig,function(){
     var request = new sql.Request();
-    console.log(req.body.Empcode);
+
     request.query("EXEC GetReviews '"
     +req.body.FirstLevelName+"',"
     +req.body.EmployeeCode, function (err,recordset){
