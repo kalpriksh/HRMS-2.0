@@ -18,6 +18,12 @@ app.use(function(req, res, next) {
 var result1;
 
 var sqlConfig = {
+  user:'sa',
+  password:'password',
+  server: 'CYG287',
+  database: 'Review_Management'
+
+
 }
 
 //All the api listed
@@ -32,7 +38,7 @@ var sqlConfig = {
 app.post('/user/employee',function(req,res){
   sql.connect(sqlConfig,function(){
     var request = new sql.Request();
-    console.log(req.body.Empcode);
+    // console.log(req.body.Empcode);
     console.log(req.body.Role);
     request.query("EXEC RoleFirstLevelName "+ req.body.Role, function (err,recordset){
       if(err)
@@ -102,7 +108,7 @@ app.post('/user/employee/review',function(req,res){
 app.post('/user/employee/single-review',function(req,res){
   sql.connect(sqlConfig,function(){
     var request = new sql.Request();
-    console.log(req.body.Empcode);
+    console.log(req.body.Employeecode);
     request.query("EXEC GetReviews '"
     +req.body.FirstLevelName+"',"
     +req.body.EmployeeCode, function (err,recordset){
