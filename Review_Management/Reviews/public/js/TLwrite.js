@@ -1,4 +1,3 @@
-
 $(document).ready(function(){
 
   // Ajax call for  all employees and the primary project
@@ -8,26 +7,26 @@ $(document).ready(function(){
       name: "Taran",
       role: "Developer",
       project: "EPP",
-      EmployeeId: "INT007"
+      EmployeeId: "7"
     },
     {
       name: "Sahil",
       role: "Developer",
       project: "EPP",
-      EmployeeId: "INT008"
+      EmployeeId: "8"
 
     },
     {
       name: "Shruti",
       role: "Developer",
       project: "EPP",
-      EmployeeId: "INT009"
+      EmployeeId: "9"
     },
     {
       name: "Ankit",
       role: "Team Lead",
       project: "EPP",
-      EmployeeId: "INT001"
+      EmployeeId: "10"
     }
   ];
   const table_headings = `
@@ -62,7 +61,7 @@ function showLevel1(id){
   employee = {
       name: "Ankit",
       role: "Team Lead",
-      project: "EPP",
+      project: "ERP",
       EmployeeId: "INT001"
   }
   $("#employee_list").hide();
@@ -75,19 +74,22 @@ function showLevel1(id){
   level1 = ["Development", "Growth", "Skills", "blaa"];
 
 
-    // ajax call for this id's review history
+  var mylevel1 = document.getElementById("Level1_list");
+
+
+  // ajax call for this id's review history
   const level1html = `
     <ul>
       ${level1.map(level => `
       <li><a href="#" onclick = "showlevel2(this.id)" id = ${ level}> ${level } </a>
-      <div id = ${level + "div"} > </div>
+      <div id = ${level + "div"}></div>
       </li>
     `).join('')}
     </ul>`
   ;
   console.log(mylevel1);
-  var mylevel1 = document.getElementById("Level1_list");
   mylevel1.innerHTML = level1html;
+
 
 }
 
@@ -96,7 +98,7 @@ const myOBJ = [
     {
       level2 : "Technical",
       SelfReview : " Good Job..............",
-      QaReview : "dwdwdwewdwekfbwekjvbvkvkvervbebvk brvkjbfekjvbkfevbkjbv jkebvkfevbekvbkvbwkbvkwbvkvbk",
+      QaReview : "dwdwdkvervbebvk brvkjbfekjvbkfevbkjbv jkebvkfevbekvbkvbwkbvkwbvkvbk",
       SelfRating : 8,
       QaRating : ""
     },
@@ -119,19 +121,16 @@ const myOBJ = [
   ];
 
 
-  function showlevel2(id){
+function showlevel2(id){
     //ajax call for level2 parameters
-    console.log("id:" + id);
-
+  console.log("id:" + id);
+  var mylevel2 = document.getElementById(id+"div");
+  if(mylevel2.innerHTML == ""){
     var self_reviewed = false;
 
     myOBJ.forEach(function(element){
       if( (element.QaReview) || (element.QaRating) ){
-          console.log("Problem" + element.level2);
           self_reviewed = true;
-      }
-      else{
-        console.log("Not a problem " + element.level2);
       }
     });
 
@@ -176,7 +175,7 @@ const myOBJ = [
                 `:``}
 
                 <td scope="col">
-                ${obj.QaReview == "" ?`<textarea name="QaReview"></textarea>`:`${obj.QaReview}`
+                ${((obj.QaReview == "")&&(obj.QaRating== "")) ?`<textarea id=${"Review"+((obj.level2).split(" ").join(""))} name="QaReview"></textarea>`:`${obj.QaReview}`
                 }
                 </td>
 
@@ -188,7 +187,7 @@ const myOBJ = [
                 `:``}
 
                 <td scope="col">
-                ${obj.QaRating == "" ?`  <input type="number" name="" value= ${obj.QaRating}>`:`${obj.QaRating}`
+                ${((obj.QaReview == "")&&(obj.QaRating== "")) ?`  <input type="number" id=${"Rating"+((obj.level2).split(" ").join(""))} name="" value= ${obj.QaRating}>`:`${obj.QaRating}`
                 }
 
                 </td>
@@ -205,14 +204,68 @@ const myOBJ = [
     </div>
     `;
 
-    var mylevel2 = document.getElementById(id+"div");
-    (mylevel2.parentNode).setAttribute("class","border border-primary");
+
+    (mylevel2.parentNode).style.border = "2px solid blue";
     (mylevel2.parentNode).style.padding = "20px";
     mylevel2.innerHTML = table_headings;
-
   }
-
-
-  function submitlevel1(id){
-    console.log("id: "+ id);
+  else{
+    mylevel2.innerHTML = "";
+    (mylevel2.parentNode).style.border = "0";
+    (mylevel2.parentNode).style.padding = "0";
   }
+}
+
+
+function submitlevel1(id){
+  //ajax call for level2 parameters
+  console.log(id);
+  let response =[];
+  myOBJ.forEach(function(element){
+
+    if( (element.QaReview) || (element.QaRating) ){
+
+    }
+    else{
+      console.log("level2");
+      console.log(element.level2);
+
+      elementReview = document.getElementById("Review"+(element.level2.split(" ").join(""))).value;
+      elementRating = document.getElementById("Rating"+(element.level2.split(" ").join(""))).value;
+
+      if((elementReview && !elementRating) || (!elementReview && elementRating))  {
+        // console.log(element.level2);
+        //   alert("please enter all values");
+
+      }
+      else{
+        let myresponse = {
+          level1 : id,
+          level2 : element.level2,
+          QaReview : document.getElementById("Review"+(element.level2.split(" ").join(""))).value,
+          SelfReview : element.SelfReview,
+          QaRating : document.getElementById("Rating"+(element.level2.split(" ").join(""))).value,
+          SelfRating : element.SelfRating
+        }
+        response.push(myresponse);
+      }
+    }
+  });
+  console.log(response);
+  document.getElementById(id+"div").innerHTML = "";
+  (document.getElementById(id+"div").parentNode).style.border = null;
+  (document.getElementById(id+"div").parentNode).style.padding = null;
+
+  // for(var i=0; i<response.length; i++){
+    // $.ajax({
+    //   "crossDomain": true,
+    //   "url": "",
+    //   "method": "POST",
+    //   "data":JSON.stringify(response[i]),
+    //   success: function(res){
+    //
+    //     console.log("Posted");
+    //   }
+    // });
+  // }
+}

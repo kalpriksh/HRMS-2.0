@@ -23,25 +23,25 @@ const myOBJ = [
     {
       level2 : "Technical",
       SelfReview : " Good Job..............",
-      QaReview : "dwdwdwewdwekfbwekjvbvkvkvervbebvk brvkjbfekjvbkfevbkjbv jkebvkfevbekvbkvbwkbvkwbvkvbk",
+      QaReview : "",
       SelfRating : 8,
       QaRating : ""
     },
 
     {
       level2 : "Team play",
-      SelfReview : "",
-      QaReview : "dwdwdwewdwek",
+      SelfReview : "wdwdw",
+      QaReview : "",
       SelfRating :"10",
-      QaRating : "10"
+      QaRating : ""
     },
 
     {
       level2 : "Management",
       SelfReview : "",
-      QaReview : "",
+      QaReview : "Good job",
       SelfRating : "",
-      QaRating : ""
+      QaRating : "9"
     }
   ];
 
@@ -54,8 +54,6 @@ function showlevel2(id){
     myOBJ.forEach(function(element){
       if( (element.QaReview) || (element.QaRating) ){
           qa_reviewed = true;
-      }
-      else{
       }
     });
 
@@ -92,7 +90,7 @@ function showlevel2(id){
               <tr>
                 <td scope="col">${obj.level2}</td>
                 <td scope="col">
-                ${obj.SelfReview == "" ?`<textarea id=${"Review"+((obj.level2).split(" ").join(""))} name="SelfReview"></textarea>`:`${obj.SelfReview}`
+                ${((obj.SelfReview == "")&&(obj.SelfRating== "")) ?`<textarea id=${"Review"+((obj.level2).split(" ").join(""))} name="SelfReview"></textarea>`:`${obj.SelfReview}`
                 }</td>
 
                 ${qa_reviewed ? `
@@ -102,7 +100,7 @@ function showlevel2(id){
                 `:``}
 
                 <td scope="col">
-                ${obj.SelfReview == "" ?`  <input type="number" id=${"Rating"+((obj.level2).split(" ").join(""))} name="" value= ${obj.SelfRating}>`:`${obj.SelfRating}`
+                ${((obj.SelfReview == "")&&(obj.SelfRating== "")) ?`  <input type="number" id=${"Rating"+((obj.level2).split(" ").join(""))} name="" value= ${obj.SelfRating}>`:`${obj.SelfRating}`
                 }</td>
 
                 ${qa_reviewed ? `
@@ -138,16 +136,16 @@ function showlevel2(id){
 
 function submitlevel1(id){
   //ajax call for level2 parameters
-  console.log(id);
+  
   let response =[];
   myOBJ.forEach(function(element){
 
-    if( (element.SelfReview) && (element.SelfRating) ){
-
+    if( (element.SelfReview) || (element.SelfRating) ){
+        // To skip the parameters in which we dont have to update
     }
     else{
-      console.log("level2");
-      console.log(element.level2);
+      // console.log("level2");
+      // console.log(element.level2);
 
       elementReview = document.getElementById("Review"+(element.level2.split(" ").join(""))).value;
       elementRating = document.getElementById("Rating"+(element.level2.split(" ").join(""))).value;
@@ -170,8 +168,21 @@ function submitlevel1(id){
       }
     }
   });
-  console.log(response);
+  // console.log(response);
   document.getElementById(id+"div").innerHTML = "";
   (document.getElementById(id+"div").parentNode).style.border = null;
   (document.getElementById(id+"div").parentNode).style.padding = null;
+
+  // for(var i=0; i<response.length; i++){
+    // $.ajax({
+    //   "crossDomain": true,
+    //   "url": "",
+    //   "method": "POST",
+    //   "data":JSON.stringify(response[i]),
+    //   success: function(res){
+    //
+    //     console.log("Posted");
+    //   }
+    // });
+  // }
 }
