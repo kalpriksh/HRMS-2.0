@@ -18,9 +18,10 @@ app.use(function(req, res, next) {
 var result1;
 
 var sqlConfig = {
-    user: 'sa',
-    password: 'password',
+
     server: 'localhost',
+    user: 'sa',
+    password: 'P@ssw0rd',
     database: 'Review_Management'
 }
 
@@ -32,11 +33,13 @@ var sqlConfig = {
   //   ->gives lvl 2 parameters
 
 
+
 app.post('/user/employee',function(req,res){
   sql.connect(sqlConfig,function(){
     var request = new sql.Request();
     console.log(req.body.Empcode);
-    request.query("EXEC RoleFirstLevelName "+req.body.Role, function (err,recordset){
+    console.log(req.body.Role);
+    request.query("EXEC RoleFirstLevelName "+ req.body.Role, function (err,recordset){
       if(err)
       {
         console.log(err);
@@ -44,7 +47,7 @@ app.post('/user/employee',function(req,res){
       }
       else {
         console.log(recordset.recordset);
-        res.sendSta(recordset.recordset);
+        res.send(recordset.recordset);
       }
       sql.close();
     });

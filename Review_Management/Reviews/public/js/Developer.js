@@ -11,7 +11,6 @@ $(document).ready(function(){
       `).join('')}
       </ul>`
     ;
-    console.log(mylevel1);
     var mylevel1 = document.getElementById("Level1_list");
     mylevel1.innerHTML = level1html;
 
@@ -29,10 +28,10 @@ const myOBJ = [
 
     {
       level2 : "Team play",
-      SelfReview : " Good Job..............",
+      SelfReview : "",
       QaReview : "dwdwdwewdwek",
-      SelfRating :"8",
-      QaRating : ""
+      SelfRating :"10",
+      QaRating : "10"
     },
 
     {
@@ -46,17 +45,14 @@ const myOBJ = [
 
 function showlevel2(id){
   //ajax call for level2 parameters
-  console.log("id:" + id);
 
   var qa_reviewed = false;
 
   myOBJ.forEach(function(element){
     if( (element.QaReview) || (element.QaRating) ){
-        console.log("Problem" + element.level2);
         qa_reviewed = true;
     }
     else{
-      console.log("Not a problem " + element.level2);
     }
   });
 
@@ -92,11 +88,9 @@ function showlevel2(id){
       ${myOBJ.map(obj => `
             <tr>
               <td scope="col">${obj.level2}</td>
-
               <td scope="col">
-              ${obj.SelfReview == "" ?`<textarea name="SelfReview"></textarea>`:`${obj.SelfReview}`
-              }
-              </td>
+              ${obj.SelfReview == "" ?`<textarea id=${"Review"+((obj.level2).split(" ").join(""))} name="SelfReview"></textarea>`:`${obj.SelfReview}`
+              }</td>
 
               ${qa_reviewed ? `
               <td scope="col">
@@ -105,18 +99,15 @@ function showlevel2(id){
               `:``}
 
               <td scope="col">
-              ${obj.SelfReview == "" ?`  <input type="number" name="" value= ${obj.SelfRating}>`:`${obj.SelfRating}`
-              }
-
-              </td>
+              ${obj.SelfReview == "" ?`  <input type="number" id=${"Rating"+((obj.level2).split(" ").join(""))} name="" value= ${obj.SelfRating}>`:`${obj.SelfRating}`
+              }</td>
 
               ${qa_reviewed ? `
               <td scope="col">
                 ${obj.QaRating}
               </td>
               `:``}
-
-            </tr>
+              </tr>
       `).join('')}
 
 
@@ -134,6 +125,38 @@ function showlevel2(id){
 }
 
 
+let response =[];
 function submitlevel1(id){
-  console.log("id: "+ id);
+  //ajax call for level2 parameters
+
+  myOBJ.forEach(function(element){
+
+    if( (element.SelfReview) || (element.SelfRating) ){}
+    else{
+      // console.log(document.getElementById("Review"+(element.level2.split(" ").join(""))).value);
+      // console.log(document.getElementById("Rating"+(element.level2.split(" ").join(""))).value);
+      elementReview = document.getElementById("Review"+(element.level2.split(" ").join(""))).value;
+      elementRating = document.getElementById("Rating"+(element.level2.split(" ").join(""))).value;
+      if((elementReview && !elementRating))  {
+          alert("please enter all values");
+
+      }
+      else{
+        let myresponse = {
+          level2 : element.level2,
+          SelfReview : document.getElementById("Review"+(element.level2.split(" ").join(""))).value,
+          QaReview : element.QaReview,
+          SelfRating : document.getElementById("Rating"+(element.level2.split(" ").join(""))).value,
+          QaRating : element.QaRating
+        }
+        response.push(myresponse);
+        postingdata(id);
+      }
+    }
+  });
+}
+
+function postingdata(id){
+  console.log(response);
+  document.getElementById(id+"div").innerHTML = "";
 }
