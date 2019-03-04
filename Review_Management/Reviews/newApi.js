@@ -18,11 +18,18 @@ app.use(function(req, res, next) {
 var result1;
 
 var sqlConfig = {
+<<<<<<< HEAD
   user:'sa',
   password:'password',
   server: 'CYG287',
   database: 'Review_Management'
 
+=======
+    user: 'sa',
+    password: 'password',
+    server: 'CYG220',
+    database: 'Review_Mangement'
+>>>>>>> ba3a2452c9723f55f5e3b90cc46649156d9f4af7
 
 }
 
@@ -135,6 +142,36 @@ app.post('/user/employee/single-review',function(req,res){
 //     "FirstLevelId":
 //     "SecondLevelId":
 //     "EmployeeCode":
+//   }
+
+
+app.post('/admin/parameters',function(req,res){
+  sql.connect(sqlConfig,function(){
+    var request = new sql.Request();
+
+    request.query("EXEC AddParameter "
+    +req.body.Role+","
+    +req.body.FirstLevelName+","
+    +req.body.SecondLevelName, function (err,recordset){
+      if(err)
+      {
+        console.log(err);
+        res.sendStatus(500);
+      }
+      else {
+        console.log(recordset.recordset);
+        res.send(recordset.recordset);
+      }
+      sql.close();
+    });
+  });
+});
+
+// jason-->
+//   {
+//     "FirstLevelName":
+//     "SecondLevelName":
+//     "Role":
 //   }
 
 
