@@ -3,13 +3,13 @@ $(document).ready(function(){
     //  ajax call for roles
 
 
-    roles = ["HR","Developer", "Finance"];
+    roles = ["HR","Dev", "TeamLead"];
     var myroles = document.getElementById("rolelabel");
     const roleshtml = `
       <ul id = "role">
         ${roles.map(role => `
-        <li><a href="#" onclick = "showlevel1(this.id)" id = ${role}> ${role} </a>
-          <div id = ${role + "div"} ></div>
+        <li><a href="#" onclick = "showlevel1(this.innerHTML)" id = ${role}>${role}</a>
+          <div id = ${role + "div"}></div>
          </li>
 
       `).join('')}
@@ -30,79 +30,118 @@ $(document).ready(function(){
     myroles.style.borderRadius = "20px";
 });
 
-function showlevel1(ide){
-  console.log("showlevel1 ide: " + ide);  //  HR or Developer
-  level1 = ["Development", "growth", "Skills", "blaa"];
-  var mylevel1 = document.getElementById(ide + "div");
-  if(mylevel1.innerHTML == ""){
+function showlevel1(id){
+  // console.log("showlevel1 id: " + id);  //  HR or Developer
+  console.log("Here "+id+"wwww");
+  var Role = id;
+  $.ajax({
 
-    const level1html = `
-      <ul id = "llevel1">
-        ${level1.map(level => `
-        <li><a href="#" onclick = "showlevel2(this.id)" id = ${ide+"_"+level}> ${level} </a>
-        <div id = ${ide+"_" + level + "div"} ></div>
-        </li>
-      `).join('')}
-      <li>
+    "async": true,
+    "crossDomain": true,
+    "url": "http://localhost:3000/user/employee",
+    "method": "POST",
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "data": JSON.stringify({Role}),
+    success: function(res){
 
-        <div class="row">
-          <div class="col-sm-3">
-              <button type="submit" onclick = "Addbtn(this.id)" class="btn btn-primary" id = ${"Add_"+ide+"_"+"btn"} data-toggle="modal" data-target="#exampleModal">Add New</button>
-          </div>
-        </div>
 
-      </li>
-      </ul>`
-    ;
-    mylevel1.innerHTML = level1html;
-    mylevel1.style.fontSize = "20px";
-    mylevel1.style.backgroundColor = "#C0C0C0";
-    mylevel1.style.marginTop = "15px";
-    mylevel1.style.borderRadius = "20px";
+      level1 = res;
+      console.log(level1);
+      // level1 = ["Development", "growth", "Skills", "blaa"];
+      // var mylevel1 = document.getElementById(Role + "div");
+      // console.log(id+"div");
+      var mylevel1 = document.getElementById(id+"div");
+      // console.log(document.getElementById("div").innerHTML=="");
+      if(mylevel1.innerHTML == ""){
 
-  }
-  else{
-    mylevel1.innerHTML = "";
-    mylevel1.style.margin = null;
-  }
+        const level1html = `
+          <ul id = "llevel1">
+            ${level1.map(level => `
+            <li><a href="#" onclick = "showlevel2(this.id)" id = ${id+"_"+level.Name}> ${level.Name} </a>
+            <div id = ${id+"_" + level.Name + "div"} ></div>
+            </li>
+          `).join('')}
+          <li>
+
+            <div class="row">
+              <div class="col-sm-3">
+                  <button type="submit" onclick = "Addbtn(this.id)" class="btn btn-primary" id = ${"Add_"+id+"_"+"btn"} data-toggle="modal" data-target="#exampleModal">Add New</button>
+              </div>
+            </div>
+
+          </li>
+          </ul>`
+        ;
+        mylevel1.innerHTML = level1html;
+        mylevel1.style.fontSize = "20px";
+        mylevel1.style.backgroundColor = "#C0C0C0";
+        mylevel1.style.marginTop = "15px";
+        mylevel1.style.borderRadius = "20px";
+
+      }
+      else{
+        mylevel1.innerHTML = "";
+        mylevel1.style.margin = null;
+      }
+    }
+    //        level1 = ["Development", "Growth", "Skills", "blaa"];
+
+  });
 }
 
 function showlevel2(ide){
-  var mylevel2 = document.getElementById(ide + "div");
-  if(mylevel2.innerHTML == ""){
-        // HRDevelopment
-    level2 = ["Development 2", "growth 2", "Skills 2", "blaa 2"];
+  id = ide.split("_")[1];
+  console.log("id:" + id );
+  $.ajax({
+    "async": true,
+    "crossDomain": true,
+    "url": "http://localhost:3000/user/employee/sub-parameters",
+    "method": "POST",
+    "headers": {
+      "Content-Type": "application/json",
+      },
+    "data":JSON.stringify({FirstLevelName:id}),
+    "success": function(res){
+      level2 = res;
 
-    const level2html = `
-      <ul id = "level2">
-        ${level2.map(level => `
-        <li>
-          <a href="#" id = ${ide + level}"> ${ level} </a>
-        </li>
-      `).join('')}
+      var mylevel2 = document.getElementById(ide + "div");
+      if(mylevel2.innerHTML == ""){
+            // HRDevelopment
+        // level2 = ["Development 2", "growth 2", "Skills 2", "blaa 2"];
 
-      <li>
+        const level2html = `
+          <ul id = "level2">
+            ${level2.map(level => `
+            <li>
+              <a href="#" id = ${id + level.Name}"> ${ level.Name} </a>
+            </li>
+          `).join('')}
 
-      <div class="row">
-        <div class="col-sm-3">
-            <button type="submit" onclick = "Addbtn(this.id)" class="btn btn-primary" id = ${"Add_"+ide+"_"+"btn"} data-toggle="modal" data-target="#exampleModal">Add New</button>
-        </div>
-      </div>
-      </li>
-      </ul>`
-    ;
-    console.log(mylevel2);
-    mylevel2.innerHTML = level2html;
-    mylevel2.style.fontSize = "16px";
-    mylevel2.style.backgroundColor = "#E0E0E0";
-    mylevel2.style.marginTop = "15px";
-    mylevel2.style.borderRadius = "20px";
-  }
-  else{
-    mylevel2.innerHTML = "";
-    mylevel2.style.margin = null;
-  }
+          <li>
 
+          <div class="row">
+            <div class="col-sm-3">
+                <button type="submit" onclick = "Addbtn(this.id)" class="btn btn-primary" id = ${"Add_"+id+"_"+"btn"} data-toggle="modal" data-target="#exampleModal">Add New</button>
+            </div>
+          </div>
+          </li>
+          </ul>`
+        ;
+        console.log(mylevel2);
+        mylevel2.innerHTML = level2html;
+        mylevel2.style.fontSize = "16px";
+        mylevel2.style.backgroundColor = "#E0E0E0";
+        mylevel2.style.marginTop = "15px";
+        mylevel2.style.borderRadius = "20px";
+      }
+      else{
+        mylevel2.innerHTML = "";
+        mylevel2.style.margin = null;
+      }
+    }
+  });
 }
 
 function Addbtn(id){

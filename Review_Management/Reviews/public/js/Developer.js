@@ -77,9 +77,8 @@ function showlevel2(id){
     "success": function(res){
         // alllevel2 = res;
         // console.log(alllevel2);
-        var alllevel2 = res.filter(function(ele) {
-          console.log(ele.Name);
-          return ele.Name;
+        var alllevel2 = res.map(function(ele) {
+
 
         });
         console.log(alllevel2);
