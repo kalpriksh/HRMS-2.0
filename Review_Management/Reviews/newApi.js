@@ -20,8 +20,8 @@ var result1;
 var sqlConfig = {
     user: 'sa',
     password: 'password',
-    server: 'CYG220',
-    database: 'Review_Mangement'
+    server: 'CYG343',
+    database: 'Reviews'
 
 }
 
@@ -135,9 +135,6 @@ app.post('/user/employee/single-review',function(req,res){
 
 
 
-
-
-
 app.get('/',  function(req,res){
   sql.connect(sqlConfig,function(){
     var request = new sql.Request();
@@ -148,6 +145,64 @@ app.get('/',  function(req,res){
       else {
         console.log(recordset.recordset);
         res.send(recordset.recordset);
+      }
+      sql.close();
+    });
+  });
+});
+
+
+app.post('/admin/role',function(req,res){
+  sql.connect(sqlConfig,function(){
+    var request = new sql.Request();
+    console.log(req.body.Empcode);
+    request.query("EXEC NewRole "+req.body.Role, function (err,recordset){
+      if(err)
+      {
+        console.log(err);
+        res.sendStatus(500);
+      }
+      else {
+        console.log("updated");
+        res.sendStatus(200);
+      }
+      sql.close();
+    });
+  });
+});
+
+app.post('/admin/role/level1-parameters',function(req,res){
+  sql.connect(sqlConfig,function(){
+    var request = new sql.Request();
+    console.log(req.body.Empcode);
+    request.query("EXEC mapRoleFirstLevel '"+req.body.Role+"','"+req.body.FirstLevelName+"'", function (err,recordset){
+      if(err)
+      {
+        console.log(err);
+        res.sendStatus(500);
+      }
+      else {
+        console.log("updated");
+        res.sendStatus(200);
+      }
+      sql.close();
+    });
+  });
+});
+
+app.post('/admin/role/level1-parameters/level2-parameters',function(req,res){
+  sql.connect(sqlConfig,function(){
+    var request = new sql.Request();
+    console.log(req.body.Empcode);
+    request.query("EXEC proc1 '"+req.body.Role+"','"+req.body.FirstLevelName+"'"+req.body.SecondLevelName+"'", function (err,recordset){
+      if(err)
+      {
+        console.log("updated");
+        res.sendStatus(200);
+      }
+      else {
+        console.log("updated");
+        res.sendStatus(200);
       }
       sql.close();
     });
