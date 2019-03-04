@@ -94,7 +94,7 @@ function showlevel2(id){
               <td scope="col">${obj.level2}</td>
 
               <td scope="col">
-              ${obj.SelfReview == "" ?`<textarea name="SelfReview"></textarea>`:`${obj.SelfReview}`
+              ${obj.SelfReview == "" ?`<textarea id=${"Review"+((obj.level2).split(" ").join(""))} name="SelfReview"></textarea>`:`${obj.SelfReview}`
               }
               </td>
 
@@ -105,7 +105,7 @@ function showlevel2(id){
               `:``}
 
               <td scope="col">
-              ${obj.SelfReview == "" ?`  <input type="number" name="" value= ${obj.SelfRating}>`:`${obj.SelfRating}`
+              ${obj.SelfReview == "" ?`  <input type="number" id=${"Rating"+((obj.level2).split(" ").join(""))} name="" value= ${obj.SelfRating}>`:`${obj.SelfRating}`
               }
 
               </td>
@@ -127,13 +127,48 @@ function showlevel2(id){
   `;
 
   var mylevel2 = document.getElementById(id+"div");
-  (mylevel2.parentNode).setAttribute("class","border border-primary");
+  (mylevel2.parentNode).style.border = "2px solid blue";
   (mylevel2.parentNode).style.padding = "20px";
   mylevel2.innerHTML = table_headings;
 
 }
 
-
 function submitlevel1(id){
-  console.log("id: "+ id);
+  //ajax call for level2 parameters
+  console.log(id);
+  let response =[];
+  myOBJ.forEach(function(element){
+
+    if( (element.SelfReview) && (element.SelfRating) ){
+
+    }
+    else{
+      console.log("level2");
+      console.log(element.level2);
+
+      elementReview = document.getElementById("Review"+(element.level2.split(" ").join(""))).value;
+      elementRating = document.getElementById("Rating"+(element.level2.split(" ").join(""))).value;
+
+      if((elementReview && !elementRating) || (!elementReview && elementRating))  {
+        // console.log(element.level2);
+        //   alert("please enter all values");
+
+      }
+      else{
+        let myresponse = {
+          level1 : id,
+          level2 : element.level2,
+          SelfReview : document.getElementById("Review"+(element.level2.split(" ").join(""))).value,
+          QaReview : element.QaReview,
+          SelfRating : document.getElementById("Rating"+(element.level2.split(" ").join(""))).value,
+          QaRating : element.QaRating
+        }
+        response.push(myresponse);
+      }
+    }
+  });
+  console.log(response);
+  document.getElementById(id+"div").innerHTML = "";
+  (document.getElementById(id+"div").parentNode).style.border = null;
+  (document.getElementById(id+"div").parentNode).style.padding = null;
 }

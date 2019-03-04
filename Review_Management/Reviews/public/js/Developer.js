@@ -5,7 +5,7 @@ $(document).ready(function(){
     const level1html = `
       <ul>
         ${level1.map(level => `
-        <li><a href="#" onclick = "showlevel2(this.id)" id = ${ level}> ${level } </a>
+        <li><a href="#" onclick = "showlevel2(this.id,)" id = ${ level}> ${level } </a>
         <div id = ${level + "div"} > </div>
         </li>
       `).join('')}
@@ -118,31 +118,38 @@ function showlevel2(id){
   `;
 
   var mylevel2 = document.getElementById(id+"div");
-  (mylevel2.parentNode).setAttribute("class","border border-primary");
+  // (mylevel2.parentNode).setAttribute("class","border border-primary");
+  (mylevel2.parentNode).style.border = "2px solid blue";
   (mylevel2.parentNode).style.padding = "20px";
   mylevel2.innerHTML = table_headings;
 
 }
 
 
-let response =[];
 function submitlevel1(id){
   //ajax call for level2 parameters
-
+  console.log(id);
+  let response =[];
   myOBJ.forEach(function(element){
 
-    if( (element.SelfReview) || (element.SelfRating) ){}
+    if( (element.SelfReview) && (element.SelfRating) ){
+
+    }
     else{
-      // console.log(document.getElementById("Review"+(element.level2.split(" ").join(""))).value);
-      // console.log(document.getElementById("Rating"+(element.level2.split(" ").join(""))).value);
+      console.log("level2");
+      console.log(element.level2);
+
       elementReview = document.getElementById("Review"+(element.level2.split(" ").join(""))).value;
       elementRating = document.getElementById("Rating"+(element.level2.split(" ").join(""))).value;
-      if((elementReview && !elementRating))  {
-          alert("please enter all values");
+
+      if((elementReview && !elementRating) || (!elementReview && elementRating))  {
+        // console.log(element.level2);
+        //   alert("please enter all values");
 
       }
       else{
         let myresponse = {
+          level1 : id,
           level2 : element.level2,
           SelfReview : document.getElementById("Review"+(element.level2.split(" ").join(""))).value,
           QaReview : element.QaReview,
@@ -150,13 +157,11 @@ function submitlevel1(id){
           QaRating : element.QaRating
         }
         response.push(myresponse);
-        postingdata(id);
       }
     }
   });
-}
-
-function postingdata(id){
   console.log(response);
   document.getElementById(id+"div").innerHTML = "";
+  (document.getElementById(id+"div").parentNode).style.border = null;
+  (document.getElementById(id+"div").parentNode).style.padding = null;
 }
