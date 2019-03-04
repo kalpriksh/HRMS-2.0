@@ -18,11 +18,6 @@ app.use(function(req, res, next) {
 var result1;
 
 var sqlConfig = {
-
-    server: 'localhost',
-    user: 'sa',
-    password: 'password',
-    database: 'Review_Management'
 }
 
 //All the api listed

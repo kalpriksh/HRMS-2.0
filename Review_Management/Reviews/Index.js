@@ -21,7 +21,7 @@ var sqlConfig = {
     user: 'sa',
     password: 'password',
     server: 'localhost',
-    database: 'test_db'
+    database: 'Review_Mangement'
 }
 
 // GET all Reviews
@@ -40,7 +40,7 @@ app.get('/AllReviews',async function (req, res) {
             // res.end(JSON.stringify(recordset));
             console.log(recordset.recordset);
             // res.send(recordset.recordset);
-            rres.send("OK");
+            res.send("OK");
             sql.close();
         });
     });
