@@ -20,8 +20,8 @@ var result1;
 var sqlConfig = {
     user: 'sa',
     password: 'password',
-    server: 'CYG220',
-    database: 'Review_Mangement'
+    server: 'localhost',
+    database: 'Review_Management'
 }
 
 //All the api listed

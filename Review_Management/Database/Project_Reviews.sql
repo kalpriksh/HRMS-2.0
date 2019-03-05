@@ -106,7 +106,6 @@ as
 	select * from SecondLevel
 	select * from FirstSecondLevel
 	select * from EmployeeReviews
-	select * from FirstSecondLevel
 go
 
 	drop table Roles

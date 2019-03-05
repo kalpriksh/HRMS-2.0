@@ -177,13 +177,11 @@ function showlevel2(id){
             (mylevel2.parentNode).style.border = "0";
             (mylevel2.parentNode).style.padding = "0";
             // mylevel2.innerHTML = table_headings;
-
           }
         }
       });
     }
   });
-
 }
 
 function submitlevel1(id){
@@ -246,16 +244,5 @@ function submitlevel1(id){
   (document.getElementById(id+"div").parentNode).style.border = null;
   (document.getElementById(id+"div").parentNode).style.padding = null;
 
-  // for(var i=0; i<response.length; i++){
-    // $.ajax({
-    //   "crossDomain": true,
-    //   "url": "",
-    //   "method": "POST",
-    //   "data":JSON.stringify(response[i]),
-    //   success: function(res){
-    //
-    //     console.log("Posted");
-    //   }
-    // });
-  // }
+
 }
