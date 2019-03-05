@@ -10,14 +10,7 @@ $(document).ready(function(){
         ${roles.map(role => `
         <li>
 
-            <a href="#" onclick = "showlevel1(this.innerHTML)" id = ${role}>
-
-              <div class="each-role">
-              <i style="display:inline" class="fa fa-level-down"></i>
-              <div style="display:inline">${role}</div>
-              </div>
-
-            </a>
+            <a href="#" onclick = "showlevel1(this.innerHTML)" id = ${role}>${role}</a>
 
               <div id = ${role + "div"}></div>
 
@@ -53,7 +46,7 @@ function showlevel1(id){
 
     "async": true,
     "crossDomain": true,
-    "url": "http://localhost:3000/user/employee",
+    "url": "http://localhost:3333/user/employee",
     "method": "POST",
     "headers": {
       "Content-Type": "application/json"
@@ -63,6 +56,7 @@ function showlevel1(id){
 
 
       level1 = res;
+      console.log(level1);
       // level1 = ["Development", "growth", "Skills", "blaa"];
       // var mylevel1 = document.getElementById(Role + "div");
       // console.log(id+"div");
@@ -111,7 +105,7 @@ function showlevel2(ide){
   $.ajax({
     "async": true,
     "crossDomain": true,
-    "url": "http://localhost:3000/user/employee/sub-parameters",
+    "url": "http://localhost:3333/user/employee/sub-parameters",
     "method": "POST",
     "headers": {
       "Content-Type": "application/json",
@@ -179,7 +173,7 @@ function modalADD(id){
     // $.ajax({
     //   "async": true,
     //   "crossDomain": true,
-    //   "url": "http://localhost:3000/admin/parameters",
+    //   "url": "http://localhost:3333/admin/parameters",
     //   "method": "POST",
     //   "headers": {
     //     "Content-Type": "application/json",
@@ -206,7 +200,7 @@ function modalADD(id){
     $.ajax({
       "async": true,
       "crossDomain": true,
-      "url": "http://localhost:3000/admin/parameters",
+      "url": "http://localhost:3333/admin/parameters",
       "method": "POST",
       "headers": {
         "Content-Type": "application/json",
@@ -234,7 +228,7 @@ function modalADD(id){
     $.ajax({
       "async": true,
       "crossDomain": true,
-      "url": "http://localhost:3000/admin/parameters",
+      "url": "http://localhost:3333/admin/parameters",
       "method": "POST",
       "headers": {
         "Content-Type": "application/json",

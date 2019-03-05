@@ -83,9 +83,9 @@ app.post('/user/employee/review',function(req,res){
     +req.body.Own_Review+"',"
     +req.body.Own_Rating+",'"
     +req.body.QA_Review+"',"
-    +req.body.QA_Rating+","
-    +req.body.FirstLevelId+","
-    +req.body.SecondLevelId+","
+    +req.body.QA_Rating+",'"
+    +req.body.FirstLevelName+"','"
+    +req.body.SecondLevelName+"',"
     +req.body.EmployeeCode, function (err,recordset){
       if(err)
       {
@@ -93,8 +93,8 @@ app.post('/user/employee/review',function(req,res){
         res.sendStatus(500);
       }
       else {
-        console.log(recordset.recordset);
-        res.send(recordset.recordset);
+        console.log("updated");
+        res.sendStatus(200);
       }
       sql.close();
     });
