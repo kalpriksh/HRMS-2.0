@@ -32,7 +32,7 @@ $(document).ready(function(){
 
 function showlevel1(id){
   // console.log("showlevel1 id: " + id);  //  HR or Developer
-  console.log("Here "+id+"wwww");
+
   var Role = id;
   $.ajax({
 
@@ -48,7 +48,6 @@ function showlevel1(id){
 
 
       level1 = res;
-      console.log(level1);
       // level1 = ["Development", "growth", "Skills", "blaa"];
       // var mylevel1 = document.getElementById(Role + "div");
       // console.log(id+"div");
@@ -92,8 +91,8 @@ function showlevel1(id){
 }
 
 function showlevel2(ide){
+  console.log(ide);
   id = ide.split("_")[1];
-  console.log("id:" + id );
   $.ajax({
     "async": true,
     "crossDomain": true,
@@ -123,13 +122,12 @@ function showlevel2(ide){
 
           <div class="row">
             <div class="col-sm-3">
-                <button type="submit" onclick = "Addbtn(this.id)" class="btn btn-primary" id = ${"Add_"+id+"_"+"btn"} data-toggle="modal" data-target="#exampleModal">Add New</button>
+                <button type="submit" onclick = "Addbtn(this.id)" class="btn btn-primary" id = ${"Add_"+ide+"_"+"btn"} data-toggle="modal" data-target="#exampleModal">Add New</button>
             </div>
           </div>
           </li>
           </ul>`
         ;
-        console.log(mylevel2);
         mylevel2.innerHTML = level2html;
         mylevel2.style.fontSize = "16px";
         mylevel2.style.backgroundColor = "#E0E0E0";
@@ -146,63 +144,91 @@ function showlevel2(ide){
 
 function Addbtn(id){
   document.getElementById("modaladdbtn").setAttribute("name",id);
-  // id = id.slice(0,-4);
-  // console.log(id);
-  // names = id.split("_");
-  //
-  // if(names.length ==1){
-  //   console.log("Add role");
-  //   document.getElementById("titlemodal").innerHTML = "Role";
-  // }
-  // else if(names.length == 2){
-  //   // case to add level1 parameter in role names[0]
-  //   console.log("Add in " + names[1]);
-  //   document.getElementById("titlemodal").innerHTML = "Level1";
-  //
-  // }
-  //
-  // else if(names.length == 3){
-  //   // case to add level1 parameter in role names[0]
-  //   console.log("Add in " + names[1] +" and "+ names[2]);
-  //   document.getElementById("titlemodal").innerHTML = "Level2";
-  // }
-  // else if(names[0]==0){
-  //   console.log("Add role");
-  // }
+
 }
 
 function modalADD(id){
   id = id.slice(0,-4);
   names = id.split("_");
   let myOBJ;
+  console.log(names);
+  console.log(names.length);
   if(names.length ==1){
     document.getElementById("titlemodal").innerHTML = "Role";
     myOBJ = {
-      role : document.getElementById("modalText").value,
-      level1: "",
-      level2: ""
+      Role : document.getElementById("modalText").value,
+      FirstLevelName: null,
+      SecondLevelName: null
     };
+    console.log(JSON.stringify(myOBJ));
+    // $.ajax({
+    //   "async": true,
+    //   "crossDomain": true,
+    //   "url": "http://localhost:3000/admin/parameters",
+    //   "method": "POST",
+    //   "headers": {
+    //     "Content-Type": "application/json",
+    //     },
+    //   "data":JSON.stringify(myOBJ),
+    //   "success": function(res){
+    //     level2 = res;
+    //   }
+    // });
+
   }
   else if(names.length == 2){
+    console.log("Add new level1");
     // case to add level1 parameter in role names[0]
     // console.log("Add in " + names[1]);
     document.getElementById("titlemodal").innerHTML = "Level1";
+
     myOBJ = {
-      role : names[1],
-      level1: document.getElementById("modalText").value,
-      level2: ""
+      Role : names[1],
+      FirstLevelName: document.getElementById("modalText").value,
+      SecondLevelName: null
     };
+    console.log(JSON.stringify(myOBJ));
+    $.ajax({
+      "async": true,
+      "crossDomain": true,
+      "url": "http://localhost:3000/admin/parameters",
+      "method": "POST",
+      "headers": {
+        "Content-Type": "application/json",
+        },
+      "data":JSON.stringify(myOBJ),
+      "success": function(res){
+        level2 = res;
+      }
+    });
   }
 
   else if(names.length == 3){
+
+      console.log("Add new level2");
+    // console.log("Inside Add");
     // case to add level1 parameter in role names[0]
     // console.log("Add in " + names[1] +" and "+ names[2]);
     document.getElementById("titlemodal").innerHTML = "Level2";
     myOBJ = {
-      role : names[1],
-      level1: names[2],
-      level2: document.getElementById("modalText").value
+      Role : names[1],
+      FirstLevelName: names[2],
+      SecondLevelName: document.getElementById("modalText").value
     };
+    console.log(JSON.stringify(myOBJ));
+    $.ajax({
+      "async": true,
+      "crossDomain": true,
+      "url": "http://localhost:3000/admin/parameters",
+      "method": "POST",
+      "headers": {
+        "Content-Type": "application/json",
+        },
+      "data":JSON.stringify(myOBJ),
+      "success": function(res){
+        level2 = res;
+      }
+    });
   }
   console.log(myOBJ);
   postingdata(myOBJ);
