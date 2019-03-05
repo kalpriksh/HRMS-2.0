@@ -1,5 +1,5 @@
 console.log("Starting Reviews JS");
-const PORT = 3000;
+const PORT = 3333;
 
 const sql = require('mssql');
 const lodash = require('lodash');//not used after this
@@ -80,10 +80,10 @@ app.post('/user/employee/review',function(req,res){
     var request = new sql.Request();
     console.log(req.body.Empcode);
     request.query("EXEC Review '"
-    +req.body.selfReview+"',"
-    +req.body.selfRating+",'"
-    +req.body.QAReview+"',"
-    +req.body.QARating+","
+    +req.body.Own_Review+"',"
+    +req.body.Own_Rating+",'"
+    +req.body.QA_Review+"',"
+    +req.body.QA_Rating+","
     +req.body.FirstLevelId+","
     +req.body.SecondLevelId+","
     +req.body.EmployeeCode, function (err,recordset){
