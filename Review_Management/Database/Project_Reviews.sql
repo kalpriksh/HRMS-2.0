@@ -1,4 +1,4 @@
-
+	
 create procedure RequiredTables
 as
 	create table Roles(
@@ -17,7 +17,7 @@ as
 		FOREIGN KEY (RoleId) REFERENCES Roles(Id),
 		FirstLevelId int,
 		FOREIGN KEY (FirstLevelId) REFERENCES FirstLevel(Id)
-
+		
 			)
 
 	Create table SecondLevel(
@@ -90,16 +90,16 @@ as
 
 	insert into FirstSecondLevel(FirstLevelId,SecondLevelId)
 	values (1,Null),(2,1),(2,3),(2,4),(3,2),(3,3),(3,4),(4,1),(4,5),(5,NULL)
-
+	
 	insert into EmployeeReviews (FirstLevelId,SecondLevelId,Own_Review,Own_Rating,QA_Review,QA_Rating,Empcode)
 	values (3,3,'random Review',5,'one more random review',4 ,14),
 	(3,4,'Problem Solver',5,'one more Problem solverv review',4 ,14),
 	(4,1,'Problem Solver',5,'one more Problem solverv review',4 ,14),
 	(3,4,'Problem Solver for a differnt person',5,'one more Problem solver review fora different person',4 ,15),
 	(3,3,'Problem Solver for a differnt person',5,NULL,4 ,15)
+	
 
-
-
+	
 	select * from Roles
 	select * from RolesFirstLevel
 	select * from FirstLevel
@@ -117,8 +117,10 @@ go
 	drop table EmployeeReviews
 
 
-
+	
 	drop procedure RequiredTables
-
-
+	
+	
 	select * from EmployeeReviews where Empcode=14;
+
+	
