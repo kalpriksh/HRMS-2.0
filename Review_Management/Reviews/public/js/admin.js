@@ -8,9 +8,20 @@ $(document).ready(function(){
     const roleshtml = `
       <ul id = "role">
         ${roles.map(role => `
-        <li><a href="#" onclick = "showlevel1(this.innerHTML)" id = ${role}>${role}</a>
-          <div id = ${role + "div"}></div>
-         </li>
+        <li>
+
+            <a href="#" onclick = "showlevel1(this.innerHTML)" id = ${role}>
+
+              <div class="each-role">
+              <i style="display:inline" class="fa fa-level-down"></i>
+              <div style="display:inline">${role}</div>
+              </div>
+
+            </a>
+
+              <div id = ${role + "div"}></div>
+
+        </li>
 
       `).join('')}
       <li>
@@ -24,10 +35,14 @@ $(document).ready(function(){
       </ul>`
     ;
     myroles.innerHTML =roleshtml;
+    myroles.style.color = "white";
     myroles.style.fontSize = "24px";
-    myroles.style.backgroundColor = "#A0A0A0";
+    myroles.style.padding = "24px";
+    myroles.style.backgroundColor = "rgba(#212529, 0.91)";
     myroles.style.marginTop = "15px";
-    myroles.style.borderRadius = "20px";
+    myroles.style.borderRadius = "5px";
+    myroles.style.boxShadow = "10px 10px 10px rgba(65, 62, 102, 0.77)";
+
 });
 
 function showlevel1(id){
