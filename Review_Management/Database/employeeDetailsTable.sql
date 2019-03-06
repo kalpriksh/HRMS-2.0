@@ -28,7 +28,7 @@ insert into Employee (FirstName,LastName, Designation, Email, Location, DateOfJo
 
 
 /*Projects Table Data*/
-create table ProjectRole(RoleID int primary key identity(1,1), Role Varchar(50));
+create table ProjectRole(Id int primary key identity(1,1), Name Varchar(50));
 insert into ProjectRole values ('Project Owner');
 insert into ProjectRole values ('CM');
 insert into ProjectRole values ('Developers');
@@ -93,7 +93,7 @@ create table ProjectTeamDetails(
 	SNo int identity(1,1) primary key,
 	ProjectID int  references Projects(ProjectID),
 	EmployeeID int references Employee(EmployeeId),
-	RoleID int  references ProjectRole(RoleID),
+	RoleID int  references ProjectRole(Id),
 	isPrimary int
 )
 

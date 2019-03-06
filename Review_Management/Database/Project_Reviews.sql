@@ -9,7 +9,7 @@ as
 	Create table RolesFirstLevel(
 		Id int Primary Key identity(1,1),
 		RoleId int
-		FOREIGN KEY (RoleId) REFERENCES ProjectRole(RoleId),
+		FOREIGN KEY (RoleId) REFERENCES ProjectRole(Id),
 		FirstLevelId int,
 		FOREIGN KEY (FirstLevelId) REFERENCES FirstLevel(Id)
 

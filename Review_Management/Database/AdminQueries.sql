@@ -5,7 +5,7 @@ as
 	begin
 		declare @myId int
 
-		select @myId=id
+		select @myId=Id
 		from ProjectRole
 		where Name=@Name
 
@@ -148,7 +148,11 @@ select @id
 
 
 
-
+/*
+drop procedure getRolesId
+drop procedure getFirstLevelId
+drop procedure CreateTillSecondLevel
+*/
 
 
 
