@@ -12,22 +12,20 @@ nav{
   justify-content: space-between; */
 }
 .imgheader{
-  height: 56px;
-}
+  height: 80px;
+  padding: 10px ;
 
+}
+.nav-link{
+  padding: 0px 5px;
+}
+.profilename{
+  padding: 30px;
+}
 .navbar-color-set a{
     color: white !important;
 }
 
-@media (min-width: 500px) {
-  .NameHeader{
-    /* On small screens, we are no longer using row direction but column */
-    float: right;
-    padding-right: 10px;
-    padding-top: 15px;
-  }
-
-}
 .container{
   padding: 0;
 }

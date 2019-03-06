@@ -49,7 +49,7 @@ function showlevel2(id){
 
       enteredlevel2 = [];
       res.forEach(function(item){
-        enteredlevel2.push(item.Name);
+      enteredlevel2.push(item.Name);
       });
       // console.log(enteredlevel2);
 
@@ -67,32 +67,36 @@ function showlevel2(id){
           res.forEach(function(item){
             alllevel2.push(item.Name);
           });
-          if(alllevel2.length == ""){ alllevel2.push(id)} ;
-          alllevel2.forEach(function(item){
-            if(enteredlevel2.length==0){
-              toadd = {
-                Role : Role,
-                FirstLevelName: id,
-                SecondLevelName: item
-              };
-              $.ajax({
-                "async": true,
-                "crossDomain": true,
-                "url": "http://localhost:3333/admin/parameters",
-                "method": "POST",
-                "headers": {
-                  "Content-Type": "application/json",
-                  },
-                "data":JSON.stringify(toadd),
-                "success": function(res){
-                  level2 = res;
+          if(alllevel2.length == 0)
+          {
+            alllevel2.push(id);
+            toadd = {
+              Role : Role,
+              FirstLevelName: id,
+              SecondLevelName: id
+            };
+            console.log(JSON.stringify(toadd));
+            $.ajax({
+              "async": true,
+              "crossDomain": true,
+              "url": "http://localhost:3333/admin/parameters",
+              "method": "POST",
+              "headers": {
+                "Content-Type": "application/json",
+                },
+              "data":JSON.stringify(toadd),
+              "success": function(res){
+                level2 = res;
               }
-              });
-            }
+            });
+          }
+
+          alllevel2.forEach(function(item){
+
+            // if(enteredlevel2.length==0){}
             if(enteredlevel2.includes(item)){
             }
             else{
-
               addobj = {
                 "Name": item,
                 "Own_Rating": "",
@@ -210,38 +214,39 @@ function submitlevel1(id){
   let response =[];
 
   myOBJ.forEach(function(element){
+
     if( (element.Own_Review) || (element.Own_Rating) ){}
     else{
+
       elementReview = document.getElementById("Review"+(element.Name.split(" ").join(""))).value;
       elementRating = document.getElementById("Rating"+(element.Name.split(" ").join(""))).value;
 
-      if((elementReview && !elementRating) || (!elementReview && elementRating))  {
 
+      // if((elementReview && !elementRating) || (!elementReview && elementRating) || (!elementReview && !elementRating))  {
+      if((!elementReview && !Number(elementRating)))  {
       }
       else{
-
-        let myresponse = {
-          EmployeeCode : Number(EmployeeId),
-          FirstLevelName : id,
-          SecondLevelName : element.Name ,
-          Own_Review : elementReview,
-          QA_Review : (element.QA_Review == ""? null : element.QA_Review),
-          Own_Rating : Number(elementRating),
-          QA_Rating : (element.QA_Rating == ""? null : element.QA_Rating)
+        if(Number(elementRating)<1 || Number(elementRating)>10 ){
+          alert("Rating should be in the range 1 to 10");
+          return 0;
         }
+        else{
+          let myresponse = {
+            EmployeeCode : Number(EmployeeId),
+            FirstLevelName : id,
+            SecondLevelName : element.Name ,
+            Own_Review : elementReview,
+            QA_Review : (element.QA_Review == ""? null : element.QA_Review),
+            Own_Rating : Number(elementRating),
+            QA_Rating : (element.QA_Rating == ""? null : element.QA_Rating)
+          }
         response.push(myresponse);
-        // console.log(JSON.stringify(myresponse));
+        }
       }
     }
   });
-
   response.forEach(function(myresponse){
-    // console.log(myresponse.Own_Rating);
     if(!(myresponse.Own_Review == "" && myresponse.Own_Rating == "" )){
-      if(elementRating<1 || elementRating>10){
-        alert("Rating should be in the range 1 to 10");
-        return 0;
-      }
       $.ajax({
         "async": true,
         "crossDomain": true,

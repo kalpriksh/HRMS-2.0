@@ -21,7 +21,7 @@ var sqlConfig = {
     user: 'sa',
     password: 'password',
     server: 'localhost',
-    database: 'Review_Management'
+    database: 'Review_Mangement'
 }
 
 //All the api listed
@@ -38,7 +38,7 @@ app.post('/user/employee',function(req,res){
     var request = new sql.Request();
     // console.log(req.body.Empcode);
     console.log(req.body.Role);
-    request.query("EXEC RoleFirstLevelName "+ req.body.Role, function (err,recordset){
+    request.query("EXEC RoleFirstLevelName '"+ req.body.Role+"'", function (err,recordset){
       if(err)
       {
         console.log(err);
@@ -165,10 +165,16 @@ app.post('/admin/parameters',function(req,res){
     var request = new sql.Request();
 
     request.query("EXEC AddParameter '"
+<<<<<<< HEAD
     +req.body.Role+"',"
     +req.body.FirstLevelName+","
     +req.body.SecondLevelName, function (err,recordset){
 >>>>>>> 1363fb49b3c258f3c89a318716c2e291416caa85
+=======
+    +req.body.Role+"','"
+    +req.body.FirstLevelName+"','"
+    +req.body.SecondLevelName+"'", function (err,recordset){
+>>>>>>> 6cd927b1acaf8536453ca5e44466bd672161c3da
       if(err)
       {
         console.log(err);
