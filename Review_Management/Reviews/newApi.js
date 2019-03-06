@@ -21,7 +21,7 @@ var sqlConfig = {
     user: 'sa',
     password: 'password',
     server: 'localhost',
-    database: 'Review_Mangement'
+    database: 'Review_Management'
 }
 
 //All the api listed
@@ -38,7 +38,7 @@ app.post('/user/employee',function(req,res){
     var request = new sql.Request();
     // console.log(req.body.Empcode);
     console.log(req.body.Role);
-    request.query("EXEC RoleFirstLevelName '"+ req.body.Role+"'", function (err,recordset){
+    request.query("EXEC RoleFirstLevelName "+ req.body.Role, function (err,recordset){
       if(err)
       {
         console.log(err);
@@ -128,7 +128,7 @@ app.post('/user/employee/single-review',function(req,res){
   });
 });
 
-// jason-->
+// json-->
 //   {
 //     "FirstLevelId":
 //     "SecondLevelId":
@@ -141,9 +141,9 @@ app.post('/admin/parameters',function(req,res){
     var request = new sql.Request();
 
     request.query("EXEC AddParameter '"
-    +req.body.Role+"','"
-    +req.body.FirstLevelName+"','"
-    +req.body.SecondLevelName+"'", function (err,recordset){
+    +req.body.Role+"',"
+    +req.body.FirstLevelName+","
+    +req.body.SecondLevelName, function (err,recordset){
       if(err)
       {
         console.log(err);
@@ -158,7 +158,7 @@ app.post('/admin/parameters',function(req,res){
   });
 });
 
-// jason-->
+// json-->
 //   {
 //     "FirstLevelName":
 //     "SecondLevelName":
@@ -166,13 +166,11 @@ app.post('/admin/parameters',function(req,res){
 //   }
 
 
-
-
 app.get('/user/admin/Roles',  function(req,res){
   sql.connect(sqlConfig,function(){
     var request = new sql.Request();
     console.log(req.body.Empcode);
-    request.query("select * from Roles", function (err,recordset){
+    request.query("select * from ProjectRoles", function (err,recordset){
       if(err)
       console.log(err);
       else {
@@ -184,6 +182,62 @@ app.get('/user/admin/Roles',  function(req,res){
   });
 });
 
+app.post('/admin/role',function(req,res){
+  sql.connect(sqlConfig,function(){
+    var request = new sql.Request();
+    console.log(req.body.Empcode);
+    request.query("EXEC NewRole "+req.body.Role, function (err,recordset){
+      if(err)
+      {
+        console.log(err);
+        res.sendStatus(500);
+      }
+      else {
+        console.log("updated");
+        res.sendStatus(200);
+      }
+      sql.close();
+    });
+  });
+});
+
+app.post('/admin/role/level1-parameters',function(req,res){
+  sql.connect(sqlConfig,function(){
+    var request = new sql.Request();
+    console.log(req.body.Empcode);
+    request.query("EXEC mapRoleFirstLevel '"+req.body.Role+"','"+req.body.FirstLevelName+"'", function (err,recordset){
+      if(err)
+      {
+        console.log(err);
+        res.sendStatus(500);
+      }
+      else {
+        console.log("updated");
+        res.sendStatus(200);
+      }
+      sql.close();
+    });
+  });
+});
+
+app.post('/admin/role/level1-parameters/level2-parameters',function(req,res){
+  sql.connect(sqlConfig,function(){
+    var request = new sql.Request();
+    console.log(req.body.Empcode);
+    request.query("EXEC proc1 '"+req.body.Role+"','"+req.body.FirstLevelName+"'"+req.body.SecondLevelName+"'", function (err,recordset){
+      if(err)
+      {
+        console.log("updated");
+        res.sendStatus(200);
+      }
+      else {
+        console.log("updated");
+        res.sendStatus(200);
+      }
+      sql.close();
+    });
+  });
+});
 
 
 var server = app.listen(PORT, function () {

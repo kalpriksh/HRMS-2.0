@@ -1,13 +1,15 @@
+/*to get all first level names for particular role*/
 	create procedure RoleFirstLevelName @Role varchar(30)
 	as
 		select FirstLevel.Name
-		from Roles
-		inner join RolesFirstLevel on Roles.Id=RolesFirstLevel.RoleId
+		from ProjectRole
+		inner join RolesFirstLevel on ProjectRole.Id=RolesFirstLevel.RoleId
 		inner join FirstLevel on FirstLevel.Id=RolesfirstLevel.FirstLevelId
 
-		where Roles.Name=@Role
+		where ProjectRole.Name=@Role
 	GO
-		
+
+/*to get all second level names linked with particular first level parameter*/
 	create procedure RoleSecondLevelName @FirstLevelName varchar(30)
 		as
 		select SecondLevel.Name
@@ -18,6 +20,7 @@
 		where FirstLevel.Name=@FirstLevelName
 	go
 
+/*to enter the reviews if not present and update the review if already present*/
 	create procedure Review
 		@OwnReview varchar(255),
 		@OwnRating int,
@@ -29,7 +32,7 @@
 	as
 				declare @x int;
 				declare @y int;
-				exec @x = getSecondLevelId @SecondLevel; 
+				exec @x = getSecondLevelId @SecondLevel;
 				exec @y = getFirstLevelId @FirstLevel;
 
 		if not exists (select * from EmployeeReviews where Empcode=@EmployeeCode and FirstLevelId=@y and SecondLevelId=@x)
@@ -56,11 +59,12 @@
 	drop procedure Review
 	exec Review null,55,null,55,'Leadership','Problem Solving',15
 
+/*to display the stored reviews*/
 	create procedure GetReviews
 		@FirstLevel varchar(30),
 		@EmployeeId int
 	as
-		select SecondLevel.Name,Own_Review,Own_Rating,QA_Review,QA_Rating 
+		select SecondLevel.Name,Own_Review,Own_Rating,QA_Review,QA_Rating
 		from EmployeeReviews
 		inner join SecondLevel on SecondLevel.Id=EmployeeReviews.SecondLevelId
 		inner join FirstLevel on FirstLevel.Id=EmployeeReviews.FirstLevelId
@@ -70,9 +74,7 @@
 		Empcode=@EmployeeId
 	go
 
-
-
-
+/*
 drop procedure GetReviews
 drop procedure Review
 drop procedure RoleSecondLevelName
@@ -82,4 +84,5 @@ exec RoleFirstLevelName Dev
 exec RoleSecondLevelName Leadership
 exec Review 'workin',1,,1,3,3,15
 exec Review 'null',1,'good performance',1,3,3,19
-exec GetReviews 'Leadership',14
+
+*/

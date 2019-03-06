@@ -1,11 +1,6 @@
-	
+/*to create the required tables, insert dummy data to them and display them*/
 create procedure RequiredTables
 as
-	create table Roles(
-		Id int Primary key identity(1,1),
-		Name varchar(max)
-			)
-
 	Create table FirstLevel(
 		Id int Primary key identity(1,1),
 		Name varchar(max)
@@ -14,10 +9,10 @@ as
 	Create table RolesFirstLevel(
 		Id int Primary Key identity(1,1),
 		RoleId int
-		FOREIGN KEY (RoleId) REFERENCES Roles(Id),
+		FOREIGN KEY (RoleId) REFERENCES ProjectRole(RoleId),
 		FirstLevelId int,
 		FOREIGN KEY (FirstLevelId) REFERENCES FirstLevel(Id)
-		
+
 			)
 
 	Create table SecondLevel(
@@ -48,13 +43,6 @@ as
 		)
 
 
-	insert into Roles (Name)
-	values ('HR')
-	insert into Roles (Name)
-	values ('Dev')
-	insert into Roles (Name)
-	values ('Team Lead')
-
 	insert into FirstLevel (Name)
 	values ('Development')
 	insert into FirstLevel(Name)
@@ -78,48 +66,45 @@ as
 	values ('Quality')
 
 
-
-
-
 	insert into RolesFirstLevel (RoleId,FirstLevelId)
 	values (1,1),(1,2),(1,3),(1,4),(1,5)
 	insert into RolesFirstLevel (RoleId,FirstLevelId)
 	values (2,1),(2,2),(2,3)
-	insert into RolesFirstLevel (RoleId,FirstLevelId)
-	values (3,1),(3,2),(3,3),(3,4)
 
 	insert into FirstSecondLevel(FirstLevelId,SecondLevelId)
 	values (1,Null),(2,1),(2,3),(2,4),(3,2),(3,3),(3,4),(4,1),(4,5),(5,NULL)
-	
+
 	insert into EmployeeReviews (FirstLevelId,SecondLevelId,Own_Review,Own_Rating,QA_Review,QA_Rating,Empcode)
 	values (3,3,'random Review',5,'one more random review',4 ,14),
 	(3,4,'Problem Solver',5,'one more Problem solverv review',4 ,14),
 	(4,1,'Problem Solver',5,'one more Problem solverv review',4 ,14),
 	(3,4,'Problem Solver for a differnt person',5,'one more Problem solver review fora different person',4 ,15),
 	(3,3,'Problem Solver for a differnt person',5,NULL,4 ,15)
-	
-
-	
-	select * from Roles
-	select * from RolesFirstLevel
-	select * from FirstLevel
-	select * from SecondLevel
-	select * from FirstSecondLevel
-	select * from EmployeeReviews
 go
 
-	drop table Roles
+/*to display all the tables*/
+create procedure DisplayTableEntries
+as
+begin
+	select * from ProjectRole
+	select * from FirstLevel
+	select * from SecondLevel
+	select * from RolesFirstLevel
+	select * from FirstSecondLevel
+	select * from EmployeeReviews
+end
+go
+
+
+/*
+	drop table ProjectRole
 	drop table RolesFirstLevel
 	drop table FirstLevel
 	drop table SecondLevel
 	drop table FirstSecondLevel
 	drop table EmployeeReviews
 
-
-	
 	drop procedure RequiredTables
-	
-	
-	select * from EmployeeReviews where Empcode=14;
+	drop procedure DisplayTableEntries
 
-	
+*/
