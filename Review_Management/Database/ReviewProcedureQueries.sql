@@ -2,11 +2,11 @@
 	create procedure RoleFirstLevelName @Role varchar(30)
 	as
 		select FirstLevel.Name
-		from ProjectRoles
-		inner join RolesFirstLevel on ProjectRoles.Id=RolesFirstLevel.RoleId
+		from ProjectRole
+		inner join RolesFirstLevel on ProjectRole.Id=RolesFirstLevel.RoleId
 		inner join FirstLevel on FirstLevel.Id=RolesfirstLevel.FirstLevelId
 
-		where ProjectRoles.Name=@Role
+		where ProjectRole.Name=@Role
 	GO
 
 /*to get all second level names linked with particular first level parameter*/
@@ -74,8 +74,6 @@
 		Empcode=@EmployeeId
 	go
 
-
-
 /*
 drop procedure GetReviews
 drop procedure Review
@@ -86,4 +84,5 @@ exec RoleFirstLevelName Dev
 exec RoleSecondLevelName Leadership
 exec Review 'workin',1,,1,3,3,15
 exec Review 'null',1,'good performance',1,3,3,19
+
 */

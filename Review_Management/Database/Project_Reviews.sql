@@ -1,11 +1,6 @@
 /*to create the required tables, insert dummy data to them and display them*/
 create procedure RequiredTables
 as
-	create table ProjectRoles(
-		Id int Primary key identity(1,1),
-		Name varchar(max)
-			)
-
 	Create table FirstLevel(
 		Id int Primary key identity(1,1),
 		Name varchar(max)
@@ -14,7 +9,7 @@ as
 	Create table RolesFirstLevel(
 		Id int Primary Key identity(1,1),
 		RoleId int
-		FOREIGN KEY (RoleId) REFERENCES ProjectRoles(Id),
+		FOREIGN KEY (RoleId) REFERENCES ProjectRole(RoleId),
 		FirstLevelId int,
 		FOREIGN KEY (FirstLevelId) REFERENCES FirstLevel(Id)
 
@@ -48,13 +43,6 @@ as
 		)
 
 
-	insert into ProjectRoles (Name)
-	values ('HR')
-	insert into ProjectRoles (Name)
-	values ('Dev')
-	insert into ProjectRoles (Name)
-	values ('Team Lead')
-
 	insert into FirstLevel (Name)
 	values ('Development')
 	insert into FirstLevel(Name)
@@ -82,8 +70,6 @@ as
 	values (1,1),(1,2),(1,3),(1,4),(1,5)
 	insert into RolesFirstLevel (RoleId,FirstLevelId)
 	values (2,1),(2,2),(2,3)
-	insert into RolesFirstLevel (RoleId,FirstLevelId)
-	values (3,1),(3,2),(3,3),(3,4)
 
 	insert into FirstSecondLevel(FirstLevelId,SecondLevelId)
 	values (1,Null),(2,1),(2,3),(2,4),(3,2),(3,3),(3,4),(4,1),(4,5),(5,NULL)
@@ -100,10 +86,10 @@ go
 create procedure DisplayTableEntries
 as
 begin
-	select * from ProjectRoles
-	select * from RolesFirstLevel
+	select * from ProjectRole
 	select * from FirstLevel
 	select * from SecondLevel
+	select * from RolesFirstLevel
 	select * from FirstSecondLevel
 	select * from EmployeeReviews
 end
@@ -111,7 +97,7 @@ go
 
 
 /*
-	drop table ProjectRoles
+	drop table ProjectRole
 	drop table RolesFirstLevel
 	drop table FirstLevel
 	drop table SecondLevel
@@ -119,5 +105,6 @@ go
 	drop table EmployeeReviews
 
 	drop procedure RequiredTables
+	drop procedure DisplayTableEntries
 
 */

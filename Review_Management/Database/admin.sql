@@ -4,7 +4,7 @@ create procedure getRoleId @Name varchar(30)
 as
 begin
 	declare @RoleId int 
-	select @RoleId= Id from ProjectRoles where Name=@Name
+	select @RoleId= Id from ProjectRole where Name=@Name
 	return @RoleId
 end
 go
@@ -31,9 +31,9 @@ go
 /*To create new role if not exists*/
 create procedure NewRole @Role varchar(20)
 as
-	if not exists ( select * from ProjectRoles where Name=@Role )
+	if not exists ( select * from ProjectRole where Name=@Role )
 		begin
-		insert into ProjectRoles values (@Role)
+		insert into ProjectRole values (@Role)
 	end
 go
 exec NewRole QA;
@@ -106,7 +106,7 @@ drop procedure proc1
 create procedure GetAllRoles
 as
 begin
-	Select Name from ProjectRoles
+	Select Name from ProjectRole
 end
 exec GetAllRoles
 

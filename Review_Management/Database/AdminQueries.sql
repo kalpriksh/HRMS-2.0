@@ -6,7 +6,7 @@ as
 		declare @myId int
 
 		select @myId=id
-		from ProjectRoles
+		from ProjectRole
 		where Name=@Name
 
 		return @myId
@@ -52,9 +52,9 @@ create Procedure CreateTillFirstLevel
 	@Role varchar(30),
 	@FirstLevelName varchar(30)
 as
-				if not exists (select Id from ProjectRoles where Name=@Role)
+				if not exists (select Id from ProjectRole where Name=@Role)
 				begin
-				insert into ProjectRoles (Name) values (@Role)
+				insert into ProjectRole (Name) values (@Role)
 				end
 
 				if not exists (select Id from FirstLevel where Name=@FirstLevelName)
@@ -80,9 +80,9 @@ create procedure CreateTillSecondLevel
 	@SecondLevelName varchar(30)
 
 as
-				if not exists (select Id from ProjectRoles where Name=@Role)
+				if not exists (select Id from ProjectRole where Name=@Role)
 				begin
-				insert into ProjectRoles (Name) values (@Role)
+				insert into ProjectRole (Name) values (@Role)
 				end
 
 				if not exists (select Id from FirstLevel where Name=@FirstLevelName)
@@ -120,9 +120,9 @@ as
 
 	if(@FirstLevelName is NULL and @SecondLevelName is NULL)
 		begin
-		if not exists (select Id from ProjectRoles where Name=@Role)
+		if not exists (select Id from ProjectRole where Name=@Role)
 			begin
-			insert into ProjectRoles (Name) values (@Role)
+			insert into ProjectRole (Name) values (@Role)
 			end
 		end
 	else
