@@ -128,7 +128,7 @@ app.post('/user/employee/single-review',function(req,res){
   });
 });
 
-// jason-->
+// json-->
 //   {
 //     "FirstLevelId":
 //     "SecondLevelId":
@@ -158,7 +158,7 @@ app.post('/admin/parameters',function(req,res){
   });
 });
 
-// jason-->
+// json-->
 //   {
 //     "FirstLevelName":
 //     "SecondLevelName":
@@ -166,18 +166,73 @@ app.post('/admin/parameters',function(req,res){
 //   }
 
 
-
-
 app.get('/user/admin/Roles',  function(req,res){
   sql.connect(sqlConfig,function(){
     var request = new sql.Request();
     console.log(req.body.Empcode);
-    request.query("select * from Roles", function (err,recordset){
+    request.query("select * from ProjectRoles", function (err,recordset){
       if(err)
       console.log(err);
       else {
         console.log(recordset.recordset);
         res.send(recordset.recordset);
+      }
+      sql.close();
+    });
+  });
+});
+
+app.post('/admin/role',function(req,res){
+  sql.connect(sqlConfig,function(){
+    var request = new sql.Request();
+    console.log(req.body.Empcode);
+    request.query("EXEC NewRole "+req.body.Role, function (err,recordset){
+      if(err)
+      {
+        console.log(err);
+        res.sendStatus(500);
+      }
+      else {
+        console.log("updated");
+        res.sendStatus(200);
+      }
+      sql.close();
+    });
+  });
+});
+
+app.post('/admin/role/level1-parameters',function(req,res){
+  sql.connect(sqlConfig,function(){
+    var request = new sql.Request();
+    console.log(req.body.Empcode);
+    request.query("EXEC mapRoleFirstLevel '"+req.body.Role+"','"+req.body.FirstLevelName+"'", function (err,recordset){
+      if(err)
+      {
+        console.log(err);
+        res.sendStatus(500);
+      }
+      else {
+        console.log("updated");
+        res.sendStatus(200);
+      }
+      sql.close();
+    });
+  });
+});
+
+app.post('/admin/role/level1-parameters/level2-parameters',function(req,res){
+  sql.connect(sqlConfig,function(){
+    var request = new sql.Request();
+    console.log(req.body.Empcode);
+    request.query("EXEC proc1 '"+req.body.Role+"','"+req.body.FirstLevelName+"'"+req.body.SecondLevelName+"'", function (err,recordset){
+      if(err)
+      {
+        console.log("updated");
+        res.sendStatus(200);
+      }
+      else {
+        console.log("updated");
+        res.sendStatus(200);
       }
       sql.close();
     });
