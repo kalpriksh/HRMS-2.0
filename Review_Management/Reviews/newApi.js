@@ -21,7 +21,7 @@ var sqlConfig = {
     user: 'sa',
     password: 'password',
     server: 'localhost',
-    database: 'Review_Management'
+    database: 'Review_Mangement'
 }
 
 //All the api listed
@@ -38,7 +38,7 @@ app.post('/user/employee',function(req,res){
     var request = new sql.Request();
     // console.log(req.body.Empcode);
     console.log(req.body.Role);
-    request.query("EXEC RoleFirstLevelName "+ req.body.Role, function (err,recordset){
+    request.query("EXEC RoleFirstLevelName '"+ req.body.Role+"'", function (err,recordset){
       if(err)
       {
         console.log(err);
@@ -140,8 +140,8 @@ app.post('/admin/parameters',function(req,res){
   sql.connect(sqlConfig,function(){
     var request = new sql.Request();
 
-    request.query("EXEC AddParameter '"
-    +req.body.Role+"',"
+    request.query("EXEC AddParameter "
+    +req.body.Role+","
     +req.body.FirstLevelName+","
     +req.body.SecondLevelName, function (err,recordset){
       if(err)
@@ -170,7 +170,7 @@ app.get('/user/admin/Roles',  function(req,res){
   sql.connect(sqlConfig,function(){
     var request = new sql.Request();
     console.log(req.body.Empcode);
-    request.query("select * from ProjectRoles", function (err,recordset){
+    request.query("select * from ProjectRole", function (err,recordset){
       if(err)
       console.log(err);
       else {
@@ -186,7 +186,7 @@ app.post('/admin/role',function(req,res){
   sql.connect(sqlConfig,function(){
     var request = new sql.Request();
     console.log(req.body.Empcode);
-    request.query("EXEC NewRole "+req.body.Role, function (err,recordset){
+    request.query("EXEC NewRole '"+req.body.Role+"'", function (err,recordset){
       if(err)
       {
         console.log(err);

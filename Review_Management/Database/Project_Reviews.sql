@@ -9,7 +9,7 @@ as
 	Create table RolesFirstLevel(
 		Id int Primary Key identity(1,1),
 		RoleId int
-		FOREIGN KEY (RoleId) REFERENCES ProjectRole(RoleId),
+		FOREIGN KEY (RoleId) REFERENCES ProjectRole(Id),
 		FirstLevelId int,
 		FOREIGN KEY (FirstLevelId) REFERENCES FirstLevel(Id)
 
@@ -97,12 +97,13 @@ go
 
 
 /*
-	drop table ProjectRole
+	drop table EmployeeReviews
+	drop table FirstSecondLevel
 	drop table RolesFirstLevel
 	drop table FirstLevel
 	drop table SecondLevel
-	drop table FirstSecondLevel
-	drop table EmployeeReviews
+	
+	
 
 	drop procedure RequiredTables
 	drop procedure DisplayTableEntries

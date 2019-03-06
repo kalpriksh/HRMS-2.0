@@ -13,6 +13,10 @@ as
 	end
 
 go
+select * from ProjectRole
+
+
+drop procedure getRolesId
 
 /*to get first level Id*/
 create procedure getFirstLevelId
@@ -66,8 +70,11 @@ as
 				declare @y int;
 				exec @x = getRolesId @Role;
 				exec @y = getFirstLevelId @FirstLevelName;
+				if not exists (select Id from RolesFirstLevel where RoleId=@x and FirstLevelId=@y)
+				begin
 				insert into RolesFirstLevel (RoleId,FirstLevelId)
 				values (@x,@y)
+				end
 go
 
 drop procedure CreateTillFirstLevel
@@ -101,10 +108,16 @@ as
 				exec @x = getRolesId @Role;
 				exec @y = getFirstLevelId @FirstLevelName;
 				exec @z = getSecondLevelId @SecondLevelName;
+				if not exists (select Id from RolesFirstLevel where RoleId=@x and FirstLevelId=@y)
+				begin
 				insert into RolesFirstLevel (RoleId,FirstLevelId)
 				values (@x,@y)
-				insert into FirstSecondLevel (FirstLevelId,SecondLevelId)
+				end
+				if not exists (select Id from FirstSecondLevel where SecondLevelId=@z and FirstLevelId=@y)
+				begin
+				insert into FirstSecondLevel(FirstLevelId,SecondLevelId)
 				values (@y,@z)
+				end
 go
 
 drop procedure CreateTillSecondLevel
@@ -145,11 +158,3 @@ drop procedure AddParameter
 declare @id int;
 exec @id = getRolesId 'Dev'
 select @id
-
-
-
-
-
-
-
-

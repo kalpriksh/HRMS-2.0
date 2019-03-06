@@ -227,7 +227,14 @@ function submitlevel1(id){
       }
       else{
         if(Number(elementRating)<1 || Number(elementRating)>10 ){
-          alert("Rating should be in the range 1 to 10");
+          // alert("Rating should be in the range 1 to 10");
+          let addhtml =
+          `<div class="alert alert-warning alert-dismissible fade show" role="alert">
+            Rating should be in the range 1 to 10
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            </button>
+          </div>`;
+          document.getElementById("alert").innerHTML = addhtml;
           return 0;
         }
         else{

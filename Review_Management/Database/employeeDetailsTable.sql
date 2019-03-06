@@ -28,10 +28,12 @@ insert into Employee (FirstName,LastName, Designation, Email, Location, DateOfJo
 
 
 /*Projects Table Data*/
-create table ProjectRole(RoleID int primary key identity(1,1), Role Varchar(50));
-insert into ProjectRole values ('Project Owner');
+create table ProjectRole(Id int primary key identity(1,1), Name Varchar(50));
+insert into ProjectRole values ('ProjectOwner');
 insert into ProjectRole values ('CM');
 insert into ProjectRole values ('Developers');
+
+drop table ProjectRole
 
 create table Projects(
 	ProjectID int primary key identity(1,1),
@@ -44,7 +46,7 @@ create table Projects(
 	 DateAssigned date,
 	 isPipeline bit
  ); 
-
+ drop table Projects
 insert into Projects 
 values('Paw Tree',
 		2,
@@ -88,15 +90,16 @@ values('Google',
 		0,
 		'2020-02-20',
 		1);
+		
 
 create table ProjectTeamDetails(
 	SNo int identity(1,1) primary key,
 	ProjectID int  references Projects(ProjectID),
 	EmployeeID int references Employee(EmployeeId),
-	RoleID int  references ProjectRole(RoleID),
+	RoleID int  references ProjectRole(Id),
 	isPrimary int
 )
-
+drop table ProjectTeamDetails
 insert into ProjectTeamDetails 
 values(
 	1,
