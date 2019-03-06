@@ -21,7 +21,7 @@ var sqlConfig = {
     user: 'sa',
     password: 'password',
     server: 'localhost',
-    database: 'Review_Mangement'
+    database: 'Review_Management'
 }
 
 //All the api listed
@@ -38,7 +38,7 @@ app.post('/user/employee',function(req,res){
     var request = new sql.Request();
     // console.log(req.body.Empcode);
     console.log(req.body.Role);
-    request.query("EXEC RoleFirstLevelName '"+ req.body.Role+"'", function (err,recordset){
+    request.query("EXEC RoleFirstLevelName "+ req.body.Role, function (err,recordset){
       if(err)
       {
         console.log(err);
@@ -136,45 +136,14 @@ app.post('/user/employee/single-review',function(req,res){
 //   }
 
 
-<<<<<<< HEAD
-app.get('/admin',  function(req,res){
-  sql.connect(sqlConfig,function(){
-    var request = new sql.Request();
-    console.log("Helloooo");
-    // console.log(req.body.Empcode);
-    request.query("EXEC GetAllRoles", function (err,recordset){
-      if(err)
-      console.log(err);
-      else {
-        console.log(recordset);
-        res.send(recordset.recordset);
-      }
-      sql.close();
-    });
-  });
-});
-
-app.post('/admin/role',function(req,res){
-  sql.connect(sqlConfig,function(){
-    var request = new sql.Request();
-    console.log(req.body.Empcode);
-    request.query("EXEC NewRole "+req.body.Role, function (err,recordset){
-=======
 app.post('/admin/parameters',function(req,res){
   sql.connect(sqlConfig,function(){
     var request = new sql.Request();
 
     request.query("EXEC AddParameter '"
-<<<<<<< HEAD
     +req.body.Role+"',"
     +req.body.FirstLevelName+","
     +req.body.SecondLevelName, function (err,recordset){
->>>>>>> 1363fb49b3c258f3c89a318716c2e291416caa85
-=======
-    +req.body.Role+"','"
-    +req.body.FirstLevelName+"','"
-    +req.body.SecondLevelName+"'", function (err,recordset){
->>>>>>> 6cd927b1acaf8536453ca5e44466bd672161c3da
       if(err)
       {
         console.log(err);

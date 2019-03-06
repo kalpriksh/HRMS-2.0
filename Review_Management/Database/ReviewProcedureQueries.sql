@@ -8,12 +8,8 @@
 
 		where ProjectRoles.Name=@Role
 	GO
-<<<<<<< HEAD
 
 /*to get all second level names linked with particular first level parameter*/
-=======
-		
->>>>>>> 1363fb49b3c258f3c89a318716c2e291416caa85
 	create procedure RoleSecondLevelName @FirstLevelName varchar(30)
 		as
 		select SecondLevel.Name
@@ -36,7 +32,7 @@
 	as
 				declare @x int;
 				declare @y int;
-				exec @x = getSecondLevelId @SecondLevel; 
+				exec @x = getSecondLevelId @SecondLevel;
 				exec @y = getFirstLevelId @FirstLevel;
 
 		if not exists (select * from EmployeeReviews where Empcode=@EmployeeCode and FirstLevelId=@y and SecondLevelId=@x)
@@ -68,7 +64,7 @@
 		@FirstLevel varchar(30),
 		@EmployeeId int
 	as
-		select SecondLevel.Name,Own_Review,Own_Rating,QA_Review,QA_Rating 
+		select SecondLevel.Name,Own_Review,Own_Rating,QA_Review,QA_Rating
 		from EmployeeReviews
 		inner join SecondLevel on SecondLevel.Id=EmployeeReviews.SecondLevelId
 		inner join FirstLevel on FirstLevel.Id=EmployeeReviews.FirstLevelId
@@ -90,8 +86,4 @@ exec RoleFirstLevelName Dev
 exec RoleSecondLevelName Leadership
 exec Review 'workin',1,,1,3,3,15
 exec Review 'null',1,'good performance',1,3,3,19
-<<<<<<< HEAD
 */
-=======
-exec GetReviews 'Leadership',14
->>>>>>> 1363fb49b3c258f3c89a318716c2e291416caa85

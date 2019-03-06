@@ -5,13 +5,13 @@ create procedure AddParameter
 	@Role varchar(30),
 	@FirstLevelName varchar(30),
 	@SecondLevelName varchar(30)
-as	
-	
+as
+
 	if(@FirstLevelName is NULL and @SecondLevelName is NULL)
 		begin
-		if not exists (select Id from Roles where Name=@Role)
+		if not exists (select Id from ProjectRoles where Name=@Role)
 			begin
-			insert into Roles (Name) values (@Role)
+			insert into ProjectRoles (Name) values (@Role)
 			end
 		end
 	else
@@ -25,7 +25,7 @@ as
 				exec CreateTillSecondLevel @Role,@FirstLevelName,@SecondLevelName
 				end
 			end
-	
+
 go
 
 exec AddParameter comeon,this,works
@@ -40,14 +40,14 @@ create procedure getRolesId
 as
 	begin
 		declare @myId int
-		 
+
 		select @myId=id
-		from Roles
+		from ProjectRoles
 		where Name=@Name
 
 		return @myId
-	end 
-	
+	end
+
 go
 
 create procedure getFirstLevelId
@@ -55,14 +55,14 @@ create procedure getFirstLevelId
 as
 	begin
 		declare @myId int
-		 
+
 		select @myId=id
 		from FirstLevel
 		where Name=@Name
 
 		return @myId
-	end 
-	
+	end
+
 go
 
 create procedure getSecondLevelId
@@ -70,14 +70,14 @@ create procedure getSecondLevelId
 as
 	begin
 		declare @myId int
-		 
+
 		select @myId=id
 		from SecondLevel
 		where Name=@Name
 
 		return @myId
-	end 
-	
+	end
+
 go
 
 create procedure CreateTillSecondLevel
@@ -86,11 +86,11 @@ create procedure CreateTillSecondLevel
 	@SecondLevelName varchar(30)
 
 as
-				if not exists (select Id from Roles where Name=@Role)
+				if not exists (select Id from ProjectRoles where Name=@Role)
 				begin
-				insert into Roles (Name) values (@Role)
+				insert into ProjectRoles (Name) values (@Role)
 				end
-				
+
 				if not exists (select Id from FirstLevel where Name=@FirstLevelName)
 				begin
 				insert into FirstLevel (Name) values (@FirstLevelName)
@@ -104,7 +104,7 @@ as
 				declare @x int;
 				declare @y int;
 				declare @z int;
-				exec @x = getRolesId @Role; 
+				exec @x = getRolesId @Role;
 				exec @y = getFirstLevelId @FirstLevelName;
 				exec @z = getSecondLevelId @SecondLevelName;
 				insert into RolesFirstLevel (RoleId,FirstLevelId)
@@ -124,11 +124,11 @@ create Procedure CreateTillFirstLevel
 	@Role varchar(30),
 	@FirstLevelName varchar(30)
 as
-				if not exists (select Id from Roles where Name=@Role)
+				if not exists (select Id from ProjectRoles where Name=@Role)
 				begin
-				insert into Roles (Name) values (@Role)
+				insert into ProjectRoles (Name) values (@Role)
 				end
-				
+
 				if not exists (select Id from FirstLevel where Name=@FirstLevelName)
 				begin
 				insert into FirstLevel (Name) values (@FirstLevelName)
@@ -136,7 +136,7 @@ as
 
 				declare @x int;
 				declare @y int;
-				exec @x = getRolesId @Role; 
+				exec @x = getRolesId @Role;
 				exec @y = getFirstLevelId @FirstLevelName;
 				insert into RolesFirstLevel (RoleId,FirstLevelId)
 				values (@x,@y)
