@@ -16,15 +16,15 @@ create table Employee(
 )
 
 insert into Employee (FirstName,LastName, Designation, Email, Location, DateOfJoining, DateOfBirth, PastExperience, Department, [status], ProfilePicUrl)
-		values('Deepak', 'Pahuja', 'Intern', 'deepak.pahuja@cygrp.com', 'Noida' , '2019-01-07', '1996-12-19', 1, 'Technical', 'Active', 'url') 
+		values('Deepak', 'Pahuja', 'Intern', 'deepak.pahuja@cygrp.com', 'Noida' , '2019-01-07', '1996-12-19', 1, 'Technical', 'Active', 'url')
 insert into Employee (FirstName,LastName, Designation, Email, Location, DateOfJoining, DateOfBirth, PastExperience, Department, [status], ProfilePicUrl)
 		values('Vidit', 'Mathur', 'Intern', 'vidit.mathur@cygrp.com', 'Noida' , '2019-01-07', '1997-10-11', 1, 'Technical', 'Active', 'url')
 insert into Employee (FirstName,LastName, Designation, Email, Location, DateOfJoining, DateOfBirth, PastExperience, Department, [status], ProfilePicUrl)
-		values('Gaurav', 'Singh', 'Intern', 'gaurav.singh@cygrp.com', 'Noida' , '2019-01-07', '1996-04-25', 1, 'Technical', 'Active', 'url') 
+		values('Gaurav', 'Singh', 'Intern', 'gaurav.singh@cygrp.com', 'Noida' , '2019-01-07', '1996-04-25', 1, 'Technical', 'Active', 'url')
 insert into Employee (FirstName,LastName, Designation, Email, Location, DateOfJoining, DateOfBirth, PastExperience, Department, [status], ProfilePicUrl)
-		values('Srishty', 'rawat', 'Intern', 'srishty.rawat@cygrp.com', 'Noida' , '2019-01-07', '1996-10-30', 1, 'Technical', 'Active', 'url')  
+		values('Srishty', 'rawat', 'Intern', 'srishty.rawat@cygrp.com', 'Noida' , '2019-01-07', '1996-10-30', 1, 'Technical', 'Active', 'url')
 insert into Employee (FirstName,LastName, Designation, Email, Location, DateOfJoining, DateOfBirth, PastExperience, Department, [status], ProfilePicUrl)
-		values('Om', 'Prakash', 'Intern', 'ompraksah@cygrp.com', 'Noida' , '2019-01-07', '1995-02-05', 1, 'Technical', 'Active', 'url') 
+		values('Om', 'Prakash', 'Intern', 'ompraksah@cygrp.com', 'Noida' , '2019-01-07', '1995-02-05', 1, 'Technical', 'Active', 'url')
 
 
 /*Projects Table Data*/
@@ -37,29 +37,29 @@ drop table ProjectRole
 
 create table Projects(
 	ProjectID int primary key identity(1,1),
-	 Name Varchar(100), 
+	 Name Varchar(100),
 	 Tenure int,
-	 Client Varchar(100), 
+	 Client Varchar(100),
 	 Description Varchar(max),
 	 IsFinished bit,
 	 Progress int,
 	 DateAssigned date,
 	 isPipeline bit
- ); 
+ );
  drop table Projects
-insert into Projects 
+insert into Projects
 values('Paw Tree',
 		2,
 		'Roger Morgan',
-		'You don’t like to eat the same food every day, and neither does your pet.PawTree a pet nutrition company,
+		'You donï¿½t like to eat the same food every day, and neither does your pet.PawTree a pet nutrition company,
 		 has debuted a first-of-its-kind product in the marketplace with its pawPairings Superfood Seasoning. Designed
-		 to add flavor variety and boost nutrition at meal time, pawTree created a line of seven superfood seasoning 
+		 to add flavor variety and boost nutrition at meal time, pawTree created a line of seven superfood seasoning
 		 medleys for dogs and cats.',
 		 0,
 		 65,
 		'2018-07-26',
 		0);
-insert into Projects 
+insert into Projects
 values('Stage Stores',
 		5,
 		'Michael L Glazer',
@@ -69,7 +69,7 @@ values('Stage Stores',
 		55,
 		'2017-08-02',
 		0);
-insert into Projects 
+insert into Projects
 values('Just Energy',
 		10,
 		'Jim Brown',
@@ -79,7 +79,7 @@ values('Just Energy',
 		100,
 		'2009-08-02',
 		0);
-		insert into Projects 
+		insert into Projects
 values('Google',
 		5,
 		'Sundar Pichai',
@@ -90,7 +90,7 @@ values('Google',
 		0,
 		'2020-02-20',
 		1);
-		
+
 
 create table ProjectTeamDetails(
 	SNo int identity(1,1) primary key,
@@ -100,35 +100,35 @@ create table ProjectTeamDetails(
 	isPrimary int
 )
 drop table ProjectTeamDetails
-insert into ProjectTeamDetails 
+insert into ProjectTeamDetails
 values(
 	1,
 	2,
 	3,
 	1
 )
-insert into ProjectTeamDetails 
+insert into ProjectTeamDetails
 values(
 	1,
 	1,
 	3,
 	0
 )
-insert into ProjectTeamDetails 
+insert into ProjectTeamDetails
 values(
 	1,
 	3,
 	2,
 	0
 )
-insert into ProjectTeamDetails 
+insert into ProjectTeamDetails
 values(
 	1,
 	4,
 	3,
 	1
 )
-insert into ProjectTeamDetails 
+insert into ProjectTeamDetails
 values(
 	1,
 	5,
@@ -136,21 +136,21 @@ values(
 	1
 )
 
-insert into ProjectTeamDetails 
+insert into ProjectTeamDetails
 values(
 	2,
 	5,
 	3,
 	0
 )
-insert into ProjectTeamDetails 
+insert into ProjectTeamDetails
 values(
 	2,
 	3,
 	1,
 	1
 )
-insert into ProjectTeamDetails 
+insert into ProjectTeamDetails
 values(
 	2,
 	1,
