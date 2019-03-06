@@ -5,9 +5,15 @@
 
 .imgheader{
   height: 80px;
-  padding: 10px;
-}
+  padding: 10px ;
 
+}
+.nav-link{
+  padding: 0px 5px;
+}
+.profilename{
+  padding: 30px;
+}
 .navbar-color-set a{
   color: white !important;
 }
@@ -15,6 +21,12 @@
   background-color: bg-dark;
 }
 
+ul{
+  list-style-type: none;
+}
+li{
+  margin: 10px;
+}
 
 .color-role{
   color: white !important;

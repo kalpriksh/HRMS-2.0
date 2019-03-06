@@ -19,9 +19,8 @@ $(document).ready(function(){
             ${roles.map(role => `
             <li>
 
-                <a href="#" onclick = "showlevel1(this.innerHTML)" id = ${role.split(" ").join("")}>${role}</a>
-
-                  <div id = ${role.split(" ").join("") + "div"}></div>
+                <a href="#" onclick = "showlevel1(this.id)" id = ${role}>${role}</a>
+                  <div id = ${role + "div"}></div>
 
             </li>
 
@@ -169,11 +168,10 @@ function Addbtn(id){
 }
 
 function modalADD(id){
+  console.log(id);
   id = id.slice(0,-4);
   names = id.split("_");
   let myOBJ;
-  // console.log(names);
-  // console.log(names.length);
   if(names.length ==1){
     console.log("add new role");
     document.getElementById("titlemodal").innerHTML = "Role";
@@ -194,9 +192,9 @@ function modalADD(id){
       "data":JSON.stringify(myOBJ),
       "success": function(res){
         level2 = res;
+        window.location.reload();
       }
     });
-
   }
   else if(names.length == 2){
 
