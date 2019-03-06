@@ -1,4 +1,5 @@
 const EmployeeId = 14;
+const Role = "Dev";
 $(document).ready(function(){
 
   // Ajax call for  all employees and the primary project
@@ -52,7 +53,7 @@ $(document).ready(function(){
   </div>
   `;
   var mydiv = document.getElementById("employee_list");
-  mydiv.innerHTML  = table_headings;
+  mydiv.innerHTML = table_headings;
 
 });
 
@@ -61,7 +62,6 @@ function showLevel1(id){
   // ajax call for this id's info
   employee = {
       name: "Ankit",
-      role: "Team Lead",
       project: "ERP",
       EmployeeId: "INT001",
       Role: "Dev"
@@ -71,7 +71,7 @@ function showLevel1(id){
   document.getElementById("emp_project_diplay").innerHTML = employee.name;
   // document.getElementById("Project_written").innerHTML = "Name";
   document.getElementById("emp_code_diplay").innerHTML = employee.EmployeeId;
-
+  // console.log(JSON.stringify({Role}));
   $.ajax({
 
     "async": true,
@@ -98,32 +98,6 @@ function showLevel1(id){
      }
    });
 }
-
-const myOBJ = [
-    {
-      level2 : "Technical",
-      SelfReview : " Good Job..............",
-      QA_Review : "dwdwdkvervbebvk brvkjbfekjvbkfevbkjbv jkebvkfevbekvbkvbwkbvkwbvkvbk",
-      SelfRating : 8,
-      QA_Rating : ""
-    },
-
-    {
-      level2 : "Team play",
-      SelfReview : " Good Job..............",
-      QA_Review : "dwdwdwewdwek",
-      SelfRating :"8",
-      QA_Rating : "10"
-    },
-
-    {
-      level2 : "Management",
-      SelfReview : "",
-      QA_Review : "",
-      SelfRating : "",
-      QA_Rating : ""
-    }
-  ];
 
 function showlevel2(id){
     //ajax call for level2 parameters
@@ -191,12 +165,17 @@ function showlevel2(id){
               if(element.Own_Review == "null"){
                 element.Own_Review = "";
               }
-
               if(element.Own_Rating == null){
                 element.Own_Rating = "";
               }
+              if(element.QA_Review == "null"){
+                element.QA_Review = "";
+              }
+              if(element.QA_Rating == null){
+                element.QA_Rating = "";
+              }
               if( (element.Own_Review) || (element.Own_Rating) ){
-                  self_reviewed = true;
+                self_reviewed = true;
               }
               // else if( (element.QA_Review == "null") && (element.QA_Rating==null) ){
               //     qa_reviewed = false;
@@ -212,22 +191,22 @@ function showlevel2(id){
                 <th scope="col">
                     <p>  Parameters </p>
                 </th>
+                ${self_reviewed ? `
                 <th scope="col">
                     <p>  Self Review </p>
                 </th>
-                ${qa_reviewed ? `
+                `:``}
                 <th scope="col">
                     <p>  QA Review </p>
                 </th>
-                `:``}
+                ${self_reviewed ? `
                 <th scope="col">
                     <p>  self rating </p>
                 </th>
-                ${qa_reviewed ? `
+                `:``}
                 <th scope="col">
                     <p>  QA rating </p>
                 </th>
-                `: ``}
 
               </tr>
               </thead>
@@ -235,7 +214,7 @@ function showlevel2(id){
 
                 ${myOBJ.map(obj => `
                       <tr>
-                      <td scope="col">${obj.level2}</td>
+                      <td scope="col">${obj.Name}</td>
 
                       ${self_reviewed ? `
                       <td scope="col">
@@ -244,19 +223,19 @@ function showlevel2(id){
                       `:``}
 
                       <td scope="col">
-                      ${((obj.QA_Review == "")&&(obj.QA_Rating== "")) ?`<textarea id=${"Review"+((obj.level2).split(" ").join(""))} name="QA_Review"></textarea>`:`${obj.QA_Review}`
+                      ${((obj.QA_Review == "")&&(obj.QA_Rating== "")) ?`<textarea id=${"Review"+((obj.Name).split(" ").join(""))} name="QA_Review"></textarea>`:`${obj.QA_Review}`
                       }
                       </td>
 
 
                       ${self_reviewed ? `
                       <td scope="col">
-                        ${obj.SelfRating}
+                        ${obj.Own_Rating}
                       </td>
                       `:``}
 
                       <td scope="col">
-                      ${((obj.QA_Review == "")&&(obj.QA_Rating== "")) ?`  <input type="number" id=${"Rating"+((obj.level2).split(" ").join(""))} name="" value= ${obj.QA_Rating}>`:`${obj.QA_Rating}`
+                      ${((obj.QA_Review == "")&&(obj.QA_Rating== "")) ?`  <input type="number" id=${"Rating"+((obj.Name).split(" ").join(""))} name="" value= ${obj.QA_Rating}>`:`${obj.QA_Rating}`
                       }
                       </td>
                     </tr>
@@ -295,25 +274,28 @@ function submitlevel1(id){
     }
     else{
 
-      elementReview = document.getElementById("Review"+(element.level2.split(" ").join(""))).value;
-      elementRating = document.getElementById("Rating"+(element.level2.split(" ").join(""))).value;
+      elementReview = document.getElementById("Review"+(element.Name.split(" ").join(""))).value;
+      elementRating = document.getElementById("Rating"+(element.Name.split(" ").join(""))).value;
 
-      if((elementReview && !elementRating) || (!elementReview && elementRating))  {
-        // console.log(element.level2);
-        //   alert("please enter all values");
-
+      if((!elementReview && !Number(elementRating)))  {
       }
       else{
-        let myresponse = {
-          EmployeeCode : Number(EmployeeId),
-          FirstLevelName : id,
-          SecondLevelName : element.Name ,
-          QA_Review : elementReview,
-          Own_Review : (element.Own_Review == ""? null : element.Own_Review),
-          QA_Rating : Number(elementRating),
-          Own_Rating : (element.Own_Rating == ""? null : element.Own_Rating)
+        if(Number(elementRating)<1 || Number(elementRating)>10 ){
+          alert("Rating should be in the range 1 to 10");
+          return 0;
         }
-        response.push(myresponse);
+        else{
+          let myresponse = {
+            EmployeeCode : Number(EmployeeId),
+            FirstLevelName : id,
+            SecondLevelName : element.Name ,
+            QA_Review : elementReview,
+            Own_Review : (element.Own_Review == ""? null : element.Own_Review),
+            QA_Rating : Number(elementRating),
+            Own_Rating : (element.Own_Rating == ""? null : element.Own_Rating)
+          }
+          response.push(myresponse);
+        }
       }
     }
   });

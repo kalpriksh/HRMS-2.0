@@ -19,9 +19,9 @@ $(document).ready(function(){
             ${roles.map(role => `
             <li>
 
-                <a href="#" onclick = "showlevel1(this.innerHTML)" id = ${role}>${role}</a>
+                <a href="#" onclick = "showlevel1(this.innerHTML)" id = ${role.split(" ").join("")}>${role}</a>
 
-                  <div id = ${role + "div"}></div>
+                  <div id = ${role.split(" ").join("") + "div"}></div>
 
             </li>
 
@@ -72,6 +72,7 @@ function showlevel1(id){
       // var mylevel1 = document.getElementById(Role + "div");
       // console.log(id+"div");
       var mylevel1 = document.getElementById(id+"div");
+      console.log(id+"div");
       // console.log(document.getElementById("div").innerHTML=="");
       if(mylevel1.innerHTML == ""){
 
