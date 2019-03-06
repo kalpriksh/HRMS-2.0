@@ -1,4 +1,4 @@
-
+/*to create the required tables, insert dummy data to them and display them*/
 create procedure RequiredTables
 as
 	create table Roles(
@@ -78,9 +78,6 @@ as
 	values ('Quality')
 
 
-
-
-
 	insert into RolesFirstLevel (RoleId,FirstLevelId)
 	values (1,1),(1,2),(1,3),(1,4),(1,5)
 	insert into RolesFirstLevel (RoleId,FirstLevelId)
@@ -99,16 +96,16 @@ as
 	(3,3,'Problem Solver for a differnt person',5,NULL,4 ,15)
 
 
-
 	select * from Roles
 	select * from RolesFirstLevel
 	select * from FirstLevel
 	select * from SecondLevel
 	select * from FirstSecondLevel
 	select * from EmployeeReviews
-	select * from FirstSecondLevel
 go
 
+
+/*
 	drop table Roles
 	drop table RolesFirstLevel
 	drop table FirstLevel
@@ -116,9 +113,6 @@ go
 	drop table FirstSecondLevel
 	drop table EmployeeReviews
 
-
-
 	drop procedure RequiredTables
 
-
-	select * from EmployeeReviews where Empcode=14;
+*/

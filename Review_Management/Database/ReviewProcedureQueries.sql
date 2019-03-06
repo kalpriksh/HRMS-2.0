@@ -1,3 +1,4 @@
+/*to get all first level names for particular role*/
 	create procedure RoleFirstLevelName @Role varchar(30)
 		as
 		select FirstLevel.Name
@@ -8,9 +9,10 @@
 		where Roles.Name=@Role
 	GO
 
+/*to get all second level names linked with particular first level parameter*/
 	create procedure RoleSecondLevelName @FirstLevelName varchar(30)
 		as
-		select Secon	dLevel.Name
+		select SecondLevel.Name
 		from FirstSecondLevel
 		inner join FirstLevel on FirstLevel.Id=FirstSecondLevel.FirstLevelId
 		inner join SecondLevel on SecondLevel.Id=FirstSecondLevel.SecondLevelId
@@ -18,6 +20,7 @@
 		where FirstLevel.Name=@FirstLevelName
 	go
 
+/*to enter the reviews if not present and update the review if already present*/
 	create procedure Review
 		@OwnReview varchar(255),
 		@OwnRating int,
@@ -49,6 +52,7 @@
 			end
 	go
 
+/*to display the stored reviews*/
 	create procedure GetReviews
 		@FirstLevel varchar(30),
 		@EmployeeId int
@@ -65,7 +69,7 @@
 
 
 
-
+/*
 drop procedure GetReviews
 drop procedure Review
 drop procedure RoleSecondLevelName
@@ -75,3 +79,4 @@ exec RoleFirstLevelName Dev
 exec RoleSecondLevelName Leadership
 exec Review 'workin',1,'workin',1,3,3,15
 exec Review 'null',1,'good performance',1,3,3,19
+*/
