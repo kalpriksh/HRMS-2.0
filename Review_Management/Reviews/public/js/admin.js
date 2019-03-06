@@ -1,41 +1,52 @@
 $(document).ready(function(){
 
     //  ajax call for roles
+    let roles = [];
+    $.ajax({
 
+      "async": true,
+      "crossDomain": true,
+      "url": "http://localhost:3333/user/admin/Roles",
+      "method": "GET",
 
-    roles = ["HR","Dev", "TeamLead"];
-    var myroles = document.getElementById("rolelabel");
-    const roleshtml = `
-      <ul id = "role">
-        ${roles.map(role => `
-        <li>
+      success: function(res){
+        res.forEach(function(element){
+          roles.push(element.Name);
+        });
+        var myroles = document.getElementById("rolelabel");
+        const roleshtml = `
+          <ul id = "role">
+            ${roles.map(role => `
+            <li>
 
-            <a href="#" onclick = "showlevel1(this.innerHTML)" id = ${role}>${role}</a>
+                <a href="#" onclick = "showlevel1(this.innerHTML)" id = ${role}>${role}</a>
 
-              <div id = ${role + "div"}></div>
+                  <div id = ${role + "div"}></div>
 
-        </li>
+            </li>
 
-      `).join('')}
-      <li>
+          `).join('')}
+          <li>
 
-      <div class="row">
-        <div class="col-sm-3">
-            <button type="submit" onclick = "Addbtn(this.id)" class="btn btn-primary" id = ${"Add_"+"btn"} data-toggle="modal" data-target="#exampleModal">Add New</button>
-        </div>
-      </div>
-      </li>
-      </ul>`
-    ;
-    myroles.innerHTML =roleshtml;
-    myroles.style.color = "white";
-    myroles.style.fontSize = "24px";
-    myroles.style.padding = "24px";
-    myroles.style.backgroundColor = "rgba(#212529, 0.91)";
-    myroles.style.marginTop = "15px";
-    myroles.style.borderRadius = "5px";
-    myroles.style.boxShadow = "10px 10px 10px rgba(65, 62, 102, 0.77)";
+          <div class="row">
+            <div class="col-sm-3">
+                <button type="submit" onclick = "Addbtn(this.innerHTML)" class="btn btn-primary" id = ${"Add_"+"btn"} data-toggle="modal" data-target="#exampleModal">Add New</button>
+            </div>
+          </div>
+          </li>
+          </ul>`
+        ;
+        myroles.innerHTML =roleshtml;
+        myroles.style.color = "white";
+        myroles.style.fontSize = "24px";
+        myroles.style.padding = "24px";
+        myroles.style.backgroundColor = "rgba(#212529, 0.91)";
+        myroles.style.marginTop = "15px";
+        myroles.style.borderRadius = "5px";
+        myroles.style.boxShadow = "10px 10px 10px rgba(65, 62, 102, 0.77)";
 
+}
+  });
 });
 
 function showlevel1(id){
@@ -56,7 +67,7 @@ function showlevel1(id){
 
 
       level1 = res;
-      console.log(level1);
+      // console.log(level1);
       // level1 = ["Development", "growth", "Skills", "blaa"];
       // var mylevel1 = document.getElementById(Role + "div");
       // console.log(id+"div");
@@ -100,7 +111,7 @@ function showlevel1(id){
 }
 
 function showlevel2(ide){
-  console.log(ide);
+  // console.log(ide);
   id = ide.split("_")[1];
   $.ajax({
     "async": true,
@@ -160,33 +171,35 @@ function modalADD(id){
   id = id.slice(0,-4);
   names = id.split("_");
   let myOBJ;
-  console.log(names);
-  console.log(names.length);
+  // console.log(names);
+  // console.log(names.length);
   if(names.length ==1){
+    console.log("add new role");
     document.getElementById("titlemodal").innerHTML = "Role";
     myOBJ = {
       Role : document.getElementById("modalText").value,
       FirstLevelName: null,
       SecondLevelName: null
     };
-    console.log(JSON.stringify(myOBJ));
-    // $.ajax({
-    //   "async": true,
-    //   "crossDomain": true,
-    //   "url": "http://localhost:3333/admin/parameters",
-    //   "method": "POST",
-    //   "headers": {
-    //     "Content-Type": "application/json",
-    //     },
-    //   "data":JSON.stringify(myOBJ),
-    //   "success": function(res){
-    //     level2 = res;
-    //   }
-    // });
+    // console.log(JSON.stringify(myOBJ));
+    $.ajax({
+      "async": true,
+      "crossDomain": true,
+      "url": "http://localhost:3333/admin/parameters",
+      "method": "POST",
+      "headers": {
+        "Content-Type": "application/json",
+        },
+      "data":JSON.stringify(myOBJ),
+      "success": function(res){
+        level2 = res;
+      }
+    });
 
   }
   else if(names.length == 2){
-    console.log("Add new level1");
+
+    // console.log("Add new level1");
     // case to add level1 parameter in role names[0]
     // console.log("Add in " + names[1]);
     document.getElementById("titlemodal").innerHTML = "Level1";
@@ -196,7 +209,7 @@ function modalADD(id){
       FirstLevelName: document.getElementById("modalText").value,
       SecondLevelName: null
     };
-    console.log(JSON.stringify(myOBJ));
+    // console.log(JSON.stringify(myOBJ));
     $.ajax({
       "async": true,
       "crossDomain": true,
@@ -214,7 +227,7 @@ function modalADD(id){
 
   else if(names.length == 3){
 
-      console.log("Add new level2");
+      // console.log("Add new level2");
     // console.log("Inside Add");
     // case to add level1 parameter in role names[0]
     // console.log("Add in " + names[1] +" and "+ names[2]);
@@ -224,6 +237,8 @@ function modalADD(id){
       FirstLevelName: names[2],
       SecondLevelName: document.getElementById("modalText").value
     };
+    debugger;
+    console.log(myOBJ);
     console.log(JSON.stringify(myOBJ));
     $.ajax({
       "async": true,
@@ -239,20 +254,6 @@ function modalADD(id){
       }
     });
   }
-  console.log(myOBJ);
-  postingdata(myOBJ);
-}
-function postingdata(obj){
+  // console.log(myOBJ);
 
-  // $.ajax({
-  //   "crossDomain": true,
-  //   "url": "",
-  //   "method": "POST",
-  //   "data":JSON.stringify(obj),
-  //   success: function(res){
-  //
-  //     console.log("Created");
-  //     console.log();
-  //   }
-  // });
 }

@@ -1,6 +1,7 @@
 const EmployeeId = 14;
+const Role = "Dev";
 $(document).ready(function(){
-    var Role = "Dev";
+
     $.ajax({
 
       "async": true,
@@ -46,7 +47,6 @@ function showlevel2(id){
     success: function(res){
       myOBJ = res;
 
-      console.log(myOBJ);
       enteredlevel2 = [];
       res.forEach(function(item){
         enteredlevel2.push(item.Name);
@@ -69,10 +69,30 @@ function showlevel2(id){
           });
           if(alllevel2.length == ""){ alllevel2.push(id)} ;
           alllevel2.forEach(function(item){
+            if(enteredlevel2.length==0){
+              toadd = {
+                Role : Role,
+                FirstLevelName: id,
+                SecondLevelName: item
+              };
+              $.ajax({
+                "async": true,
+                "crossDomain": true,
+                "url": "http://localhost:3333/admin/parameters",
+                "method": "POST",
+                "headers": {
+                  "Content-Type": "application/json",
+                  },
+                "data":JSON.stringify(toadd),
+                "success": function(res){
+                  level2 = res;
+              }
+              });
+            }
             if(enteredlevel2.includes(item)){
             }
             else{
-              // console.log("Not here: " +item);
+
               addobj = {
                 "Name": item,
                 "Own_Rating": "",
@@ -148,7 +168,7 @@ function showlevel2(id){
                         `:``}
 
                         <td scope="col">
-                        ${((obj.Own_Review == "")&&(obj.Own_Rating== "")) ?`  <input type="number" id=${"Rating"+((obj.Name).split(" ").join(""))} name="" value= ${obj.Own_Rating}>`:`${obj.Own_Rating}`
+                        ${((obj.Own_Review == "")&&(obj.Own_Rating== "")) ?`  <input type="number"  min="1" max="10" id=${"Rating"+((obj.Name).split(" ").join(""))} name="" value= ${obj.Own_Rating}>`:`${obj.Own_Rating}`
                         }</td>
 
                         ${qa_reviewed ? `
@@ -188,23 +208,18 @@ function submitlevel1(id){
   //ajax call for level2 parameters
 
   let response =[];
-  myOBJ.forEach(function(element){
 
-    if( (element.Own_Review) || (element.Own_Rating) ){
-        // To skip the parameters in which we dont have to update
-    }
+  myOBJ.forEach(function(element){
+    if( (element.Own_Review) || (element.Own_Rating) ){}
     else{
-      // console.log("level2");
-      // console.log(element.level2);
       elementReview = document.getElementById("Review"+(element.Name.split(" ").join(""))).value;
       elementRating = document.getElementById("Rating"+(element.Name.split(" ").join(""))).value;
 
       if((elementReview && !elementRating) || (!elementReview && elementRating))  {
-        // console.log(element.level2);
-        //   alert("please enter all values");
 
       }
       else{
+
         let myresponse = {
           EmployeeCode : Number(EmployeeId),
           FirstLevelName : id,
@@ -221,7 +236,12 @@ function submitlevel1(id){
   });
 
   response.forEach(function(myresponse){
+    // console.log(myresponse.Own_Rating);
     if(!(myresponse.Own_Review == "" && myresponse.Own_Rating == "" )){
+      if(elementRating<1 || elementRating>10){
+        alert("Rating should be in the range 1 to 10");
+        return 0;
+      }
       $.ajax({
         "async": true,
         "crossDomain": true,
