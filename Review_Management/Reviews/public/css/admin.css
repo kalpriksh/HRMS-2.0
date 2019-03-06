@@ -15,6 +15,29 @@
   background-color: bg-dark;
 }
 
+
+.color-role{
+  color: white !important;
+  background-color: rgba(#212529, 0.81) !important;
+  width: 98%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.each-role{
+  color: white;
+  border-radius:5px;
+}
+.each-role:hover{
+  background-color:#444e58;
+
+}
+
+.apply-shadow{
+  box-shadow: 2px,2px rgb(41, 47, 47) !important;
+  border-shadow:
+}
+
 #body ul{
   list-style-type: none;
   margin-left:  20px;

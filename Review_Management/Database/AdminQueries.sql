@@ -1,19 +1,5 @@
 /*for admin */
 
-create procedure AddParameter @Role varchar(30),@FirstLevelName varchar(30),@SecondLevelName varchar(30)
-	as
-	if not null
-
-
-create procedure CreateRole @Role varchar(30)
-	as
-	if not exists (select Id from Roles where Name=@Role)
-		begin
-		insert into Roles (Name) values (@Role)
-		end
-	go
-
-create procedure 
 
 create procedure AddParameter
 	@Role varchar(30),
@@ -39,9 +25,11 @@ as
 				exec CreateTillSecondLevel @Role,@FirstLevelName,@SecondLevelName
 				end
 			end
+	
 go
 
-
+exec AddParameter comeon,this,works
+drop procedure AddParameter
 
 declare @id int;
 exec @id = getRolesId 'Dev'
@@ -100,7 +88,7 @@ create procedure CreateTillSecondLevel
 as
 				if not exists (select Id from Roles where Name=@Role)
 				begin
-				insert into Roles (Name) values (@Roles)
+				insert into Roles (Name) values (@Role)
 				end
 				
 				if not exists (select Id from FirstLevel where Name=@FirstLevelName)
@@ -118,7 +106,7 @@ as
 				declare @z int;
 				exec @x = getRolesId @Role; 
 				exec @y = getFirstLevelId @FirstLevelName;
-				exec @y = getFirstLevelId @SecondLevelName;
+				exec @z = getSecondLevelId @SecondLevelName;
 				insert into RolesFirstLevel (RoleId,FirstLevelId)
 				values (@x,@y)
 				insert into FirstSecondLevel (FirstLevelId,SecondLevelId)
@@ -126,7 +114,9 @@ as
 go
 
 drop procedure CreateTillSecondLevel
-exec AddParameter 'Intern','Skills','Java'
+exec CreateTillSecondLevel 'Cat','sound','purr'
+
+
 
 
 

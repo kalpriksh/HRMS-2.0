@@ -1,6 +1,6 @@
 /*to get all first level names for particular role*/
 	create procedure RoleFirstLevelName @Role varchar(30)
-		as
+	as
 		select FirstLevel.Name
 		from ProjectRoles
 		inner join RolesFirstLevel on ProjectRoles.Id=RolesFirstLevel.RoleId
@@ -8,8 +8,12 @@
 
 		where ProjectRoles.Name=@Role
 	GO
+<<<<<<< HEAD
 
 /*to get all second level names linked with particular first level parameter*/
+=======
+		
+>>>>>>> 1363fb49b3c258f3c89a318716c2e291416caa85
 	create procedure RoleSecondLevelName @FirstLevelName varchar(30)
 		as
 		select SecondLevel.Name
@@ -26,13 +30,18 @@
 		@OwnRating int,
 		@QAReview varchar(255),
 		@QARating int,
-		@FirstLevel	int,
-		@SecondLevel int,
+		@FirstLevel	varchar(30),
+		@SecondLevel varchar(30),
 		@EmployeeCode int
 	as
-		if not exists (select * from EmployeeReviews where Empcode=@EmployeeCode and FirstLevelId=@FirstLevel and SecondLevelId=@SecondLevel)
+				declare @x int;
+				declare @y int;
+				exec @x = getSecondLevelId @SecondLevel; 
+				exec @y = getFirstLevelId @FirstLevel;
+
+		if not exists (select * from EmployeeReviews where Empcode=@EmployeeCode and FirstLevelId=@y and SecondLevelId=@x)
 			begin
-				insert into EmployeeReviews values (@FirstLevel,@SecondLevel,@OwnReview,@OwnRating,@QAReview,@QARating,@EmployeeCode)
+				insert into EmployeeReviews values (@y,@x,@OwnReview,@OwnRating,@QAReview,@QARating,@EmployeeCode)
 			end
 		else
 			begin
@@ -46,18 +55,20 @@
 				where
 				Empcode=@EmployeeCode
 				and
-				FirstLevelId=@FirstLevel
+				FirstLevelId=@y
 				and
-				SecondLevelId=@SecondLevel
+				SecondLevelId=@x
 			end
 	go
+	drop procedure Review
+	exec Review null,55,null,55,'Leadership','Problem Solving',15
 
 /*to display the stored reviews*/
 	create procedure GetReviews
 		@FirstLevel varchar(30),
 		@EmployeeId int
 	as
-		select SecondLevel.Name,Own_Review,Own_Rating,QA_Review,QA_Rating
+		select SecondLevel.Name,Own_Review,Own_Rating,QA_Review,QA_Rating 
 		from EmployeeReviews
 		inner join SecondLevel on SecondLevel.Id=EmployeeReviews.SecondLevelId
 		inner join FirstLevel on FirstLevel.Id=EmployeeReviews.FirstLevelId
@@ -77,6 +88,10 @@ drop procedure RoleFirstLevelName
 
 exec RoleFirstLevelName Dev
 exec RoleSecondLevelName Leadership
-exec Review 'workin',1,'workin',1,3,3,15
+exec Review 'workin',1,,1,3,3,15
 exec Review 'null',1,'good performance',1,3,3,19
+<<<<<<< HEAD
 */
+=======
+exec GetReviews 'Leadership',14
+>>>>>>> 1363fb49b3c258f3c89a318716c2e291416caa85
