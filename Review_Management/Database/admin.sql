@@ -4,9 +4,11 @@ create procedure getRoleId @Name varchar(30)
 as
 begin
 	declare @RoleId int 
-	select @RoleId= Id from Roles where Name=@Name
+	select @RoleId= Id from ProjectRoles where Name=@Name
 	return @RoleId
 end
+go
+
 create procedure getLevel1Id @Name varchar(30)
 as
 begin
@@ -14,6 +16,8 @@ begin
 	select @getLevel1Id= Id from FirstLevel where Name=@Name
 	return @getLevel1Id
 end
+go
+
 create procedure getLevel2Id @Name varchar(30)
 as
 begin
@@ -21,14 +25,15 @@ begin
 	select @getLevel2Id= Id from SecondLevel where Name=@Name
 	return @getLevel2Id
 end
+go
 
 
 /*To create new role if not exists*/
 create procedure NewRole @Role varchar(20)
 as
-	if not exists ( select * from Roles where Name=@Role )
+	if not exists ( select * from ProjectRoles where Name=@Role )
 		begin
-		insert into Roles values (@Role)
+		insert into ProjectRoles values (@Role)
 	end
 go
 exec NewRole QA;
@@ -71,7 +76,7 @@ as
 	end		
 go
 
-drop procedure mapRoleFirstLevel
+
 exec mapRoleFirstLevel Dev, Effectiveness
 
 
@@ -97,3 +102,21 @@ go
 exec proc1 'HR','Delivery','zzy'
 drop procedure proc1
 
+/*to get all the roles present in database*/
+create procedure GetAllRoles
+as
+begin
+	Select Name from ProjectRoles
+end
+exec GetAllRoles
+
+/*to drop all procedures*/
+drop procedure GetAllRoles
+drop procedure proc1
+drop procedure mapRoleFirstLevel
+drop procedure NewLv2Parameter
+drop procedure NewLv1Parameter
+drop procedure NewRole
+drop procedure getRoleId
+drop procedure getLevel1Id
+drop procedure getLevel2Id

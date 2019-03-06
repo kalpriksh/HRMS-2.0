@@ -133,24 +133,22 @@ app.post('/user/employee/single-review',function(req,res){
 //   }
 
 
-
-
-app.get('/',  function(req,res){
+app.get('/admin',  function(req,res){
   sql.connect(sqlConfig,function(){
     var request = new sql.Request();
-    console.log(req.body.Empcode);
-    request.query("EXEC RoleFirstLevelName Dev;", function (err,recordset){
+    console.log("Helloooo");
+    // console.log(req.body.Empcode);
+    request.query("EXEC GetAllRoles", function (err,recordset){
       if(err)
       console.log(err);
       else {
-        console.log(recordset.recordset);
+        console.log(recordset);
         res.send(recordset.recordset);
       }
       sql.close();
     });
   });
 });
-
 
 app.post('/admin/role',function(req,res){
   sql.connect(sqlConfig,function(){
@@ -208,7 +206,6 @@ app.post('/admin/role/level1-parameters/level2-parameters',function(req,res){
     });
   });
 });
-
 
 
 var server = app.listen(PORT, function () {

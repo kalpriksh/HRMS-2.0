@@ -2,11 +2,11 @@
 	create procedure RoleFirstLevelName @Role varchar(30)
 		as
 		select FirstLevel.Name
-		from Roles
-		inner join RolesFirstLevel on Roles.Id=RolesFirstLevel.RoleId
+		from ProjectRoles
+		inner join RolesFirstLevel on ProjectRoles.Id=RolesFirstLevel.RoleId
 		inner join FirstLevel on FirstLevel.Id=RolesfirstLevel.FirstLevelId
 
-		where Roles.Name=@Role
+		where ProjectRoles.Name=@Role
 	GO
 
 /*to get all second level names linked with particular first level parameter*/
