@@ -13,6 +13,7 @@ $(document).ready(function(){
         });
         var myroles = document.getElementById("rolelabel");
         const roleshtml = `
+          <h3 class="text-center"> Select a Role </h3>
           <ul id = "role">
             ${roles.map(role => `
             <li><a  onclick = "showlevel1(this.id)" id = ${role}>${role}</a>
@@ -24,7 +25,7 @@ $(document).ready(function(){
                 <button type="submit" onclick = "Addbtn(this.innerHTML)" class="btn btn-primary" id = ${"Add_"+"btn"} data-toggle="modal" data-target="#exampleModal">Add New</button>
               </div></div></li></ul>`
         ;
-        myroles.innerHTML =roleshtml;
+        myroles.innerHTML = roleshtml;
         myroles.style.color = "white";
         myroles.style.fontSize = "24px";
         myroles.style.padding = "24px";
@@ -56,6 +57,8 @@ function showlevel1(id){
       console.log(id+"div");
       if(mylevel1.innerHTML == ""){
         const level1html = `
+          <br>
+          <h3 class="text-center"> Level 1 parameters </h3>
           <ul id = "llevel1">
             ${level1.map(level => `
             <li><a  onclick = "showlevel2(this.id)" id = ${id+"_"+level.Name}> ${level.Name} </a>
@@ -102,6 +105,8 @@ function showlevel2(ide){
       var mylevel2 = document.getElementById(ide + "div");
       if(mylevel2.innerHTML == ""){
         const level2html = `
+          <br>
+          <h3 class="text-center"> Level 2 parameters </h3>
           <ul id = "level2">
             ${level2.map(level => `
             <li>

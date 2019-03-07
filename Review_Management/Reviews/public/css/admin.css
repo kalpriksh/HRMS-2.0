@@ -71,3 +71,6 @@ li{
   font-weight: bold;
   text-decoration: underline;
 }
+#body{
+  margin: 30px; 
+}

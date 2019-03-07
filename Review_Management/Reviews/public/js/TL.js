@@ -16,9 +16,11 @@ $(document).ready(function(){
         level1 = res;
         var mylevel1 = document.getElementById("Level1_list");
         const level1html = `
+          <br>
+          <h3 class="text-center"> Select a Parameter </h3>
           <ul>
             ${level1.map(level => `
-            <li><a href="#" id = ${ level.Name} onclick = "showlevel2(this.id)" > ${level.Name } </a>
+            <li><a href="#" id = ${ level.Name} onclick = "showlevel2(this.id)" >${level.Name}+</a>
             <div id = ${level.Name + "div"}></div>
             </li>
           `).join('')}
@@ -30,86 +32,88 @@ $(document).ready(function(){
 });
 
 function showlevel2(id){
-  myreq = {
-	FirstLevelName:id,
-	EmployeeCode:EmployeeId
-  };
+  let title = (document.getElementById(id).innerHTML).slice(0,-1);
+  let mylevel2 = document.getElementById(id+"div");
 
-  $.ajax({
-    "async": true,
-    "crossDomain": true,
-    "url": "http://localhost:3333/user/employee/single-review",
-    "method": "POST",
-    "headers": {
-      "Content-Type": "application/json",
-      },
-    "data":JSON.stringify(myreq),
-    success: function(res){
-      myOBJ = res;
-      console.log(res);
-      enteredlevel2 = [];
-      res.forEach(function(item){
-      enteredlevel2.push(item.Name);
-      });
-      // console.log(enteredlevel2);
+  if(mylevel2.innerHTML == ""){
+    document.getElementById(id).innerHTML = title+"-";
+    myreq = {
+  	FirstLevelName:id,
+  	EmployeeCode:EmployeeId
+    };
 
-      $.ajax({
-        "async": true,
-        "crossDomain": true,
-        "url": "http://localhost:3333/user/employee/sub-parameters",
-        "method": "POST",
-        "headers": {
-          "Content-Type": "application/json",
-          },
-        "data":JSON.stringify({FirstLevelName:id}),
-        "success": function(res){
-          alllevel2 = [];
-          res.forEach(function(item){
-            alllevel2.push(item.Name);
-          });
-          if(alllevel2.length == 0)
-          {
-            alllevel2.push(id);
-            toadd = {
-              Role : Role,
-              FirstLevelName: id,
-              SecondLevelName: id
-            };
-            console.log(JSON.stringify(toadd));
-            $.ajax({
-              "async": true,
-              "crossDomain": true,
-              "url": "http://localhost:3333/admin/parameters",
-              "method": "POST",
-              "headers": {
-                "Content-Type": "application/json",
-                },
-              "data":JSON.stringify(toadd),
-              "success": function(res){
-                level2 = res;
+    $.ajax({
+      "async": true,
+      "crossDomain": true,
+      "url": "http://localhost:3333/user/employee/single-review",
+      "method": "POST",
+      "headers": {
+        "Content-Type": "application/json",
+        },
+      "data":JSON.stringify(myreq),
+      success: function(res){
+        myOBJ = res;
+        console.log(res);
+        enteredlevel2 = [];
+        res.forEach(function(item){
+        enteredlevel2.push(item.Name);
+        });
+        // console.log(enteredlevel2);
+
+        $.ajax({
+          "async": true,
+          "crossDomain": true,
+          "url": "http://localhost:3333/user/employee/sub-parameters",
+          "method": "POST",
+          "headers": {
+            "Content-Type": "application/json",
+            },
+          "data":JSON.stringify({FirstLevelName:id}),
+          "success": function(res){
+            alllevel2 = [];
+            res.forEach(function(item){
+              alllevel2.push(item.Name);
+            });
+            if(alllevel2.length == 0)
+            {
+              alllevel2.push(id);
+              toadd = {
+                Role : Role,
+                FirstLevelName: id,
+                SecondLevelName: id
+              };
+              console.log(JSON.stringify(toadd));
+              $.ajax({
+                "async": true,
+                "crossDomain": true,
+                "url": "http://localhost:3333/admin/parameters",
+                "method": "POST",
+                "headers": {
+                  "Content-Type": "application/json",
+                  },
+                "data":JSON.stringify(toadd),
+                "success": function(res){
+                  level2 = res;
+                }
+              });
+            }
+
+            alllevel2.forEach(function(item){
+
+              // if(enteredlevel2.length==0){}
+              if(enteredlevel2.includes(item)){
+              }
+              else{
+                addobj = {
+                  "Name": item,
+                  "Own_Rating": "",
+                  "Own_Review": "",
+                  "QA_Rating": "",
+                  "QA_Review": ""
+                }
+                myOBJ.push(addobj);
               }
             });
-          }
-
-          alllevel2.forEach(function(item){
-
-            // if(enteredlevel2.length==0){}
-            if(enteredlevel2.includes(item)){
-            }
-            else{
-              addobj = {
-                "Name": item,
-                "Own_Rating": "",
-                "Own_Review": "",
-                "QA_Rating": "",
-                "QA_Review": ""
-              }
-              myOBJ.push(addobj);
-            }
-          });
-          // console.log(myOBJ);
-          var mylevel2 = document.getElementById(id+"div");
-          if(mylevel2.innerHTML == ""){
             var qa_reviewed = false;
 
             myOBJ.forEach(function(element){
@@ -182,11 +186,8 @@ function showlevel2(id){
                         `:``}
                         </tr>
                 `).join('')}
-
-
             </table>
-            <p id="tnc">    * Rating is must </p>
-            <br>
+            <p class="tnc text-danger"> * Rating is must </p>
             <button id = ${id} onclick = "submitlevel1(this.id)" class = "btn btn-primary btn-lg float-right">SUBMIT</button>
             </div>
             `;
@@ -197,16 +198,17 @@ function showlevel2(id){
             (mylevel2.parentNode).style.padding = "20px";
             mylevel2.innerHTML = table_headings;
           }
-          else{
-            mylevel2.innerHTML = "";
-            (mylevel2.parentNode).style.border = "0";
-            (mylevel2.parentNode).style.padding = "0";
-            // mylevel2.innerHTML = table_headings;
-          }
-        }
-      });
-    }
-  });
+        });
+      }
+    });
+  }
+  else{
+    document.getElementById(id).innerHTML = title+"+";
+    mylevel2.innerHTML = "";
+    (mylevel2.parentNode).style.border = "0";
+    (mylevel2.parentNode).style.padding = "0";
+    // mylevel2.innerHTML = table_headings;
+  }
 }
 
 function submitlevel1(id){

@@ -23,20 +23,19 @@ $(document).ready(function(){
 
   const table_headings = `
   <br>
-  <h3> Select and employee to review </h3>
+  <h3> Select an Employee to Review </h3>
   <div class = " table-responsive">
-  <table id = "employee_table" class = "table table-hover table-bordered table-striped">
+  <table id = "employee_table" class = "table table-bordered">
+    <thead  class = "thead-light">
     <tr>
-      <th scope="col">
-          <p>  Name </p>
+      <th scope="col">Name
       </th>
-      <th scope="col">
-          <p>  Employee Code</p>
+      <th scope="col">Employee Code
       </th>
-      <th scope="col">
-          <p> Role</p>
+      <th scope="col">Role
       </th>
     </tr>
+    </thead>
     ${employees.map(employee => `
           <tr>
             <td scope="col"> <a href = "#" id = ${employee.EmployeeId} onclick = "showLevel1(this.id,this.innerHTML)">${employee.name}</a></td>
@@ -62,12 +61,12 @@ function showLevel1(id,name){
   $("#employee_list").hide();
   // document.getElementById("projectNamehtml").innerHTML = employee.project;
   if(String(id).length == 1){
-    document.getElementById("EmployeeIdhtml").innerHTML = "CYG00"+id;
+    document.getElementById("EmployeeIdhtml").innerHTML = "Employee Code:&nbsp&nbsp&nbsp&nbsp CYG00"+id;
   }
   else if(String(id).length == 2){
-    document.getElementById("EmployeeIdhtml").innerHTML = "CYG0"+id;
+    document.getElementById("EmployeeIdhtml").innerHTML = "Employee Code:&nbsp&nbsp&nbsp&nbsp CYG0"+id;
   }
-  document.getElementById("Namehtml").innerHTML = name;
+  document.getElementById("Namehtml").innerHTML = "Name:&nbsp&nbsp&nbsp&nbsp"+name;
 
   $.ajax({
 
@@ -83,9 +82,10 @@ function showLevel1(id,name){
       level1 = res;
       var mylevel1 = document.getElementById("Level1_list");
       const level1html = `
+        <h3 class="text-center"> Select a Parameter </h3>
         <ul>
           ${level1.map(level => `
-          <li><a href="#" id = ${ level.Name} onclick = "showlevel2(this.id)" > ${level.Name } </a>
+          <li><a  id = ${ level.Name} onclick = "showlevel2(this.id)" >${level.Name}+</a>
           <div id = ${level.Name + "div"}></div>
           </li>
         `).join('')}
@@ -97,169 +97,167 @@ function showLevel1(id,name){
 }
 
 function showlevel2(id){
-    //ajax call for level2 parameters
-  console.log("id:" + id);
-  myreq = {
-	FirstLevelName:id,
-	EmployeeCode:EmployeeId
-  };
 
-  $.ajax({
-    "async": true,
-    "crossDomain": true,
-    "url": "http://localhost:3333/user/employee/single-review",
-    "method": "POST",
-    "headers": {
-      "Content-Type": "application/json",
-      },
-    "data":JSON.stringify(myreq),
-    success: function(res){
-      myOBJ = res;
+  let title = (document.getElementById(id).innerHTML).slice(0,-1);
+  let mylevel2 = document.getElementById(id+"div");
 
-      console.log(myOBJ);
-      enteredlevel2 = [];
-      res.forEach(function(item){
-        enteredlevel2.push(item.Name);
-      });
-      // console.log(enteredlevel2);
+  if(mylevel2.innerHTML == ""){
+    document.getElementById(id).innerHTML = title+"-";
+    myreq = {
+    FirstLevelName:id,
+    EmployeeCode:EmployeeId
+    };
 
-      $.ajax({
-        "async": true,
-        "crossDomain": true,
-        "url": "http://localhost:3333/user/employee/sub-parameters",
-        "method": "POST",
-        "headers": {
-          "Content-Type": "application/json",
-          },
-        "data":JSON.stringify({FirstLevelName:id}),
-        "success": function(res){
-          alllevel2 = [];
-          res.forEach(function(item){
-            alllevel2.push(item.Name);
-          });
-          if(alllevel2.length == ""){ alllevel2.push(id)} ;
-          alllevel2.forEach(function(item){
-            if(enteredlevel2.includes(item)){
-            }
-            else{
-              // console.log("Not here: " +item);
-              addobj = {
-                "Name": item,
-                "Own_Rating": "",
-                "Own_Review": "",
-                "QA_Rating": "",
-                "QA_Review": ""
-              }
-              myOBJ.push(addobj);
-            }
-          });
-          // console.log(myOBJ);
-          var mylevel2 = document.getElementById(id+"div");
-          if(mylevel2.innerHTML == ""){
-            var self_reviewed = false;
+    $.ajax({
+      "async": true,
+      "crossDomain": true,
+      "url": "http://localhost:3333/user/employee/single-review",
+      "method": "POST",
+      "headers": {
+        "Content-Type": "application/json",
+        },
+      "data":JSON.stringify(myreq),
+      success: function(res){
+        myOBJ = res;
 
-            myOBJ.forEach(function(element){
-              if(element.Own_Review == "null"){
-                element.Own_Review = "";
-              }
-              if(element.Own_Rating == null){
-                element.Own_Rating = "";
-              }
-              if(element.QA_Review == "null"){
-                element.QA_Review = "";
-              }
-              if(element.QA_Rating == null){
-                element.QA_Rating = "";
-              }
-              if( (element.Own_Review) || (element.Own_Rating) ){
-                self_reviewed = true;
-              }
-              // else if( (element.QA_Review == "null") && (element.QA_Rating==null) ){
-              //     qa_reviewed = false;
-              // }
+        console.log(myOBJ);
+        enteredlevel2 = [];
+        res.forEach(function(item){
+          enteredlevel2.push(item.Name);
+        });
+        // console.log(enteredlevel2);
 
+        $.ajax({
+          "async": true,
+          "crossDomain": true,
+          "url": "http://localhost:3333/user/employee/sub-parameters",
+          "method": "POST",
+          "headers": {
+            "Content-Type": "application/json",
+            },
+          "data":JSON.stringify({FirstLevelName:id}),
+          "success": function(res){
+            alllevel2 = [];
+            res.forEach(function(item){
+              alllevel2.push(item.Name);
             });
+            if(alllevel2.length == ""){ alllevel2.push(id)} ;
+            alllevel2.forEach(function(item){
+              if(enteredlevel2.includes(item)){
+              }
+              else{
+                // console.log("Not here: " +item);
+                addobj = {
+                  "Name": item,
+                  "Own_Rating": "",
+                  "Own_Review": "",
+                  "QA_Rating": "",
+                  "QA_Review": ""
+                }
+                myOBJ.push(addobj);
+              }
+            });
+            // console.log(myOBJ);
+              var self_reviewed = false;
 
-            const table_headings = `
-            <div class = " table-responsive">
-            <table class = "table table-hover table-bordered table-striped" id = "review_table">
-              <thead>
-              <tr>
-                <th scope="col">
-                    <p>  Parameters </p>
-                </th>
-                ${self_reviewed ? `
-                <th scope="col">
-                    <p>  Self Review </p>
-                </th>
-                `:``}
-                <th scope="col">
-                    <p>  QA Review </p>
-                </th>
-                ${self_reviewed ? `
-                <th scope="col">
-                    <p>  Self Rating </p>
-                </th>
-                `:``}
-                <th scope="col">
-                    <p>  QA Rating </p>
-                </th>
+              myOBJ.forEach(function(element){
+                if(element.Own_Review == "null"){
+                  element.Own_Review = "";
+                }
+                if(element.Own_Rating == null){
+                  element.Own_Rating = "";
+                }
+                if(element.QA_Review == "null"){
+                  element.QA_Review = "";
+                }
+                if(element.QA_Rating == null){
+                  element.QA_Rating = "";
+                }
+                if( (element.Own_Review) || (element.Own_Rating) ){
+                  self_reviewed = true;
+                }
 
-              </tr>
-              </thead>
-              <tbody>
+              });
 
-                ${myOBJ.map(obj => `
-                      <tr>
-                      <td scope="col">${obj.Name}</td>
+              const table_headings = `
+              <div class = " table-responsive">
+              <table class = "table table-hover table-bordered table-striped" id = "review_table">
+                <thead>
+                <tr>
+                  <th scope="col">
+                      <p>  Parameters </p>
+                  </th>
+                  ${self_reviewed ? `
+                  <th scope="col">
+                      <p>  Self Review </p>
+                  </th>
+                  `:``}
+                  <th scope="col">
+                      <p>  QA Review </p>
+                  </th>
+                  ${self_reviewed ? `
+                  <th scope="col">
+                      <p>  Self Rating* </p>
+                      <p> (1-10) </p>
+                  </th>
+                  `:``}
+                  <th scope="col">
+                      <p>  QA Rating </p>
+                      <p> (1-10) </p>
+                  </th>
 
-                      ${self_reviewed ? `
-                      <td scope="col">
-                          ${obj.Own_Review}
-                      </td>
-                      `:``}
+                </tr>
+                </thead>
+                <tbody>
 
-                      <td scope="col">
-                      ${((obj.QA_Review == "")&&(obj.QA_Rating== "")) ?`<textarea onkeydown = "textValidation()" maxlength="255" id=${"Review"+((obj.Name).split(" ").join(""))} name="QA_Review"></textarea>`:`${obj.QA_Review}`
-                      }
-                      </td>
+                  ${myOBJ.map(obj => `
+                        <tr>
+                        <td scope="col">${obj.Name}</td>
 
+                        ${self_reviewed ? `
+                        <td scope="col">
+                            ${obj.Own_Review}
+                        </td>
+                        `:``}
 
-                      ${self_reviewed ? `
-                      <td scope="col">
-                        ${obj.Own_Rating}
-                      </td>
-                      `:``}
-
-                      <td scope="col">
-                      ${((obj.QA_Review == "")&&(obj.QA_Rating== "")) ?`  <input onkeydown = "numValidation()" min="1" max="10"  type="number" id=${"Rating"+((obj.Name).split(" ").join(""))} name="" value= ${obj.QA_Rating}>`:`${obj.QA_Rating}`
-                      }
-                      </td>
-                    </tr>
-                `).join('')}
-            </table>
-            <p class="tnc"> * Rating is must </p>
-            <p class="tnc"> * Rating should be in the range 1 to 10</p>
-            <button id = ${id} onclick = "submitlevel1(this.id)" class = "btn btn-primary btn-lg float-right">SUBMIT</button>
-            </div>
-            `;
+                        <td scope="col">
+                        ${((obj.QA_Review == "")&&(obj.QA_Rating== "")) ?`<textarea onkeydown = "textValidation()" maxlength="255" id=${"Review"+((obj.Name).split(" ").join(""))} name="QA_Review"></textarea>`:`${obj.QA_Review}`
+                        }
+                        </td>
 
 
-            // (mylevel2.parentNode).setAttribute("class","border border-primary");
-            (mylevel2.parentNode).style.border = "2px solid blue";
-            (mylevel2.parentNode).style.padding = "20px";
-            mylevel2.innerHTML = table_headings;
-          }
-          else{
-            mylevel2.innerHTML = "";
-            (mylevel2.parentNode).style.border = "0";
-            (mylevel2.parentNode).style.padding = "0";
-            // mylevel2.innerHTML = table_headings;
-          }
+                        ${self_reviewed ? `
+                        <td scope="col">
+                          ${obj.Own_Rating}
+                        </td>
+                        `:``}
+
+                        <td scope="col">
+                        ${((obj.QA_Review == "")&&(obj.QA_Rating== "")) ?`  <input onkeydown = "numValidation()" min="1" max="10"  type="number" id=${"Rating"+((obj.Name).split(" ").join(""))} name="" value= ${obj.QA_Rating}>`:`${obj.QA_Rating}`
+                        }
+                        </td>
+                      </tr>
+                  `).join('')}
+              </table>
+              <p class="tnc text-danger"> * Rating is must </p>
+              <button id = ${id} onclick = "submitlevel1(this.id)" class = "btn btn-primary btn-lg float-right">SUBMIT</button>
+              </div>
+              `;
+              (mylevel2.parentNode).style.border = "2px solid blue";
+              (mylevel2.parentNode).style.padding = "20px";
+              mylevel2.innerHTML = table_headings;
+            }
+          });
         }
       });
-    }
-  });
+  }
+  else{
+    document.getElementById(id).innerHTML = title+"+";
+    mylevel2.innerHTML = "";
+    (mylevel2.parentNode).style.border = "0";
+    (mylevel2.parentNode).style.padding = "0";
+    // mylevel2.innerHTML = table_headings;
+  }
 }
 
 function submitlevel1(id){
@@ -281,7 +279,7 @@ function submitlevel1(id){
         if(Number(elementRating)<1 || Number(elementRating)>10 ){
           let addhtml =
           `<div class="alert alert-danger alert-dismissible fade show" role="alert">
-            Rating should be in the range <strong>1 to 10</strong>
+            Rating must be in the range <strong>1 to 10</strong>
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>

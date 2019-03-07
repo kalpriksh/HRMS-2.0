@@ -1,6 +1,6 @@
 console.log("Starting Reviews JS");
 const PORT = 3333;
-
+const path = require('path');
 const sql = require('mssql');
 const lodash = require('lodash');//not used after this
 const express = require('express');
@@ -219,6 +219,12 @@ app.post('/admin/role/level1-parameters',function(req,res){
     });
   });
 });
+
+
+// app.get('/admin', function(req,res){
+//   res.sendfile('public/views/admin.html');
+// });
+
 
 app.post('/admin/role/level1-parameters/level2-parameters',function(req,res){
   sql.connect(sqlConfig,function(){

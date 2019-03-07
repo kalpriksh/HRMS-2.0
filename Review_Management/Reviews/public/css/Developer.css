@@ -77,6 +77,11 @@ input[type=number]{
   background-color: #007bff;
 }
 .reviewcontainer a{
+  color: #5C9BD1 !important;
   font-size: 24px;
-
+  cursor: pointer;
+}
+h3{
+  color: #5C9BD1 ;
+  margin: auto;
 }

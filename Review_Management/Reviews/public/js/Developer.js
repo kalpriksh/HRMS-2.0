@@ -1,6 +1,6 @@
 const EmployeeId = 1;
 const Role = "Developers";
-let projectName = "Brinks";
+const projectName = "Brinks";
 $(document).ready(function(){
 
     if(EmployeeId == 1){
@@ -24,9 +24,11 @@ $(document).ready(function(){
         console.log(res);
         var mylevel1 = document.getElementById("Level1_list");
         const level1html = `
+          <br>
+          <h3 class="text-center"> Select a Parameter </h3>
           <ul>
             ${level1.map(level => `
-            <li><a id = ${ level.Name} data-toggle="tooltip" data-placement="top" title="Click me!" onclick = "showlevel2(this.id)" > ${level.Name } </a>
+            <li><a id = ${level.Name} onclick = "showlevel2(this.id)" >${level.Name }+</a>
             <div id = ${level.Name + "div"}></div>
             </li>
           `).join('')}
@@ -38,86 +40,92 @@ $(document).ready(function(){
 });
 
 function showlevel2(id){
-  myreq = {
-	FirstLevelName:id,
-	EmployeeCode:EmployeeId
-  };
 
-  $.ajax({
-    "async": true,
-    "crossDomain": true,
-    "url": "http://localhost:3333/user/employee/single-review",
-    "method": "POST",
-    "headers": {
-      "Content-Type": "application/json",
-    },
-    "data":JSON.stringify(myreq),
-    success: function(res){
-      myOBJ = res;
+  let title = (document.getElementById(id).innerHTML).slice(0,-1);
+  let mylevel2 = document.getElementById(id+"div");
 
-      enteredlevel2 = [];
-      res.forEach(function(item){
-      enteredlevel2.push(item.Name);
-      });
-      // console.log(enteredlevel2);
+  if(mylevel2.innerHTML == ""){
 
-      $.ajax({
-        "async": true,
-        "crossDomain": true,
-        "url": "http://localhost:3333/user/employee/sub-parameters",
-        "method": "POST",
-        "headers": {
-          "Content-Type": "application/json",
-          },
-        "data":JSON.stringify({FirstLevelName:id}),
-        "success": function(res){
-          alllevel2 = [];
-          res.forEach(function(item){
-            alllevel2.push(item.Name);
-          });
-          if(alllevel2.length == 0)
-          {
-            alllevel2.push(id);
-            toadd = {
-              Role : Role,
-              FirstLevelName: id,
-              SecondLevelName: id
-            };
-            console.log(JSON.stringify(toadd));
-            $.ajax({
-              "async": true,
-              "crossDomain": true,
-              "url": "http://localhost:3333/admin/parameters",
-              "method": "POST",
-              "headers": {
-                "Content-Type": "application/json",
-                },
-              "data":JSON.stringify(toadd),
-              "success": function(res){
-                level2 = res;
+    document.getElementById(id).innerHTML = title+"-";
+    myreq = {
+  	FirstLevelName:id,
+  	EmployeeCode:EmployeeId
+    };
+
+    $.ajax({
+      "async": true,
+      "crossDomain": true,
+      "url": "http://localhost:3333/user/employee/single-review",
+      "method": "POST",
+      "headers": {
+        "Content-Type": "application/json",
+      },
+      "data":JSON.stringify(myreq),
+      success: function(res){
+        myOBJ = res;
+
+        enteredlevel2 = [];
+        res.forEach(function(item){
+        enteredlevel2.push(item.Name);
+        });
+        // console.log(enteredlevel2);
+
+        $.ajax({
+          "async": true,
+          "crossDomain": true,
+          "url": "http://localhost:3333/user/employee/sub-parameters",
+          "method": "POST",
+          "headers": {
+            "Content-Type": "application/json",
+            },
+          "data":JSON.stringify({FirstLevelName:id}),
+          "success": function(res){
+            alllevel2 = [];
+            res.forEach(function(item){
+              alllevel2.push(item.Name);
+            });
+            if(alllevel2.length == 0)
+            {
+              alllevel2.push(id);
+              toadd = {
+                Role : Role,
+                FirstLevelName: id,
+                SecondLevelName: id
+              };
+              console.log(JSON.stringify(toadd));
+              $.ajax({
+                "async": true,
+                "crossDomain": true,
+                "url": "http://localhost:3333/admin/parameters",
+                "method": "POST",
+                "headers": {
+                  "Content-Type": "application/json",
+                  },
+                "data":JSON.stringify(toadd),
+                "success": function(res){
+                  level2 = res;
+                }
+              });
+            }
+
+            alllevel2.forEach(function(item){
+
+              // if(enteredlevel2.length==0){}
+              if(enteredlevel2.includes(item)){
+              }
+              else{
+                addobj = {
+                  "Name": item,
+                  "Own_Rating": "",
+                  "Own_Review": "",
+                  "QA_Rating": "",
+                  "QA_Review": ""
+                }
+                myOBJ.push(addobj);
               }
             });
-          }
-
-          alllevel2.forEach(function(item){
-
-            // if(enteredlevel2.length==0){}
-            if(enteredlevel2.includes(item)){
-            }
-            else{
-              addobj = {
-                "Name": item,
-                "Own_Rating": "",
-                "Own_Review": "",
-                "QA_Rating": "",
-                "QA_Review": ""
-              }
-              myOBJ.push(addobj);
-            }
-          });
-          // console.log(myOBJ);
-          var mylevel2 = document.getElementById(id+"div");
-          if(mylevel2.innerHTML == ""){
+            // console.log(myOBJ);
+            // if(mylevel2.innerHTML == ""){
             var qa_reviewed = false;
 
             myOBJ.forEach(function(element){
@@ -137,10 +145,6 @@ function showlevel2(id){
               if( (element.QA_Review) || (element.QA_Rating) ){
                   qa_reviewed = true;
               }
-              // else if( (element.QA_Review == "null") && (element.QA_Rating==null) ){
-              //     qa_reviewed = false;
-              // }
-
             });
 
             const table_headings = `
@@ -160,11 +164,13 @@ function showlevel2(id){
                 </th>
                 `:``}
                 <th scope="col">
-                    <p>  Self Rating </p>
+                    <p>  Self Rating* </p>
+                    <p> (1-10) </p>
                 </th>
                 ${qa_reviewed ? `
                 <th scope="col">
                     <p>  QA Rating </p>
+                    <p> (1-10) </p>
                 </th>
                 `: ``}
 
@@ -199,55 +205,43 @@ function showlevel2(id){
 
 
             </table>
-            <p class="tnc"> * Rating is must </p>
-            <p class="tnc"> * Rating should be in the range 1 to 10</p>
-
+            <p class="tnc text-danger"> * Rating is must </p>
             <button id = ${id} onclick = "submitlevel1(this.id)" class = "btn btn-primary btn-lg float-right">SUBMIT</button>
             </div>
             `;
-
-
-            // (mylevel2.parentNode).setAttribute("class","border border-primary");
-            (mylevel2.parentNode).style.border = "2px solid blue";
+            (mylevel2.parentNode).style.border = "2px solid #5C9BD1";
             (mylevel2.parentNode).style.padding = "20px";
             mylevel2.innerHTML = table_headings;
           }
-          else{
-            mylevel2.innerHTML = "";
-            (mylevel2.parentNode).style.border = "0";
-            (mylevel2.parentNode).style.padding = "0";
-            // mylevel2.innerHTML = table_headings;
-          }
-        }
-      });
-    }
-  });
+        });
+      }
+    });
+  }
+  else{
+    document.getElementById(id).innerHTML = title+"+";
+    mylevel2.innerHTML = "";
+    (mylevel2.parentNode).style.border = "0";
+    (mylevel2.parentNode).style.padding = "0";
+  }
 }
 
 function submitlevel1(id){
-  //ajax call for level2 parameters
-
   let response =[];
-
   myOBJ.forEach(function(element){
-
     if( (element.Own_Review) || (element.Own_Rating) ){}
     else{
 
       elementReview = document.getElementById("Review"+(element.Name.split(" ").join(""))).value;
       elementRating = document.getElementById("Rating"+(element.Name.split(" ").join(""))).value;
 
-
-      // if((elementReview && !elementRating) || (!elementReview && elementRating) || (!elementReview && !elementRating))  {
       if((!elementReview && !Number(elementRating)))  {
       }
       else{
         if( Number(elementRating)<1 || Number(elementRating)>10 ){
-          // alert("Rating should be in the range 1 to 10");
           console.log(elementRating);
           let addhtml =
           `<div class="alert alert-danger alert-dismissible fade show" role="alert">
-            Rating should be in the range <strong>1 to 10</strong>
+            Rating must be in the range <strong>1 to 10</strong>
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
@@ -259,7 +253,7 @@ function submitlevel1(id){
           let myresponse = {
             EmployeeCode : Number(EmployeeId),
             FirstLevelName : id,
-            SecondLevelName : element.Name ,
+            SecondLevelName : element.Name,
             Own_Review : elementReview,
             QA_Review : (element.QA_Review == ""? null : element.QA_Review),
             Own_Rating : Number(elementRating),
@@ -283,14 +277,11 @@ function submitlevel1(id){
           },
         "data":JSON.stringify(myresponse),
         "success": function(res){
-          // console.log(JSON.stringify(myresponse));
-          // console.log("Added");
         }
       });
     }
   });
 
-  // console.log(response);
   document.getElementById(id+"div").innerHTML = "";
   (document.getElementById(id+"div").parentNode).style.border = null;
   (document.getElementById(id+"div").parentNode).style.padding = null;
