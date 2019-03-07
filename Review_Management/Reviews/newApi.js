@@ -31,6 +31,25 @@ var sqlConfig = {
   // (/user/employee/sub-parameters)
   //   ->gives lvl 2 parameters
 
+app.use(express.static(path.join(__dirname+'public')));
+app.use(express.static(__dirname ));
+
+app.get('/admin', function(req,res){
+  res.sendfile('public/views/admin.html');
+});
+
+app.get('/employee/developer', function(req,res){
+  res.sendfile('public/views/developer.html');
+});
+
+app.get('/employee/teamLead', function(req,res){
+  res.sendfile('public/views/teamLead.html');
+});
+
+
+app.get('/employee/QA', function(req,res){
+  res.sendfile('public/views/teamLeadWrite.html');
+});
 
 
 app.post('/user/employee',function(req,res){
@@ -219,11 +238,6 @@ app.post('/admin/role/level1-parameters',function(req,res){
     });
   });
 });
-
-
-// app.get('/admin', function(req,res){
-//   res.sendfile('public/views/admin.html');
-// });
 
 
 app.post('/admin/role/level1-parameters/level2-parameters',function(req,res){
