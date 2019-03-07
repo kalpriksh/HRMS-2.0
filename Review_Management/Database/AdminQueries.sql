@@ -14,7 +14,7 @@ as
 
 go
 select * from ProjectRole
-
+getRolesId Developers
 
 drop procedure getRolesId
 
@@ -152,9 +152,34 @@ as
 
 go
 
+
 exec AddParameter comeon,this,works
 drop procedure AddParameter
 
 declare @id int;
 exec @id = getRolesId 'Dev'
 select @id
+
+
+declare @x int;
+declare @y int;
+			
+/*
+drop procedure getRolesId
+drop procedure getFirstLevelId
+drop procedure getSecondLevelId
+drop procedure CreateTillFirstLevel
+drop procedure CreateTillSecondLevel
+drop procedure AddParameter
+drop procedure RemoveRole
+*/
+/*
+drop procedure getRoleId
+drop procedure getLevel1Id
+drop procedure getLevel2Id
+drop procedure NewRole
+drop procedure NewLv1Parameter
+drop procedure mapRoleFirstLevel
+drop procedure proc1
+drop procedure GetAllRoles
+*/

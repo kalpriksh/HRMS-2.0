@@ -56,7 +56,15 @@
 				SecondLevelId=@x
 			end
 	go
-	drop procedure Review
+
+create procedure GetEmployeeDetails (@Empcode int , @Project varchar(30))
+as
+	if exists(select * from ProjectTeamDetails where EmployeeID=@Empcode) 
+	begin
+		 
+	end
+go
+
 	exec Review null,55,null,55,'Leadership','Problem Solving',15
 
 /*to display the stored reviews*/
@@ -73,6 +81,58 @@
 		and
 		Empcode=@EmployeeId
 	go
+
+
+/*link to employee table with review table*/
+Create PROCEDURE spEmployeesandRoles  @Projectid int
+AS 
+Begin
+	SELECT ProjectTeamDetails.ProjectID,Employee.EmployeeId, Employee.FirstName, Employee.LastName,Employee.Email,
+			 ProjectRole.Name,Projects.Name
+	FROM (((ProjectTeamDetails
+	INNER JOIN Employee ON ProjectTeamDetails.EmployeeID = Employee.EmployeeId)
+	INNER JOIN ProjectRole ON ProjectTeamDetails.RoleID = ProjectRole.Id)
+	Inner JOIN Projects ON ProjectTeamDetails.ProjectID=Projects.ProjectID)
+	WHERE ProjectTeamDetails.ProjectID = @Projectid and ProjectTeamDetails.isPrimary=1
+	Order by ProjectTeamDetails.RoleID
+End
+ 
+EXEC spEmployeesandRoles 1;
+EXEC spEmployeesandRoles 3;
+
+drop procedure spEmployeesandRoles
+
+/*to get Name of Employee and Designation on passing Empcode and primary project name */
+create procedure GetProjectId @ProjectName varchar(30)
+as
+	if exists(select * from Projects where Name=@ProjectName)
+	begin
+	declare @x int;
+	select @x=ProjectId from Projects where Name=@ProjectName
+	return @x
+	end
+go
+
+Alter PROCEDURE EmployeePrimaryProject  @Empcode int,@Projectname varchar(30)
+AS 
+	declare @x int;
+	exec @x = GetProjectId @ProjectName
+
+Begin
+	SELECT ProjectTeamDetails.ProjectID,Employee.EmployeeId, Employee.FirstName, Employee.LastName,Employee.Email,
+			 ProjectRole.Name as Role,Projects.Name as ProjectName
+	FROM ProjectTeamDetails
+	INNER JOIN Employee ON ProjectTeamDetails.EmployeeID = Employee.EmployeeId 
+	INNER JOIN ProjectRole ON ProjectTeamDetails.RoleID = ProjectRole.Id
+	Inner JOIN Projects ON ProjectTeamDetails.ProjectID=Projects.ProjectID
+	WHERE ProjectTeamDetails.ProjectID = @x and ProjectTeamDetails.isPrimary=1 and Employee.EmployeeId=@Empcode
+	Order by ProjectTeamDetails.RoleID
+End
+
+exec EmployeePrimaryProject 5,'Paw Tree'
+
+
+
 
 /*
 drop procedure GetReviews

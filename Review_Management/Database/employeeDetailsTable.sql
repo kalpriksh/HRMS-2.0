@@ -160,12 +160,13 @@ values(
 
 /*
 drop table Employee
-drop table ProjectRole
+drop table EmployeeReviews
+drop table FirstSecondLevel
+drop table RolesFirstLevel
+drop table FirstLevel
+drop table SecondLevel
 drop table Projects
 drop table ProjectTeamDetails
+drop table ProjectRole
 
-select * from Employee
-select * from ProjectRole
-select * from Projects
-select * from ProjectTeamDetails
 */

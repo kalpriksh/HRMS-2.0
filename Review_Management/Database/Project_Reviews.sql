@@ -30,8 +30,8 @@ as
 		QA_Rating int,
 		Empcode int,
 		Foreign Key(FirstLevelId) references FirstLevel(Id),
-		Foreign Key(SecondLevelId) references SecondLevel(Id)
-
+		Foreign Key(SecondLevelId) references SecondLevel(Id),
+		Foreign Key(Empcode) references Employee(EmployeeId)
 			)
 
 		create table FirstSecondLevel(
@@ -75,11 +75,11 @@ as
 	values (1,Null),(2,1),(2,3),(2,4),(3,2),(3,3),(3,4),(4,1),(4,5),(5,NULL)
 
 	insert into EmployeeReviews (FirstLevelId,SecondLevelId,Own_Review,Own_Rating,QA_Review,QA_Rating,Empcode)
-	values (3,3,'random Review',5,'one more random review',4 ,14),
-	(3,4,'Problem Solver',5,'one more Problem solverv review',4 ,14),
-	(4,1,'Problem Solver',5,'one more Problem solverv review',4 ,14),
-	(3,4,'Problem Solver for a differnt person',5,'one more Problem solver review fora different person',4 ,15),
-	(3,3,'Problem Solver for a differnt person',5,NULL,4 ,15)
+	values (3,3,'random Review',5,'one more random review',4 ,1),
+	(3,4,'Problem Solver',5,'one more Problem solverv review',4 ,1),
+	(4,1,'Problem Solver',5,'one more Problem solverv review',4 ,1),
+	(3,4,'Problem Solver for a differnt person',5,'one more Problem solver review fora different person',4 ,2),
+	(3,3,'Problem Solver for a differnt person',5,NULL,4 ,2)
 go
 
 /*to display all the tables*/
@@ -92,19 +92,15 @@ begin
 	select * from RolesFirstLevel
 	select * from FirstSecondLevel
 	select * from EmployeeReviews
+	select * from Employee
+	select * from Projects
+	select * from ProjectTeamDetails
 end
 go
 
 
 /*
-	drop table EmployeeReviews
-	drop table FirstSecondLevel
-	drop table RolesFirstLevel
-	drop table FirstLevel
-	drop table SecondLevel
 	
-	
-
 	drop procedure RequiredTables
 	drop procedure DisplayTableEntries
 

@@ -8,7 +8,7 @@ begin
 	return @RoleId
 end
 go
-
+exec getRoleId Developer
 create procedure getLevel1Id @Name varchar(30)
 as
 begin
@@ -110,13 +110,30 @@ begin
 end
 exec GetAllRoles
 
-/*to drop all procedures*/
-drop procedure GetAllRoles
-drop procedure proc1
-drop procedure mapRoleFirstLevel
-drop procedure NewLv2Parameter
-drop procedure NewLv1Parameter
-drop procedure NewRole
-drop procedure getRoleId
-drop procedure getLevel1Id
-drop procedure getLevel2Id
+
+/*to remove a role */
+
+create  procedure RemoveRole @Role varchar(50)
+as
+	declare @x int;
+	exec @x = getRolesId @Role;
+	/*if exists(select * from ProjectRole where Name=@Role)
+	begin
+		if exists(select * from RolesFirstLevel where RoleId=@x)
+			begin
+			if exists(select * from ProjectTeamDetails where RoleID=@x)*/
+				begin
+				delete from ProjectTeamDetails where RoleID=@x 
+				delete from  RolesFirstLevel where RoleId= @x
+				delete from ProjectRole where Name=@Role
+				end
+			/*end
+	end*/
+go
+
+
+drop procedure RemoveRole
+exec RemoveRole Cat;
+select * from ProjectRole
+select * from ProjectTeamDetails
+select * from RolesFirstLevel
