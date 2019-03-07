@@ -15,7 +15,7 @@
       <img src="../public/images/logo.png" class = "imgheader" alt="logo" />
      </div>
      <div class = "col-md-3 text-center profilename">
-       <h6>Taran Pal Singh</h6>
+       <h6>Ankit Khandelwal </h6>
      </div>
     </div>
   </div>
@@ -44,11 +44,11 @@
                <li class = "nav-item">
                    <a href = "#" class="nav-link" data-toggle="collapse" data-target="#projects">Project(s) </a>
                </li>
-               <li class="nav-item dropdown">
+               <li class="nav-item dropdown bolder">
                  <a class="nav-link dropdown-toggle " href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                    Reviews
                  </a>
-                 <div class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
+                 <div class="dropdown-menu bg-dark classhover" aria-labelledby="navbarDropdown">
                    <a class="dropdown-item " href="TL.html" > Self </a>
                    <div class="dropdown-divider"></div>
                    <a class="dropdown-item active" href="TLwrite.html">Other employees</a>
@@ -69,24 +69,24 @@
 
      </div>
   </nav>
-
-    <div class="container profileDetails">
-      <table class="table table-bordered bg-light">
-          <tr>
-            <th scope="col" class="text-center" id = "Project_written">Project </th>
-            <th scope="col" class="text-center" id = "emp_project_diplay">ERP</th>
-            <!-- // will come from ajax call -->
-            <th scope="col" class="text-center">Employee Code</th>
-            <th scope="col" class="text-center" id = "emp_code_diplay">INT012 </th>
+  <div class="container profileDetails" id = "QAprofile">
+    <table class="table table-bordered bg-light">
+        <tr>
+          <th scope="col" class="text-center profileLabel">Name </th>
+          <th scope="col" class="text-center" id="Namehtml"></th>
+          <th scope="col" class="text-center profileLabel">Employee Code</th>
+          <th scope="col" class="text-center" id="EmployeeIdhtml"></th>
+          <!-- <th scope="col" class="text-center profileLabel">Project </th>
+          <th scope="col" class="text-center" id="projectNamehtml"></th> -->
           </tr>
-      </table>
-    </div>
+    </table>
+  </div>
 
 
-    <div class="container text-center" id = "employee_list">
-    </div>
 
-    <div class="container">
+    <div class="container text-center" id = "employee_list"></div>
+    <div class="container" id="alert"></div>
+    <div class="container reviewcontainer">
 
       <div id = "Level1_list" >
       </div>

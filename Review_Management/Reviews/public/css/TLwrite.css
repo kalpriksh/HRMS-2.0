@@ -5,6 +5,10 @@
 nav{
   padding: 0;
 }
+
+.tnc{
+  font-style: italic;
+}
 .rowheight{
   padding: 10px;
   /* display: flex;
@@ -38,7 +42,7 @@ li{
 }
 #review_table{
   width: 90%;
-  margin: 10px auto;
+  margin: 0 auto;
   display: inline-table;
   overflow: auto;
 }
@@ -52,6 +56,9 @@ td{
   word-wrap: break-word;
 
 }
+.table-responsive{
+  margin-top: 50px;
+}
 #employee_table{
   width: 70%;
   min-width: 300px;
@@ -60,4 +67,31 @@ td{
 
 input[type=number]{
   max-width: 50px;
+}
+
+.profileLabel{
+  background-color: #D4D4D4;
+}
+
+@media (max-width : 400px){
+  .imgheader{
+    margin: 20px;
+    padding: 0px;
+    height: 60px;
+  }
+  h6{
+    padding: 0px;
+    margin: 0
+  }
+}
+h3{
+  color: #5C9BD1 ;
+}
+
+.bolder{
+  font-weight: bold;
+  text-decoration: underline;
+}
+.classhover a:hover{
+  background-color: #007bff;
 }

@@ -14,6 +14,9 @@
 .profilename{
   padding: 30px;
 }
+.tnc{
+  font-style: italic;
+}
 .navbar-color-set a{
   color: white !important;
 }
@@ -26,6 +29,8 @@ ul{
 }
 li{
   margin: 10px;
+  cursor: pointer;
+  /* color: blue; */
 }
 
 .color-role{
@@ -62,3 +67,7 @@ li{
       width: 50px;
 
 } */
+.bolder{
+  font-weight: bold;
+  text-decoration: underline;
+}

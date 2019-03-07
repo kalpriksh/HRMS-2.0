@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <input type="text" id="AddLevel" name=""><br>
+    <button id="submitlevel" type="button" name="button" onclick="validateLevel()" >submit level</button><br>
+    <input type="number" id="Rating" onkeydown = "myfunc()" name="" value=""><br>
+    <button id="submitnumber" type="button" name="button" onclick="validateRating()">submit number</button><br>
+    <input type="text" id="checkspace" name="" value=""><br>
+    <button id="checkspace" type="button" name="button" onkeydown="myfunc()" onclick="validateSpace()">submit space</button><br>
+    <input type="text" id="checkexist"><br>
+    <button id="exist" type="button" name="button" onclick="validateExist()" >check exist</button><br>
+
+
+
+
+  </body>
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.js"
+integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+crossorigin="anonymous"">
+
+</script>
+<script type="text/javascript">
+
+
+function validateLevel(){
+
+  var input = document.getElementById("AddLevel").value;
+  console.log(input);
+  var result = /[!@#$%^&*()_+-]/.test(input);
+
+  if(input === ""){
+  alert('Input Field cant be empty!');
+  }
+
+  else if(result == true){
+    alert('Input should not contain any special characters');
+  }
+}
+
+function validateRating(){
+
+
+    var input = document.getElementById("Rating").value;
+    console.log(input);
+
+}
+function myfunc(){
+  if(event.key == "e" ){
+    event.preventDefault();
+  }
+}
+
+function validateSpace(){
+  var input=document.getElementById('checkspace').value;
+  console.log(input);
+  var space=/\s/.test(input);
+  if(space==true){
+    alert('Spaces are not allowed');
+  }
+  else alert('success');
+}
+
+function validateExist(){
+var arr = ["aa","bb","cc"];
+var input=document.getElementById('checkexist').value;
+for(var i=0;i<arr.length;i++)
+{
+  if(input==arr[i])
+  {
+    alert('This Record already exists');
+  }
+}
+}
+
+</script>
+</html>

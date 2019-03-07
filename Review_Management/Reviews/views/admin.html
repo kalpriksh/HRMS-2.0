@@ -48,7 +48,7 @@
                      <a href = "#" class="nav-link" data-toggle="collapse" data-target="#projects">Project(s) </a>
                  </li>
                  <li class = "nav-item">
-                     <a href = "#" class="nav-link" data-toggle="collapse" data-target="#projects">Reviews </a>
+                     <a href = "admin.html" class="nav-link bolder" data-toggle="collapse" data-target="#projects">Reviews </a>
                  </li>
                  <li class = "nav-item">
                      <a href = "#" class="nav-link" data-toggle="collapse" data-target="#projects">Policies </a>
@@ -90,18 +90,20 @@
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+          <h5 class="modal-title text-center" id="exampleModalLabel" ></h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <div class="modal-body text-center">
-          <h5 id="titlemodal"></h5>
-          <input type="text" class="form-control text-center" id ="modalText" name="" placeholder="Add">
+        <div class="modal-body">
+          <input type="text" class="form-control text-center" onkeydown = "textValidation()"
+               id ="modalText" name="" placeholder="Add">
+          <p class="tnc"> * Spaces are not allowed </p>
+
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal" >Close</button>
-          <button type="button" class="btn btn-primary" data-dismiss="modal" id = "modaladdbtn" onclick="modalADD(this.name)">Save changes</button>
+          <button type="button" class="btn btn-primary" data-dismiss="modal" id = "modaladdbtn" onclick="modalADD(this.name)">Add</button>
         </div>
       </div>
     </div>

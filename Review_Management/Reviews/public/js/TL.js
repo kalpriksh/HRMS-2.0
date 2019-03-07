@@ -1,5 +1,5 @@
 const EmployeeId = 10;
-const Role = "Team Lead";
+const Role = "CM";
 $(document).ready(function(){
 
     $.ajax({
@@ -131,7 +131,7 @@ function showlevel2(id){
 
             const table_headings = `
             <div class = " table-responsive">
-            <table class = "table table-bordered table-striped" id = "review_table">
+            <table class = "table table-bordered table-striped table-hover" id = "review_table">
               <thead>
               <tr>
                 <th scope="col">
@@ -146,11 +146,11 @@ function showlevel2(id){
                 </th>
                 `:``}
                 <th scope="col">
-                    <p>  self rating </p>
+                    <p>  Self Rating </p>
                 </th>
                 ${qa_reviewed ? `
                 <th scope="col">
-                    <p>  QA rating </p>
+                    <p>  QA Rating </p>
                 </th>
                 `: ``}
 
@@ -162,7 +162,7 @@ function showlevel2(id){
                       <tr>
                         <td scope="col">${obj.Name}</td>
                         <td scope="col">
-                        ${((obj.Own_Review == "")&&(obj.Own_Rating== "")) ?`<textarea maxlength="255" id=${"Review"+((obj.Name).split(" ").join(""))} name="Own_Review"></textarea>`:`${obj.Own_Review}`
+                        ${((obj.Own_Review == "")&&(obj.Own_Rating== "")) ?`<textarea onkeydown = "textValidation()" maxlength="255" id=${"Review"+((obj.Name).split(" ").join(""))} name="Own_Review"></textarea>`:`${obj.Own_Review}`
                         }</td>
 
                         ${qa_reviewed ? `
@@ -172,7 +172,7 @@ function showlevel2(id){
                         `:``}
 
                         <td scope="col">
-                        ${((obj.Own_Review == "")&&(obj.Own_Rating== "")) ?`  <input type="number"  min="1" max="10" id=${"Rating"+((obj.Name).split(" ").join(""))} name="" value= ${obj.Own_Rating}>`:`${obj.Own_Rating}`
+                        ${((obj.Own_Review == "")&&(obj.Own_Rating== "")) ?`  <input type="number" onkeydown = "numValidation()" min="1" max="10"  id=${"Rating"+((obj.Name).split(" ").join(""))} name="" value= ${obj.Own_Rating}>`:`${obj.Own_Rating}`
                         }</td>
 
                         ${qa_reviewed ? `
@@ -185,6 +185,7 @@ function showlevel2(id){
 
 
             </table>
+            <p id="tnc">    * Rating is must </p>
             <br>
             <button id = ${id} onclick = "submitlevel1(this.id)" class = "btn btn-primary btn-lg float-right">SUBMIT</button>
             </div>
@@ -228,8 +229,15 @@ function submitlevel1(id){
       }
       else{
         if(Number(elementRating)<1 || Number(elementRating)>10 ){
-          alert("Rating should be in the range 1 to 10");
-          return 0;
+          let addhtml =
+          `<div class="alert alert-danger alert-dismissible fade show" role="alert">
+            Rating should be in the range <strong>1 to 10</strong>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>`;
+          document.getElementById("alert").innerHTML = addhtml;
+          return ;
         }
         else{
           let myresponse = {
@@ -282,4 +290,18 @@ function submitlevel1(id){
   (document.getElementById(id+"div").parentNode).style.padding = null;
 
 
+}
+
+
+function numValidation(){
+  if(event.key == "e" || event.key == "E" ){
+    event.preventDefault();
+  }
+}
+
+
+function textValidation(){
+  if(event.key == "<" || event.key == ">" ){
+    event.preventDefault();
+  }
 }

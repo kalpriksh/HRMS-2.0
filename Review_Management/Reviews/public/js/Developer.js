@@ -1,7 +1,14 @@
-const EmployeeId = 14;
-const Role = "Dev";
+const EmployeeId = 1;
+const Role = "Developers";
+let projectName = "Brinks";
 $(document).ready(function(){
 
+    if(EmployeeId == 1){
+      document.getElementById("headerprofilename").innerHTML = "Taran Pal Singh";
+    }
+    else if(EmployeeId == 2){
+      document.getElementById("headerprofilename").innerHTML = "Shruti Bhati";
+    }
     $.ajax({
 
       "async": true,
@@ -14,11 +21,12 @@ $(document).ready(function(){
       "data": JSON.stringify({Role}),
       success: function(res){
         level1 = res;
+        console.log(res);
         var mylevel1 = document.getElementById("Level1_list");
         const level1html = `
           <ul>
             ${level1.map(level => `
-            <li><a href="#" id = ${ level.Name} onclick = "showlevel2(this.id)" > ${level.Name } </a>
+            <li><a id = ${ level.Name} data-toggle="tooltip" data-placement="top" title="Click me!" onclick = "showlevel2(this.id)" > ${level.Name } </a>
             <div id = ${level.Name + "div"}></div>
             </li>
           `).join('')}
@@ -42,7 +50,7 @@ function showlevel2(id){
     "method": "POST",
     "headers": {
       "Content-Type": "application/json",
-      },
+    },
     "data":JSON.stringify(myreq),
     success: function(res){
       myOBJ = res;
@@ -120,6 +128,12 @@ function showlevel2(id){
               if(element.QA_Rating == null){
                 element.QA_Rating = "";
               }
+              if(element.Own_Review == "null"){
+                element.Own_Review = "";
+              }
+              if(element.Own_Rating == null){
+                element.Own_Rating = "";
+              }
               if( (element.QA_Review) || (element.QA_Rating) ){
                   qa_reviewed = true;
               }
@@ -131,7 +145,7 @@ function showlevel2(id){
 
             const table_headings = `
             <div class = " table-responsive">
-            <table class = "table table-bordered table-striped" id = "review_table">
+            <table class = "table table-bordered  table-hover table-striped" id = "review_table">
               <thead>
               <tr>
                 <th scope="col">
@@ -146,11 +160,11 @@ function showlevel2(id){
                 </th>
                 `:``}
                 <th scope="col">
-                    <p>  self rating </p>
+                    <p>  Self Rating </p>
                 </th>
                 ${qa_reviewed ? `
                 <th scope="col">
-                    <p>  QA rating </p>
+                    <p>  QA Rating </p>
                 </th>
                 `: ``}
 
@@ -162,7 +176,7 @@ function showlevel2(id){
                       <tr>
                         <td scope="col">${obj.Name}</td>
                         <td scope="col">
-                        ${((obj.Own_Review == "")&&(obj.Own_Rating== "")) ?`<textarea maxlength="255" id=${"Review"+((obj.Name).split(" ").join(""))} name="Own_Review"></textarea>`:`${obj.Own_Review}`
+                        ${((obj.Own_Review == "")&&(obj.Own_Rating== "")) ?`<textarea onkeydown = "textValidation()" maxlength="255" id=${"Review"+((obj.Name).split(" ").join(""))} name="Own_Review"></textarea>`:`${obj.Own_Review}`
                         }</td>
 
                         ${qa_reviewed ? `
@@ -172,7 +186,7 @@ function showlevel2(id){
                         `:``}
 
                         <td scope="col">
-                        ${((obj.Own_Review == "")&&(obj.Own_Rating== "")) ?`  <input type="number"  min="1" max="10" id=${"Rating"+((obj.Name).split(" ").join(""))} name="" value= ${obj.Own_Rating}>`:`${obj.Own_Rating}`
+                        ${((obj.Own_Review == "")&&(obj.Own_Rating== "")) ?`  <input type="number" onkeydown = "numValidation()" min="1" max="10" id=${"Rating"+((obj.Name).split(" ").join(""))} name="" value= ${obj.Own_Rating}>`:`${obj.Own_Rating}`
                         }</td>
 
                         ${qa_reviewed ? `
@@ -185,7 +199,9 @@ function showlevel2(id){
 
 
             </table>
-            <br>
+            <p class="tnc"> * Rating is must </p>
+            <p class="tnc"> * Rating should be in the range 1 to 10</p>
+
             <button id = ${id} onclick = "submitlevel1(this.id)" class = "btn btn-primary btn-lg float-right">SUBMIT</button>
             </div>
             `;
@@ -226,16 +242,18 @@ function submitlevel1(id){
       if((!elementReview && !Number(elementRating)))  {
       }
       else{
-        if(Number(elementRating)<1 || Number(elementRating)>10 ){
+        if( Number(elementRating)<1 || Number(elementRating)>10 ){
           // alert("Rating should be in the range 1 to 10");
+          console.log(elementRating);
           let addhtml =
-          `<div class="alert alert-warning alert-dismissible fade show" role="alert">
-            Rating should be in the range 1 to 10
+          `<div class="alert alert-danger alert-dismissible fade show" role="alert">
+            Rating should be in the range <strong>1 to 10</strong>
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
             </button>
           </div>`;
           document.getElementById("alert").innerHTML = addhtml;
-          return 0;
+          return;
         }
         else{
           let myresponse = {
@@ -249,6 +267,7 @@ function submitlevel1(id){
           }
         response.push(myresponse);
         }
+        console.log(response);
       }
     }
   });
@@ -276,5 +295,17 @@ function submitlevel1(id){
   (document.getElementById(id+"div").parentNode).style.border = null;
   (document.getElementById(id+"div").parentNode).style.padding = null;
 
+}
 
+function numValidation(){
+  if(event.key == "e" || event.key == "E" ){
+    event.preventDefault();
+  }
+}
+
+
+function textValidation(){
+  if(event.key == "<" || event.key == ">" ){
+    event.preventDefault();
+  }
 }

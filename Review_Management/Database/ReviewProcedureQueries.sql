@@ -113,7 +113,7 @@ as
 	end
 go
 
-Alter PROCEDURE EmployeePrimaryProject  @Empcode int,@Projectname varchar(30)
+create PROCEDURE EmployeePrimaryProject  @Empcode int,@Projectname varchar(30)
 AS 
 	declare @x int;
 	exec @x = GetProjectId @ProjectName

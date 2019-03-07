@@ -1,42 +1,37 @@
-const EmployeeId = 14;
-const Role = "Dev";
+let EmployeeId ;
+const Role = "Developers";
+employees = [
+  {
+    name: "Taran Pal Singh",
+    role: "Developers",
+    project: "BRINKS",
+    EmployeeId: "1"
+  },
+  {
+    name: "Shruti Bhati",
+    role: "Developers",
+    project: "BRINKS",
+    EmployeeId: "2"
+
+  },
+];
 $(document).ready(function(){
 
   // Ajax call for  all employees and the primary project
-  project = "HRMS Skillset";
-  employees = [
-    {
-      name: "Taran",
-      role: "Developer",
-      project: "EPP",
-      EmployeeId: "7"
-    },
-    {
-      name: "Sahil",
-      role: "Developer",
-      project: "EPP",
-      EmployeeId: "8"
 
-    },
-    {
-      name: "Shruti",
-      role: "Developer",
-      project: "EPP",
-      EmployeeId: "9"
-    },
-    {
-      name: "Ankit",
-      role: "Team Lead",
-      project: "EPP",
-      EmployeeId: "10"
-    }
-  ];
+  $("#QAprofile").hide();
+
   const table_headings = `
+  <br>
+  <h3> Select and employee to review </h3>
   <div class = " table-responsive">
-  <table id = "employee_table" class = "table table-bordered table-striped">
+  <table id = "employee_table" class = "table table-hover table-bordered table-striped">
     <tr>
       <th scope="col">
           <p>  Name </p>
+      </th>
+      <th scope="col">
+          <p>  Employee Code</p>
       </th>
       <th scope="col">
           <p> Role</p>
@@ -44,7 +39,8 @@ $(document).ready(function(){
     </tr>
     ${employees.map(employee => `
           <tr>
-            <td scope="col"> <a href = "#" id = ${employee.name} onclick = "showLevel1(this.id)">${employee.name}</a></td>
+            <td scope="col"> <a href = "#" id = ${employee.EmployeeId} onclick = "showLevel1(this.id,this.innerHTML)">${employee.name}</a></td>
+            <td scope="col"> ${employee.EmployeeId}</td>
             <td scope="col"> ${employee.role}</td>
           </tr>
     `).join('')}
@@ -58,20 +54,21 @@ $(document).ready(function(){
 });
 
 
-function showLevel1(id){
+function showLevel1(id,name){
   // ajax call for this id's info
-  employee = {
-      name: "Ankit",
-      project: "ERP",
-      EmployeeId: "INT001",
-      Role: "Dev"
-  }
+  EmployeeId = id;
+  $("#QAprofile").show();
+
   $("#employee_list").hide();
-  document.getElementById("Project_written").innerHTML = "Name";
-  document.getElementById("emp_project_diplay").innerHTML = employee.name;
-  // document.getElementById("Project_written").innerHTML = "Name";
-  document.getElementById("emp_code_diplay").innerHTML = employee.EmployeeId;
-  // console.log(JSON.stringify({Role}));
+  // document.getElementById("projectNamehtml").innerHTML = employee.project;
+  if(String(id).length == 1){
+    document.getElementById("EmployeeIdhtml").innerHTML = "CYG00"+id;
+  }
+  else if(String(id).length == 2){
+    document.getElementById("EmployeeIdhtml").innerHTML = "CYG0"+id;
+  }
+  document.getElementById("Namehtml").innerHTML = name;
+
   $.ajax({
 
     "async": true,
@@ -185,7 +182,7 @@ function showlevel2(id){
 
             const table_headings = `
             <div class = " table-responsive">
-            <table class = "table table-bordered table-striped" id = "review_table">
+            <table class = "table table-hover table-bordered table-striped" id = "review_table">
               <thead>
               <tr>
                 <th scope="col">
@@ -201,11 +198,11 @@ function showlevel2(id){
                 </th>
                 ${self_reviewed ? `
                 <th scope="col">
-                    <p>  self rating </p>
+                    <p>  Self Rating </p>
                 </th>
                 `:``}
                 <th scope="col">
-                    <p>  QA rating </p>
+                    <p>  QA Rating </p>
                 </th>
 
               </tr>
@@ -223,7 +220,7 @@ function showlevel2(id){
                       `:``}
 
                       <td scope="col">
-                      ${((obj.QA_Review == "")&&(obj.QA_Rating== "")) ?`<textarea id=${"Review"+((obj.Name).split(" ").join(""))} name="QA_Review"></textarea>`:`${obj.QA_Review}`
+                      ${((obj.QA_Review == "")&&(obj.QA_Rating== "")) ?`<textarea onkeydown = "textValidation()" maxlength="255" id=${"Review"+((obj.Name).split(" ").join(""))} name="QA_Review"></textarea>`:`${obj.QA_Review}`
                       }
                       </td>
 
@@ -235,13 +232,14 @@ function showlevel2(id){
                       `:``}
 
                       <td scope="col">
-                      ${((obj.QA_Review == "")&&(obj.QA_Rating== "")) ?`  <input type="number" id=${"Rating"+((obj.Name).split(" ").join(""))} name="" value= ${obj.QA_Rating}>`:`${obj.QA_Rating}`
+                      ${((obj.QA_Review == "")&&(obj.QA_Rating== "")) ?`  <input onkeydown = "numValidation()" min="1" max="10"  type="number" id=${"Rating"+((obj.Name).split(" ").join(""))} name="" value= ${obj.QA_Rating}>`:`${obj.QA_Rating}`
                       }
                       </td>
                     </tr>
                 `).join('')}
             </table>
-            <br>
+            <p class="tnc"> * Rating is must </p>
+            <p class="tnc"> * Rating should be in the range 1 to 10</p>
             <button id = ${id} onclick = "submitlevel1(this.id)" class = "btn btn-primary btn-lg float-right">SUBMIT</button>
             </div>
             `;
@@ -281,8 +279,15 @@ function submitlevel1(id){
       }
       else{
         if(Number(elementRating)<1 || Number(elementRating)>10 ){
-          alert("Rating should be in the range 1 to 10");
-          return 0;
+          let addhtml =
+          `<div class="alert alert-danger alert-dismissible fade show" role="alert">
+            Rating should be in the range <strong>1 to 10</strong>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>`;
+          document.getElementById("alert").innerHTML = addhtml;
+          return ;
         }
         else{
           let myresponse = {
@@ -323,4 +328,18 @@ function submitlevel1(id){
   (document.getElementById(id+"div").parentNode).style.border = null;
   (document.getElementById(id+"div").parentNode).style.padding = null;
 
+}
+
+
+function numValidation(){
+  if(event.key == "e" || event.key == "E" ){
+    event.preventDefault();
+  }
+}
+
+
+function textValidation(){
+  if(event.key == "<" || event.key == ">" ){
+    event.preventDefault();
+  }
 }
