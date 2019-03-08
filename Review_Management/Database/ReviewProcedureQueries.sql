@@ -83,7 +83,7 @@ go
 	go
 
 
-/*link to employee table with review table*/
+/*to get all those employee who have given project id as their primary project*/
 Create PROCEDURE spEmployeesandRoles  @Projectid int
 AS 
 Begin
@@ -98,7 +98,9 @@ Begin
 End
  
 EXEC spEmployeesandRoles 1;
-EXEC spEmployeesandRoles 3;
+EXEC spEmployeesandRoles 4;
+
+select * from Projects 
 
 drop procedure spEmployeesandRoles
 
@@ -132,6 +134,7 @@ End
 exec EmployeePrimaryProject 5,'Paw Tree'
 
 
+/*to */
 
 
 /*

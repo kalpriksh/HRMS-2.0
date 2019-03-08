@@ -36,10 +36,12 @@ as
 
 		create table FirstSecondLevel(
 		Id int Primary Key identity(1,1),
+		RoleId int ,
 		FirstLevelId int,
 		SecondLevelId int,
 		foreign key(FirstLevelId) references FirstLevel(Id),
 		foreign key(SecondLevelId) references SecondLevel(Id),
+		foreign key(RoleId) references ProjectRole(Id)
 		)
 
 
@@ -71,8 +73,8 @@ as
 	insert into RolesFirstLevel (RoleId,FirstLevelId)
 	values (2,1),(2,2),(2,3)
 
-	insert into FirstSecondLevel(FirstLevelId,SecondLevelId)
-	values (1,Null),(2,1),(2,3),(2,4),(3,2),(3,3),(3,4),(4,1),(4,5),(5,NULL)
+	insert into FirstSecondLevel(RoleId,FirstLevelId,SecondLevelId)
+	values (1,1,Null),(1,2,1),(1,2,3),(2,2,4),(2,3,2),(2,3,3),(1,3,4),(2,4,1),(1,4,5),(1,5,NULL)
 
 	insert into EmployeeReviews (FirstLevelId,SecondLevelId,Own_Review,Own_Rating,QA_Review,QA_Rating,Empcode)
 	values (3,3,'random Review',5,'one more random review',4 ,1),
