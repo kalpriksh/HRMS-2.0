@@ -72,5 +72,8 @@ li{
   text-decoration: underline;
 }
 #body{
-  margin: 30px; 
+  margin: 30px;
+}
+.removebtn{
+  margin: 0 20px;
 }

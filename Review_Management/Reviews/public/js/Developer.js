@@ -1,6 +1,7 @@
-const EmployeeId = 1;
-const Role = "Developers";
-const projectName = "Brinks";
+var EmployeeId = 1;
+var Role = "Developers";
+var projectName = "Brinks";
+
 $(document).ready(function(){
 
     if(EmployeeId == 1){
@@ -23,7 +24,7 @@ $(document).ready(function(){
         level1 = res;
         console.log(res);
         var mylevel1 = document.getElementById("Level1_list");
-        const level1html = `
+        var level1html = `
           <br>
           <h3 class="text-center"> Select a Parameter </h3>
           <ul>
@@ -41,8 +42,8 @@ $(document).ready(function(){
 
 function showlevel2(id){
 
-  let title = (document.getElementById(id).innerHTML).slice(0,-1);
-  let mylevel2 = document.getElementById(id+"div");
+  var title = (document.getElementById(id).innerHTML).slice(0,-1);
+  var mylevel2 = document.getElementById(id+"div");
 
   if(mylevel2.innerHTML == ""){
 
@@ -147,7 +148,7 @@ function showlevel2(id){
               }
             });
 
-            const table_headings = `
+            var table_headings = `
             <div class = " table-responsive">
             <table class = "table table-bordered  table-hover table-striped" id = "review_table">
               <thead>
@@ -226,7 +227,7 @@ function showlevel2(id){
 }
 
 function submitlevel1(id){
-  let response =[];
+  var response =[];
   myOBJ.forEach(function(element){
     if( (element.Own_Review) || (element.Own_Rating) ){}
     else{
@@ -239,7 +240,7 @@ function submitlevel1(id){
       else{
         if( Number(elementRating)<1 || Number(elementRating)>10 ){
           console.log(elementRating);
-          let addhtml =
+          var addhtml =
           `<div class="alert alert-danger alert-dismissible fade show" role="alert">
             Rating must be in the range <strong>1 to 10</strong>
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -250,7 +251,7 @@ function submitlevel1(id){
           return;
         }
         else{
-          let myresponse = {
+          var myresponse = {
             EmployeeCode : Number(EmployeeId),
             FirstLevelName : id,
             SecondLevelName : element.Name,

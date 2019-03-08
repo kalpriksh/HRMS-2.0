@@ -1,5 +1,5 @@
-let EmployeeId ;
-const Role = "Developers";
+var EmployeeId ;
+var Role = "Developers";
 employees = [
   {
     name: "Taran Pal Singh",
@@ -21,7 +21,7 @@ $(document).ready(function(){
 
   $("#QAprofile").hide();
 
-  const table_headings = `
+  var table_headings = `
   <br>
   <h3> Select an Employee to Review </h3>
   <div class = " table-responsive">
@@ -81,7 +81,7 @@ function showLevel1(id,name){
     success: function(res){
       level1 = res;
       var mylevel1 = document.getElementById("Level1_list");
-      const level1html = `
+      var level1html = `
         <h3 class="text-center"> Select a Parameter </h3>
         <ul>
           ${level1.map(level => `
@@ -98,8 +98,8 @@ function showLevel1(id,name){
 
 function showlevel2(id){
 
-  let title = (document.getElementById(id).innerHTML).slice(0,-1);
-  let mylevel2 = document.getElementById(id+"div");
+  var title = (document.getElementById(id).innerHTML).slice(0,-1);
+  var mylevel2 = document.getElementById(id+"div");
 
   if(mylevel2.innerHTML == ""){
     document.getElementById(id).innerHTML = title+"-";
@@ -179,7 +179,7 @@ function showlevel2(id){
 
               });
 
-              const table_headings = `
+              var table_headings = `
               <div class = " table-responsive">
               <table class = "table table-hover table-bordered table-striped" id = "review_table">
                 <thead>
@@ -262,7 +262,7 @@ function showlevel2(id){
 
 function submitlevel1(id){
   //ajax call for level2 parameters
-  let response =[];
+  var response =[];
   myOBJ.forEach(function(element){
 
     if( (element.QA_Review) || (element.QA_Rating) ){
@@ -277,7 +277,7 @@ function submitlevel1(id){
       }
       else{
         if(Number(elementRating)<1 || Number(elementRating)>10 ){
-          let addhtml =
+          var addhtml =
           `<div class="alert alert-danger alert-dismissible fade show" role="alert">
             Rating must be in the range <strong>1 to 10</strong>
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -288,7 +288,7 @@ function submitlevel1(id){
           return ;
         }
         else{
-          let myresponse = {
+          var myresponse = {
             EmployeeCode : Number(EmployeeId),
             FirstLevelName : id,
             SecondLevelName : element.Name ,
