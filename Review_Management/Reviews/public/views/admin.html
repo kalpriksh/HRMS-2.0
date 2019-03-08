@@ -5,22 +5,23 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../public/css/ReviewsDeveloper.css">
-    <title>Developer</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../public/css/admin.css">
+    <title>Admin</title>
   </head>
 
   <body>
     <div class="header">
      <div class="row">
-       <div class="col-md-10">
-        <img src="../public/images/logo.png" alt="logo" />
+       <div class="col-md-9">
+        <img src="../public/images/logo.png" class = "imgheader" alt="logo" />
        </div>
-       <div class = "col-md-2 ">
-         <button type="button" class="btn btn-link">User Name</button>
+       <div class = "col-md-3 text-center profilename">
+         <h6>Admin</h6>
        </div>
       </div>
     </div>
-    <nav class = "navbar navbar-expand-sm bg-dark navbar-dark">
+    <nav class = "navbar navbar-expand-md bg-dark navbar-dark">
       <div class = "container-fluid navbar-color-set">
         <button class="navbar-toggler"
                 type="button"
@@ -31,7 +32,7 @@
                 aria-label="Toggle navigation">
               <span class="navbar-toggler-icon"></span>
          </button>
-         <div class="collapse navbar-collapse" id = "navBarMenu">
+         <div class="collapse navbar-collapse " id = "navBarMenu">
              <ul class="nav">
                  <li class = "nav-item">
                      <a href="#" class="nav-link" data-toggle="collapse" data-target="#details">Details </a>
@@ -46,7 +47,7 @@
                      <a href = "#" class="nav-link" data-toggle="collapse" data-target="#projects">Project(s) </a>
                  </li>
                  <li class = "nav-item">
-                     <a href = "#" class="nav-link" data-toggle="collapse" data-target="#projects">Reviews </a>
+                     <a href = "admin.html" class="nav-link bolder" data-toggle="collapse" data-target="#projects">Reviews </a>
                  </li>
                  <li class = "nav-item">
                      <a href = "#" class="nav-link" data-toggle="collapse" data-target="#projects">Policies </a>
@@ -65,14 +66,48 @@
     </nav>
 
 
-    <div class="container">
+    <div class="container-fluid color-role" id = "body">
+      <div class="color-role bg-dark" id = "rolelabel">
 
-      <ul id = "Level1_list" >
-      </ul>
 
-      <div id="level2" class = "text-center">
+      </div>
+
+      <div class="color-role" id="level1label">
+      </div>
+
+      <div class="level2label color-role">
+
+
+      </div>
+
+    </div>
+
+
+
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title text-center" id="exampleModalLabel" ></h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <input type="text" class="form-control text-center" onkeydown = "textValidation()"
+               id ="modalText" name="" placeholder="Add">
+          <p class="tnc"> * Spaces are not allowed </p>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal" >Close</button>
+          <button type="button" class="btn btn-primary" data-dismiss="modal" id = "modaladdbtn" onclick="modalADD(this.name)">Add</button>
+        </div>
       </div>
     </div>
+  </div>
+
 
   </body>
     <script
@@ -81,5 +116,5 @@
       crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.4/js/tether.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" ></script>
-    <script src="../public/js/ReviewsDeveloper.js"></script>
+    <script src="../public/js/admin.js"></script>
   </html>

@@ -1,6 +1,6 @@
 console.log("Starting Reviews JS");
 const PORT = 3333;
-
+const path = require('path');
 const sql = require('mssql');
 const lodash = require('lodash');//not used after this
 const express = require('express');
@@ -31,6 +31,25 @@ var sqlConfig = {
   // (/user/employee/sub-parameters)
   //   ->gives lvl 2 parameters
 
+app.use(express.static(path.join(__dirname+'public')));
+app.use(express.static(__dirname ));
+
+app.get('/admin', function(req,res){
+  res.sendfile('public/views/admin.html');
+});
+
+app.get('/employee/developer', function(req,res){
+  res.sendfile('public/views/developer.html');
+});
+
+app.get('/employee/teamLead', function(req,res){
+  res.sendfile('public/views/teamLead.html');
+});
+
+
+app.get('/employee/QA', function(req,res){
+  res.sendfile('public/views/teamLeadWrite.html');
+});
 
 
 app.post('/user/employee',function(req,res){
@@ -323,6 +342,7 @@ app.post('/admin/role/level1-parameters',function(req,res){
     });
   });
 });
+
 
 app.post('/admin/role/level1-parameters/level2-parameters',function(req,res){
   sql.connect(sqlConfig,function(){

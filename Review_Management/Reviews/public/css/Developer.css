@@ -11,6 +11,9 @@ nav{
   flex-direction: row;
   justify-content: space-between; */
 }
+.tnc{
+  font-style: italic;
+}
 .imgheader{
   height: 80px;
   padding: 10px ;
@@ -52,4 +55,33 @@ td{
 }
 input[type=number]{
   max-width: 50px;
+}
+@media (max-width : 400px){
+  .imgheader{
+    margin: 20px;
+    padding: 0px;
+    height: 60px;
+  }
+  h6{
+    padding: 0px;
+    margin: 0
+  }
+}
+
+.bolder{
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+.classhover a:hover{
+  background-color: #007bff;
+}
+.reviewcontainer a{
+  color: #5C9BD1 !important;
+  font-size: 24px;
+  cursor: pointer;
+}
+h3{
+  color: #5C9BD1 ;
+  margin: auto;
 }
