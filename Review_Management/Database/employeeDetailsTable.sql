@@ -157,7 +157,22 @@ values(
 	3,
 	1
 )
+insert into ProjectTeamDetails
+values(
+	4,
+	5,
+	5,
+	1
+)
 
+alter procedure GetAllEmployeeByProjectName @ProjectName varchar(30)
+as
+	if exists(select * from Employees)
+	begin
+	end
+go 
+
+exec GetAllEmployeeByProjectName 'Google'
 /*
 drop table Employee
 drop table EmployeeReviews

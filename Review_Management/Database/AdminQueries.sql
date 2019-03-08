@@ -36,13 +36,13 @@ go
 
 
 /*to get second level Id*/
-create procedure getSecondLevelId
+alter procedure getSecondLevelId
 	@Name varchar(30)
 as
 	begin
 		declare @myId int
 
-		select @myId=id
+		select @myId=Id
 		from SecondLevel
 		where Name=@Name
 

@@ -21,7 +21,7 @@ var sqlConfig = {
     user: 'sa',
     password: 'password',
     server: 'localhost',
-    database: 'Review_Mangement'
+    database: 'Reviews'
 }
 
 //All the api listed
@@ -66,8 +66,8 @@ app.post('/user/employee/sub-parameters',function(req,res){
         res.sendStatus(500);
       }
       else {
-        console.log(recordset.recordset);
-        res.send(recordset.recordset);
+        console.log("updated");
+        res.sendStatus(200);
       }
       sql.close();
     });
@@ -182,6 +182,61 @@ app.get('/user/admin/Roles',  function(req,res){
   });
 });
 
+app.post('/user/Details',  function(req,res){
+  sql.connect(sqlConfig,function(){
+    var request = new sql.Request();
+    console.log(req.body.Empcode);
+    request.query("Exec EmployeePrimaryProject "+req.body.EmployeeCode+",'"+req.body.ProjectName+"'", function (err,recordset){
+      if(err)
+      console.log(err);
+      else {
+        console.log(recordset.recordset);
+        res.send(recordset.recordset);
+      }
+      sql.close();
+    });
+  });
+});
+
+//to get list of all projects with their project Id
+app.get('/user/projects',  function(req,res){
+  sql.connect(sqlConfig,function(){
+    var request = new sql.Request();
+    console.log(req.body.Empcode);
+    request.query("Select ProjectID,Name from Projects ", function (err,recordset){
+      if(err)
+      console.log(err);
+      else {
+        console.log(recordset.recordset);
+        res.send(recordset.recordset);
+      }
+      sql.close();
+    });
+  });
+});
+
+//to get the Employees whose primary project is same as given by user
+app.post('/user/projects/ProjectId',function(req,res){
+  sql.connect(sqlConfig,function(){
+    var request = new sql.Request();
+    console.log(req.body.ProjectID);
+    request.query("EXEC spEmployeesandRoles "+req.body.ProjectID, function (err,recordset){
+      if(err)
+      {
+        console.log(err);
+        res.sendStatus(500);
+      }
+      else {
+        console.log(recordset.recordset);
+        // res.sendStatus(200);
+        res.send(recordset.recordset);
+      }
+      sql.close();
+    });
+  });
+});
+
+//to create new role by admin
 app.post('/admin/role',function(req,res){
   sql.connect(sqlConfig,function(){
     var request = new sql.Request();
@@ -201,6 +256,55 @@ app.post('/admin/role',function(req,res){
   });
 });
 
+//to remove till Lv2 Parameters by admin
+app.post('/admin/removeLv2Parameters',function(req,res){
+  sql.connect(sqlConfig,function(){
+    var request = new sql.Request();
+    console.log(req.body.Empcode);
+    // if(req.body.SecondLevelName==NULL){
+    //
+    // }
+    request.query("EXEC RemoveParameters '"+req.body.Role+"','"+req.body.FirstLevelName+"','"+req.body.SecondLevelName+"';", function (err,recordset){
+      if(err)
+      {
+        console.log(err);
+        res.sendStatus(500);
+        console.log("error");
+      }
+      else {
+        console.log("updated");
+        res.sendStatus(200);
+      }
+      sql.close();
+    });
+  });
+});
+
+//to remove till Lv1 Parameters by admin
+app.post('/admin/removeLv1Parameters',function(req,res){
+  sql.connect(sqlConfig,function(){
+    var request = new sql.Request();
+    console.log(req.body.Empcode);
+    // if(req.body.SecondLevelName==NULL){
+    //
+    // }
+    request.query("EXEC RemoveLv1Parameter '"+req.body.Role+"','"+req.body.FirstLevelName+"';", function (err,recordset){
+      if(err)
+      {
+        console.log(err);
+        res.sendStatus(500);
+        console.log("error");
+      }
+      else {
+        console.log("updated");
+        res.sendStatus(200);
+      }
+      sql.close();
+    });
+  });
+});
+
+//to add new lv1 parameter for role
 app.post('/admin/role/level1-parameters',function(req,res){
   sql.connect(sqlConfig,function(){
     var request = new sql.Request();
