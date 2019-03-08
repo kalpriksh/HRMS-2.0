@@ -131,7 +131,7 @@ as
 	end*/
 go
 
-/*to remove level 2 parameters for particular role and lv1*/
+/*to delete till level 2 parameters for particular role and lv1*/
 alter  procedure RemoveParameters @Role varchar(50),@FirstLevelName varchar(50),@SecondLevelName varchar(50)
 as
 	declare @x int; declare @y int; declare @z int;
@@ -144,16 +144,17 @@ as
 			begin
 			if exists(select * from ProjectTeamDetails where RoleID=@x)
 				begin
+				delete from EmployeeReviews where RoleId=@x and FirstLevelId=@y and SecondLevelId = @z
 				delete from FirstSecondLevel where RoleId=@x and FirstLevelId=@y and SecondLevelId = @z
 				delete from  RolesFirstLevel where RoleId= @x and FirstLevelId=@y
 				end
 			end
 	end
 go
+DisplayTableEntries
+exec RemoveParameters 'CM','Leadership','Problem Solving'
 
-exec RemoveParameters ProjectOwner,Growth,Technical
-
-/*to delete Lv 1 from particular role*/
+/*to delete till Lv 1 from particular role*/
 alter procedure RemoveLv1Parameter
 @Role varchar(30),
 @FirstLevelName varchar(30)

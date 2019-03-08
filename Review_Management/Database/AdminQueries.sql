@@ -50,9 +50,9 @@ as
 	end
 
 go
-
+DisplayTableEntries
 /*creates new role if absent, creates new level if absent, maps role id and lv1 id to RolesFirstLevel table*/
-create Procedure CreateTillFirstLevel
+alter Procedure CreateTillFirstLevel
 	@Role varchar(30),
 	@FirstLevelName varchar(30)
 as
@@ -81,7 +81,7 @@ drop procedure CreateTillFirstLevel
 exec CreateTillFirstLevel 'Pres','Delivery'
 
 /*to create entries till second level and then map lv1 and lv2 in FirstSecondLevel table */
-create procedure CreateTillSecondLevel
+alter procedure CreateTillSecondLevel
 	@Role varchar(30),
 	@FirstLevelName varchar(30),
 	@SecondLevelName varchar(30)
@@ -115,8 +115,8 @@ as
 				end
 				if not exists (select Id from FirstSecondLevel where SecondLevelId=@z and FirstLevelId=@y)
 				begin
-				insert into FirstSecondLevel(FirstLevelId,SecondLevelId)
-				values (@y,@z)
+				insert into FirstSecondLevel(RoleId,FirstLevelId,SecondLevelId)
+				values (@x,@y,@z)
 				end
 go
 
@@ -152,8 +152,8 @@ as
 
 go
 
-
-exec AddParameter comeon,this,works
+DisplayTableEntries
+exec AddParameter Developers,newp,null
 drop procedure AddParameter
 
 declare @id int;

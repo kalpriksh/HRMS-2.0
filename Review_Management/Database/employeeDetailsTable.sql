@@ -165,6 +165,7 @@ values(
 	1
 )
 
+DisplayTableEntries
 alter procedure GetAllEmployeeByProjectName @ProjectName varchar(30)
 as
 	if exists(select * from Employees)
