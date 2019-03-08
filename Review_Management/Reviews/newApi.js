@@ -30,8 +30,8 @@ var sqlConfig = {
   //   ->gives lvl 1 parameters
   // (/user/employee/sub-parameters)
   //   ->gives lvl 2 parameters
-
-app.use(express.static(path.join(__dirname+'public')));
+//
+// app.use(express.static(path.join(__dirname+'public/')));
 app.use(express.static(__dirname ));
 
 app.get('/admin', function(req,res){
