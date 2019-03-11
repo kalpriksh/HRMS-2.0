@@ -109,7 +109,7 @@ begin
 	Select Name from ProjectRole
 end
 exec GetAllRoles
-
+drop procedure GetAllRoles
 
 /*to remove a role */
 
@@ -132,7 +132,7 @@ as
 go
 
 /*to delete till level 2 parameters for particular role and lv1*/
-alter  procedure RemoveParameters @Role varchar(50),@FirstLevelName varchar(50),@SecondLevelName varchar(50)
+create  procedure RemoveParameters @Role varchar(50),@FirstLevelName varchar(50),@SecondLevelName varchar(50)
 as
 	declare @x int; declare @y int; declare @z int;
 	exec @x = getRolesId @Role; exec @y= getFirstLevelId @FirstLevelName; exec @z= getSecondLevelId @SecondLevelName;
@@ -155,7 +155,7 @@ DisplayTableEntries
 exec RemoveParameters 'CM','Leadership','Problem Solving'
 
 /*to delete till Lv 1 from particular role*/
-alter procedure RemoveLv1Parameter
+create procedure RemoveLv1Parameter
 @Role varchar(30),
 @FirstLevelName varchar(30)
 as
@@ -167,6 +167,7 @@ as
 		delete from  RolesFirstLevel where RoleId= @x and FirstLevelId=@y
 	end
 go
+ RemoveLv1Parameter ProjectOwner, Growth
 
 exec RemoveLv1Parameter 'ProjectOwner','Development'
 

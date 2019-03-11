@@ -10,7 +10,7 @@
 	GO
 exec RoleFirstLevelName Developers
 /*to get all second level names linked with particular first level parameter*/
-	alter procedure RoleSecondLevelName @FirstLevelName varchar(30),@RoleName varchar(30)
+	create procedure RoleSecondLevelName @RoleName varchar(30),@FirstLevelName varchar(30)
 		as
 		declare @x int; exec @x=getRoleId @RoleName
 		select SecondLevel.Name
@@ -20,10 +20,14 @@ exec RoleFirstLevelName Developers
 
 		where FirstLevel.Name=@FirstLevelName and FirstSecondLevel.RoleId=@x
 	go
+	RoleSecondLevelName 'ProjectOwner','Leadership'
+		
+		/*drop Procedure RoleSecondLevelName*/
+
 	DisplayTableEntries
 exec RoleSecondLevelName 'Leadership','CM'
 /*to enter the reviews if not present and update the review if already present*/
-	alter procedure Review
+	create procedure Review
 		@OwnReview varchar(255),
 		@OwnRating int,
 		@QAReview varchar(255),
@@ -34,13 +38,15 @@ exec RoleSecondLevelName 'Leadership','CM'
 		@RoleName varchar(30)
 	as
 				declare @x int;
-				declare @y int, @z int;
+				declare @y int;
+				declare @z int;
 				exec @x = getSecondLevelId @SecondLevel;
-				exec @y = getFirstLevelId @FirstLevel; exec @z= getRoleId @RoleName;
+				exec @y = getFirstLevelId @FirstLevel;
+				exec @z = getRoleId @RoleName;
 
 		if not exists (select * from EmployeeReviews where Empcode=@EmployeeCode and FirstLevelId=@y and SecondLevelId=@x)
 			begin
-				insert into EmployeeReviews values (@y,@x,@OwnReview,@OwnRating,@QAReview,@QARating,@EmployeeCode,@z)
+				insert into EmployeeReviews values (@z,@y,@x,@OwnReview,@OwnRating,@QAReview,@QARating,@EmployeeCode)
 			end
 		else
 			begin
@@ -56,20 +62,16 @@ exec RoleSecondLevelName 'Leadership','CM'
 				and
 				FirstLevelId=@y
 				and
-				SecondLevelId=@x and RoleId= @z
+				SecondLevelId=@x
+				and
+				RoleId= @z
 			end
 	go
+Review 'This',4,'Is',4,'Leadership','Technical',2,'CM'
 exec Review 'changed',4,'again',4,'Development','Management',2,'Developers'
 exec Review 'sbnsdcbsbcdc',3,'bscsvdh',4,'Effectiveness','Technical',2,'Developers'
+/*drop procedure Review*/
 
-
-create procedure GetEmployeeDetails (@Empcode int , @Project varchar(30))
-as
-	if exists(select * from ProjectTeamDetails where EmployeeID=@Empcode) 
-	begin
-		 
-	end
-go
 
 /*to display the stored reviews*/
 	create procedure GetReviews
@@ -86,7 +88,7 @@ go
 		Empcode=@EmployeeId
 	go
 
-GetReviews 'Development',2
+GetReviews 'Leadership',2
 /*to get all those employee who have given project id as their primary project*/
 Create PROCEDURE spEmployeesandRoles  @Projectid int
 AS 

@@ -46,7 +46,7 @@ create table Projects(
 	 DateAssigned date,
 	 isPipeline bit
  );
- drop table Projects
+
 insert into Projects
 values('Paw Tree',
 		2,
@@ -99,7 +99,7 @@ create table ProjectTeamDetails(
 	RoleID int  references ProjectRole(Id),
 	isPrimary int
 )
-drop table ProjectTeamDetails
+
 insert into ProjectTeamDetails
 values(
 	1,
@@ -166,12 +166,7 @@ values(
 )
 
 DisplayTableEntries
-alter procedure GetAllEmployeeByProjectName @ProjectName varchar(30)
-as
-	if exists(select * from Employees)
-	begin
-	end
-go 
+
 
 exec GetAllEmployeeByProjectName 'Google'
 /*

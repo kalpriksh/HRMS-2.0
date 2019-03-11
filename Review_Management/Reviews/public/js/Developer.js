@@ -1,4 +1,4 @@
-var EmployeeId = 1;
+var EmployeeId = 2;
 var Role = "Developers";
 var projectName = "Brinks";
 
@@ -14,7 +14,7 @@ $(document).ready(function(){
 
       "async": true,
       "crossDomain": true,
-      "url": "http://localhost:3333/user/employee",
+      "url": "http://localhost:3333/employee",
       "method": "POST",
       "headers": {
         "Content-Type": "application/json"
@@ -22,7 +22,6 @@ $(document).ready(function(){
       "data": JSON.stringify({Role}),
       success: function(res){
         level1 = res;
-        console.log(res);
         var mylevel1 = document.getElementById("Level1_list");
         var level1html = `
           <br>
@@ -44,19 +43,16 @@ function showlevel2(id){
 
   var title = (document.getElementById(id).innerHTML).slice(0,-1);
   var mylevel2 = document.getElementById(id+"div");
-
   if(mylevel2.innerHTML == ""){
-
     document.getElementById(id).innerHTML = title+"-";
     myreq = {
   	FirstLevelName:id,
   	EmployeeCode:EmployeeId
     };
-
     $.ajax({
       "async": true,
       "crossDomain": true,
-      "url": "http://localhost:3333/user/employee/single-review",
+      "url": "http://localhost:3333/employee/singlereview",
       "method": "POST",
       "headers": {
         "Content-Type": "application/json",
@@ -69,17 +65,17 @@ function showlevel2(id){
         res.forEach(function(item){
         enteredlevel2.push(item.Name);
         });
-        // console.log(enteredlevel2);
 
         $.ajax({
           "async": true,
           "crossDomain": true,
-          "url": "http://localhost:3333/user/employee/sub-parameters",
+          "url": "http://localhost:3333/employee/level2",
           "method": "POST",
           "headers": {
             "Content-Type": "application/json",
             },
-          "data":JSON.stringify({FirstLevelName:id}),
+          "data":JSON.stringify({FirstLevelName:id,
+                                 Role:Role}),
           "success": function(res){
             alllevel2 = [];
             res.forEach(function(item){
@@ -93,7 +89,6 @@ function showlevel2(id){
                 FirstLevelName: id,
                 SecondLevelName: id
               };
-              console.log(JSON.stringify(toadd));
               $.ajax({
                 "async": true,
                 "crossDomain": true,
@@ -125,22 +120,19 @@ function showlevel2(id){
                 myOBJ.push(addobj);
               }
             });
-            // console.log(myOBJ);
-            // if(mylevel2.innerHTML == ""){
             var qa_reviewed = false;
 
             myOBJ.forEach(function(element){
-              if(element.QA_Review == "null"){
+              if(element.QA_Review == "null"  || element.QA_Review == null){
                 element.QA_Review = "";
               }
-
-              if(element.QA_Rating == null){
+              if(element.QA_Rating == "null"  || element.QA_Rating == null){
                 element.QA_Rating = "";
               }
-              if(element.Own_Review == "null"){
+              if(element.Own_Review == "null"  || element.Own_Review == null){
                 element.Own_Review = "";
               }
-              if(element.Own_Rating == null){
+              if(element.Own_Rating == "null"  || element.Own_Rating == null){
                 element.Own_Rating = "";
               }
               if( (element.QA_Review) || (element.QA_Rating) ){
@@ -239,7 +231,6 @@ function submitlevel1(id){
       }
       else{
         if( Number(elementRating)<1 || Number(elementRating)>10 ){
-          console.log(elementRating);
           var addhtml =
           `<div class="alert alert-danger alert-dismissible fade show" role="alert">
             Rating must be in the range <strong>1 to 10</strong>
@@ -252,6 +243,7 @@ function submitlevel1(id){
         }
         else{
           var myresponse = {
+            Role: Role,
             EmployeeCode : Number(EmployeeId),
             FirstLevelName : id,
             SecondLevelName : element.Name,
@@ -262,7 +254,6 @@ function submitlevel1(id){
           }
         response.push(myresponse);
         }
-        console.log(response);
       }
     }
   });
@@ -271,7 +262,7 @@ function submitlevel1(id){
       $.ajax({
         "async": true,
         "crossDomain": true,
-        "url": "http://localhost:3333/user/employee/review",
+        "url": "http://localhost:3333/employee/review",
         "method": "POST",
         "headers": {
           "Content-Type": "application/json",
@@ -286,7 +277,7 @@ function submitlevel1(id){
   document.getElementById(id+"div").innerHTML = "";
   (document.getElementById(id+"div").parentNode).style.border = null;
   (document.getElementById(id+"div").parentNode).style.padding = null;
-
+  document.getElementById(id).innerHTML = document.getElementById(id).innerHTML.slice(0,-1) + "+";
 }
 
 function numValidation(){

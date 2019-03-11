@@ -63,10 +63,6 @@ li{
 li{
   margin-top: 20px;
 }
-/* input[type="button"]{
-      width: 50px;
-
-} */
 .bolder{
   font-weight: bold;
   text-decoration: underline;
@@ -76,4 +72,20 @@ li{
 }
 .removebtn{
   margin: 0 20px;
+}
+
+@media (max-width: 550px) {
+  #body ul{
+    list-style-type: none;
+    margin-left:  5px;
+    padding: 5px;
+  }
+  #body{
+    margin: 30px;
+    margin-left: 5px;
+  }
+  #rolelabel{
+    padding: 20px 5px !important;
+    /* padding-top: 20px !important; */
+  }
 }

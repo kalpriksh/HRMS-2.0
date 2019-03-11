@@ -5,7 +5,7 @@ $(document).ready(function(){
 
       "async": true,
       "crossDomain": true,
-      "url": "http://localhost:3333/user/admin/Roles",
+      "url": "http://localhost:3333/admin/roles",
       "method": "GET",
       success: function(res){
         res.forEach(function(element){
@@ -22,7 +22,7 @@ $(document).ready(function(){
             <li>
             <div class="row">
               <div class="col-sm-3">
-                <button type="submit" onclick = "Addbtn(this.innerHTML)" class="btn btn-primary" id = ${"Add_"+"btn"} data-toggle="modal" data-target="#exampleModal">Add New</button>
+                <button type="submit" onclick = "Addbtn(this.innerHTML)" class="btn btn-primary" id = ${"Add_"+"btn"} data-toggle="modal" data-target="#exampleModal">Add</button>
               </div></div></li></ul>`
         ;
         myroles.innerHTML = roleshtml;
@@ -45,7 +45,7 @@ function showlevel1(id){
 
     "async": true,
     "crossDomain": true,
-    "url": "http://localhost:3333/user/employee",
+    "url": "http://localhost:3333/employee",
     "method": "POST",
     "headers": {
       "Content-Type": "application/json"
@@ -54,7 +54,6 @@ function showlevel1(id){
     success: function(res){
       level1 = res;
       var mylevel1 = document.getElementById(id+"div");
-      console.log(id+"div");
       if(mylevel1.innerHTML == ""){
         var level1html = `
           <br>
@@ -67,7 +66,7 @@ function showlevel1(id){
             </li>
           `).join('')}
           <li class = "btn-group">
-            <button type="submit" onclick = "Addbtn(this.id)" class="btn btn-primary" id = ${"Add_"+id+"_btn"} data-toggle="modal" data-target="#exampleModal">Add New</button>
+            <button type="submit" onclick = "Addbtn(this.id)" class="btn btn-primary" id = ${"Add_"+id+"_btn"} data-toggle="modal" data-target="#exampleModal">Add</button>
             <div class="dropdown removebtn">
               <button class="btn btn-secondary dropdown-toggle" type="button" id= ${"dropdown_"+ id } data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Remove</button>
               <div class="dropdown-menu" aria-labelledby=${"dropdown_"+ id}  id=${"remove_"+ id + "_btn"}>
@@ -78,7 +77,6 @@ function showlevel1(id){
         ;
         mylevel1.innerHTML = level1html;
         var myRemoveDropdown = document.getElementById("remove_"+ id + "_btn");
-        console.log(id+"div");
         var removebtnhtml =`
           ${level1.map(level => `
             <a class="dropdown-item" onclick = "remove(this.id)" id = ${"remove_"+id+"_"+level.Name}>${level.Name}</a>
@@ -100,16 +98,18 @@ function showlevel1(id){
 }
 
 function showlevel2(ide){
-  id = ide.split("_")[1];
+  level1 = ide.split("_")[1];
+  role = ide.split("_")[0];
   $.ajax({
     "async": true,
     "crossDomain": true,
-    "url": "http://localhost:3333/user/employee/sub-parameters",
+    "url": "http://localhost:3333/employee/level2",
     "method": "POST",
     "headers": {
       "Content-Type": "application/json",
       },
-    "data":JSON.stringify({FirstLevelName:id}),
+    "data":JSON.stringify({FirstLevelName:level1,
+    Role: role}),
     "success": function(res){
       level2 = res;
       var mylevel2 = document.getElementById(ide + "div");
@@ -120,11 +120,11 @@ function showlevel2(ide){
           <ul id = "level2">
             ${level2.map(level => `
             <li>
-              <a id = ${id + level.Name}"> ${ level.Name} </a>
+              <a id = ${level1 + level.Name}"> ${ level.Name} </a>
             </li>
           `).join('')}
           <li class="btn-group">
-            <button type="submit" onclick = "Addbtn(this.id)" class="btn btn-primary" id = ${"Add_"+ide+"_"+"btn"} data-toggle="modal" data-target="#exampleModal">Add New</button>
+            <button type="submit" onclick = "Addbtn(this.id)" class="btn btn-primary" id = ${"Add_"+ide+"_"+"btn"} data-toggle="modal" data-target="#exampleModal">Add</button>
             ${level2.length !=0 ? `<div class="dropdown removebtn">
               <button class="btn btn-secondary dropdown-toggle" type="button" id= ${"dropdown_"+ ide } data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Remove</button>
               <div class="dropdown-menu" aria-labelledby=${"dropdown_"+ ide}  id=${"remove_"+ ide + "_btn"}>
@@ -136,7 +136,6 @@ function showlevel2(ide){
         ;
         mylevel2.innerHTML = level2html;
         var myRemoveDropdown = (level2.length !=0 ) ? document.getElementById("remove_"+ ide + "_btn") : 0;
-        console.log(id+"div");
         var removebtnhtml =`
           ${level2.map(level => `
             <a class="dropdown-item" onclick = "remove(this.id)" id = ${"remove_"+ide+"_"+level.Name}>${level.Name}</a>
@@ -158,6 +157,10 @@ function showlevel2(ide){
 
 function Addbtn(id){
   document.getElementById("modaladdbtn").setAttribute("name",id);
+  $(function(){
+    $("#modalText").focus();
+  });
+  // document.getElementById("modalText").focus();
   id = id.slice(0,-4);
   names = id.split("_");
   if(names.length ==1){
@@ -169,14 +172,50 @@ function Addbtn(id){
 }
 
 function remove(id){
+  var btn = document.getElementById(id);
   id = id.slice(7,);
-  console.log(id);
-  names = id.split("_");
-  if(names.length ==2){
-    console.log("remove level1");
+  arr = id.split("_");
+  role = arr[0];
+  level1 = arr[1];
+
+  if(arr.length ==2){
+    var mydiv = btn.parentNode.parentNode.parentNode.parentNode.parentNode;
+    document.getElementById(mydiv.id).innerHTML = "";
+
+    $.ajax({
+      "async": true,
+      "crossDomain": true,
+      "url": "http://localhost:3333/admin/remove1",
+      "method": "POST",
+      "headers": {
+        "Content-Type": "application/json",
+        },
+      "data":JSON.stringify({FirstLevelName:level1,
+      Role: role}),
+      "success": function(res){
+      }
+    });
   }
-  else if(names.length ==3){
-    console.log("remove level2");
+  else if(arr.length ==3){
+    level2 = arr[2];
+    var mydiv = btn.parentNode.parentNode.parentNode.parentNode.parentNode;
+    document.getElementById(mydiv.id).innerHTML = "";
+    $.ajax({
+      "async": true,
+      "crossDomain": true,
+      "url": "http://localhost:3333/admin/remove2",
+      "method": "POST",
+      "headers": {
+        "Content-Type": "application/json",
+        },
+      "data":JSON.stringify({FirstLevelName:level1,
+      Role: role,
+      SecondLevelName: level2}),
+      "success": function(res){
+        console.log("deleted role, lv1 and lv2 : " + role + " " + level1 + " " + level2);
+
+      }
+    });
   }
 }
 
@@ -209,7 +248,7 @@ function modalADD(ide){
   }
   else if(names.length == 2){
     btn = document.getElementById(ide);
-    var mydiv = btn.parentNode.parentNode.parentNode.parentNode.parentNode;
+    var mydiv = btn.parentNode.parentNode.parentNode;
     document.getElementById(mydiv.id).innerHTML = "";
     document.getElementById("exampleModalLabel").innerHTML = "Level1";
 
@@ -234,7 +273,7 @@ function modalADD(ide){
   }
   else if(names.length == 3){
     btn = document.getElementById(ide);
-    var mydiv = btn.parentNode.parentNode.parentNode.parentNode.parentNode;
+    var mydiv = btn.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode;
     document.getElementById(mydiv.id).innerHTML = "";
     document.getElementById("exampleModalLabel").innerHTML = "Level2";
     myOBJ = {

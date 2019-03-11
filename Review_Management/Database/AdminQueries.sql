@@ -36,7 +36,7 @@ go
 
 
 /*to get second level Id*/
-alter procedure getSecondLevelId
+create procedure getSecondLevelId
 	@Name varchar(30)
 as
 	begin
@@ -52,7 +52,7 @@ as
 go
 DisplayTableEntries
 /*creates new role if absent, creates new level if absent, maps role id and lv1 id to RolesFirstLevel table*/
-alter Procedure CreateTillFirstLevel
+create Procedure CreateTillFirstLevel
 	@Role varchar(30),
 	@FirstLevelName varchar(30)
 as
@@ -81,7 +81,7 @@ drop procedure CreateTillFirstLevel
 exec CreateTillFirstLevel 'Pres','Delivery'
 
 /*to create entries till second level and then map lv1 and lv2 in FirstSecondLevel table */
-alter procedure CreateTillSecondLevel
+create procedure CreateTillSecondLevel
 	@Role varchar(30),
 	@FirstLevelName varchar(30),
 	@SecondLevelName varchar(30)
@@ -113,7 +113,7 @@ as
 				insert into RolesFirstLevel (RoleId,FirstLevelId)
 				values (@x,@y)
 				end
-				if not exists (select Id from FirstSecondLevel where SecondLevelId=@z and FirstLevelId=@y)
+				if not exists (select Id from FirstSecondLevel where SecondLevelId=@z and FirstLevelId=@y and RoleId=@z)
 				begin
 				insert into FirstSecondLevel(RoleId,FirstLevelId,SecondLevelId)
 				values (@x,@y,@z)
@@ -182,4 +182,9 @@ drop procedure NewLv1Parameter
 drop procedure mapRoleFirstLevel
 drop procedure proc1
 drop procedure GetAllRoles
+drop procedure EmployeePrimaryProject
+drop procedure GetProjectId
+drop procedure InitalizeFirstLevel
+drop procedure NewLv2Parameter
+drop procedure spEmployeesandRoles
 */

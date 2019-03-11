@@ -1,4 +1,4 @@
-var EmployeeId = 10;
+var EmployeeId = 3;
 var Role = "CM";
 var employees = [
   {
@@ -22,7 +22,7 @@ $(document).ready(function(){
 
       "async": true,
       "crossDomain": true,
-      "url": "http://localhost:3333/user/employee",
+      "url": "http://localhost:3333/employee",
       "method": "POST",
       "headers": {
         "Content-Type": "application/json"
@@ -61,7 +61,7 @@ function showlevel2(id){
     $.ajax({
       "async": true,
       "crossDomain": true,
-      "url": "http://localhost:3333/user/employee/single-review",
+      "url": "http://localhost:3333/employee/singlereview",
       "method": "POST",
       "headers": {
         "Content-Type": "application/json",
@@ -69,22 +69,21 @@ function showlevel2(id){
       "data":JSON.stringify(myreq),
       success: function(res){
         myOBJ = res;
-        console.log(res);
         enteredlevel2 = [];
         res.forEach(function(item){
         enteredlevel2.push(item.Name);
         });
-        // console.log(enteredlevel2);
 
         $.ajax({
           "async": true,
           "crossDomain": true,
-          "url": "http://localhost:3333/user/employee/sub-parameters",
+          "url": "http://localhost:3333/employee/level2",
           "method": "POST",
           "headers": {
             "Content-Type": "application/json",
             },
-          "data":JSON.stringify({FirstLevelName:id}),
+          "data":JSON.stringify({FirstLevelName:id,
+                                Role:Role}),
           "success": function(res){
             alllevel2 = [];
             res.forEach(function(item){
@@ -98,7 +97,6 @@ function showlevel2(id){
                 FirstLevelName: id,
                 SecondLevelName: id
               };
-              console.log(JSON.stringify(toadd));
               $.ajax({
                 "async": true,
                 "crossDomain": true,
@@ -115,8 +113,6 @@ function showlevel2(id){
             }
 
             alllevel2.forEach(function(item){
-
-              // if(enteredlevel2.length==0){}
               if(enteredlevel2.includes(item)){
               }
               else{
@@ -133,20 +129,18 @@ function showlevel2(id){
             var qa_reviewed = false;
 
             myOBJ.forEach(function(element){
-              if(element.QA_Review == "null"){
+              if(element.QA_Review == "null"  || element.QA_Review == null){
                 element.QA_Review = "";
               }
-
-              if(element.QA_Rating == null){
+              if(element.QA_Rating == "null"  || element.QA_Rating == null){
                 element.QA_Rating = "";
               }
-              if( (element.QA_Review) || (element.QA_Rating) ){
-                  qa_reviewed = true;
+              if(element.Own_Review == "null"  || element.Own_Review == null){
+                element.Own_Review = "";
               }
-              // else if( (element.QA_Review == "null") && (element.QA_Rating==null) ){
-              //     qa_reviewed = false;
-              // }
-
+              if(element.Own_Rating == "null"  || element.Own_Rating == null){
+                element.Own_Rating = "";
+              }
             });
 
             var table_headings = `
@@ -184,17 +178,14 @@ function showlevel2(id){
                         <td scope="col">
                         ${((obj.Own_Review == "")&&(obj.Own_Rating== "")) ?`<textarea onkeydown = "textValidation()" maxlength="255" id=${"Review"+((obj.Name).split(" ").join(""))} name="Own_Review"></textarea>`:`${obj.Own_Review}`
                         }</td>
-
                         ${qa_reviewed ? `
                         <td scope="col">
                             ${obj.QA_Review}
                         </td>
                         `:``}
-
                         <td scope="col">
                         ${((obj.Own_Review == "")&&(obj.Own_Rating== "")) ?`  <input type="number" onkeydown = "numValidation()" min="1" max="10"  id=${"Rating"+((obj.Name).split(" ").join(""))} name="" value= ${obj.Own_Rating}>`:`${obj.Own_Rating}`
                         }</td>
-
                         ${qa_reviewed ? `
                         <td scope="col">
                           ${obj.QA_Rating}
@@ -207,9 +198,6 @@ function showlevel2(id){
             <button id = ${id} onclick = "submitlevel1(this.id)" class = "btn btn-primary btn-lg float-right">SUBMIT</button>
             </div>
             `;
-
-
-            // (mylevel2.parentNode).setAttribute("class","border border-primary");
             (mylevel2.parentNode).style.border = "2px solid blue";
             (mylevel2.parentNode).style.padding = "20px";
             mylevel2.innerHTML = table_headings;
@@ -223,21 +211,17 @@ function showlevel2(id){
     mylevel2.innerHTML = "";
     (mylevel2.parentNode).style.border = "0";
     (mylevel2.parentNode).style.padding = "0";
-    // mylevel2.innerHTML = table_headings;
   }
 }
 
 function submitlevel1(id){
-  //ajax call for level2 parameters
 
   var response =[];
-
   myOBJ.forEach(function(element){
 
     if( (element.Own_Review) || (element.Own_Rating) ){}
     else{
 
-        // console.log("Review"+(element.Name.split(" ").join("")));
       elementReview = document.getElementById("Review"+(element.Name.split(" ").join(""))).value;
       elementRating = document.getElementById("Rating"+(element.Name.split(" ").join(""))).value;
 
@@ -259,8 +243,8 @@ function submitlevel1(id){
         }
         else{
           var myresponse = {
-            // EmployeeCode : Number(EmployeeId),
-            EmployeeCode : EmployeeId,
+            Role: Role,
+            EmployeeCode : Number(EmployeeId),
             FirstLevelName : id,
             SecondLevelName : element.Name ,
             Own_Review : elementReview,
@@ -269,43 +253,32 @@ function submitlevel1(id){
             QA_Rating : (element.QA_Rating == ""? null : element.QA_Rating)
           }
         response.push(myresponse);
-        }// console.log(JSON.stringify(myresponse));
+        }
       }
-      console.log(elementRating);
 
     }
   });
-  console.log(response);
   response.forEach(function(myresponse){
-    // console.log(myresponse.Own_Rating);
-
     if(!(myresponse.Own_Review == "" && myresponse.Own_Rating == "" )){
-      // if(elementRating<1 || elementRating>10){
-      //   console.log(elementRating);
-      //   alert("Rating should be in the range 1 to 10");
-      //   return 0;
-      // }
       $.ajax({
         "async": true,
         "crossDomain": true,
-        "url": "http://localhost:3333/user/employee/review",
+        "url": "http://localhost:3333/employee/review",
         "method": "POST",
         "headers": {
           "Content-Type": "application/json",
           },
         "data":JSON.stringify(myresponse),
         "success": function(res){
-          // console.log(JSON.stringify(myresponse));
-          // console.log("Added");
         }
       });
     }
   });
 
-  // console.log(response);
   document.getElementById(id+"div").innerHTML = "";
   (document.getElementById(id+"div").parentNode).style.border = null;
   (document.getElementById(id+"div").parentNode).style.padding = null;
+  document.getElementById(id).innerHTML = document.getElementById(id).innerHTML.slice(0,-1) + "+";
 
 
 }

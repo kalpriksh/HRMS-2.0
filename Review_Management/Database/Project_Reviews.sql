@@ -61,22 +61,22 @@ as
 	insert into SecondLevel (Name)
 	values ('Technical')
 	insert into SecondLevel (Name)
-	values ('Team Play')
+	values ('TeamPlay')
 	insert into SecondLevel (Name)
 	values ('Management')
 	insert into SecondLevel (Name)
-	values ('Problem Solving')
+	values ('ProblemSolving')
 	insert into SecondLevel (Name)
 	values ('Quality')
 
-
+DisplayTableEntries
 	insert into RolesFirstLevel (RoleId,FirstLevelId)
 	values (1,3),(1,5),(5,4),(5,3),(5,1)
 	insert into RolesFirstLevel (RoleId,FirstLevelId)
 	values (2,1),(2,2),(2,3)
 
 	insert into FirstSecondLevel(RoleId,FirstLevelId,SecondLevelId)
-	values (2,3,4),(1,3,3),(1,3,4),(5,4,1),(5,3,4),(5,1,3),(1,5,NULL)
+	values (3,4,1),(3,3,4),(2,1,3),(2,3,4),(1,3,3),(1,3,4),
 
 	insert into EmployeeReviews (RoleId,FirstLevelId,SecondLevelId,Own_Review,Own_Rating,QA_Review,QA_Rating,Empcode)
 	values (1,3,3,'random Review',5,'one more random review',4 ,1),
