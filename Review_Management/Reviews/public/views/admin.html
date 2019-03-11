@@ -11,6 +11,7 @@
   </head>
 
   <body>
+
     <div class="header">
      <div class="row">
        <div class="col-md-9">
@@ -65,8 +66,10 @@
        </div>
     </nav>
 
-
     <div class="container-fluid color-role" id = "body">
+      <div class="alert alert-primary" id="alertStatusText" role="alert">
+      </div>
+
       <div class="color-role bg-dark" id = "rolelabel">
 
 
@@ -95,14 +98,14 @@
           </button>
         </div>
         <div class="modal-body">
-          <input type="text" class="form-control text-center" onkeydown = "textValidation()"
+          <input type="text" class="form-control text-center" maxlength="20" onkeydown = "textValidation()"
                id ="modalText" name="" placeholder="Add">
-          <p class="tnc"> * Spaces are not allowed </p>
+          <p class="tnc text-danger"> * Spaces are not allowed </p>
 
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal" >Close</button>
-          <button type="button" class="btn btn-primary" data-dismiss="modal" id = "modaladdbtn" onclick="modalADD(this.name)">Add</button>
+          <button type="button" class="btn btn-primary"  id = "modaladdbtn" onclick="modalADD(this.name)">Add</button>
         </div>
       </div>
     </div>

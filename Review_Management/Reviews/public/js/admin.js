@@ -1,5 +1,6 @@
 $(document).ready(function(){
 
+    $("#alertStatusText").hide();
     var roles = [];
     $.ajax({
 
@@ -23,7 +24,7 @@ $(document).ready(function(){
             <div class="row">
               <div class="col-sm-3">
                 <button type="submit" onclick = "Addbtn(this.innerHTML)" class="btn btn-primary" id = ${"Add_"+"btn"} data-toggle="modal" data-target="#exampleModal">Add</button>
-              </div></div></li></ul>`
+          </div></div></li></ul>`
         ;
         myroles.innerHTML = roleshtml;
         myroles.style.color = "white";
@@ -57,33 +58,35 @@ function showlevel1(id){
       if(mylevel1.innerHTML == ""){
         var level1html = `
           <br>
-          <h3 class="text-center"> Level 1 parameters </h3>
+          <h3 class="text-center"> Level 1 Parameters </h3>
           <ul id = "llevel1">
             ${level1.map(level => `
             <li class="inside">
               <a  onclick = "showlevel2(this.id)" id = ${id+"_"+level.Name}> ${level.Name} </a>
-            <div id = ${id+"_" + level.Name + "div"} ></div>
+              <div id = ${id+"_" + level.Name + "div"} ></div>
             </li>
           `).join('')}
           <li class = "btn-group">
             <button type="submit" onclick = "Addbtn(this.id)" class="btn btn-primary" id = ${"Add_"+id+"_btn"} data-toggle="modal" data-target="#exampleModal">Add</button>
-            <div class="dropdown removebtn">
+            ${level1.length !=0 ? `<div class="dropdown removebtn">
               <button class="btn btn-secondary dropdown-toggle" type="button" id= ${"dropdown_"+ id } data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Remove</button>
               <div class="dropdown-menu" aria-labelledby=${"dropdown_"+ id}  id=${"remove_"+ id + "_btn"}>
               </div>
-            </div>
+            </div>`:``
+          }
           </li>
           </ul>`
         ;
         mylevel1.innerHTML = level1html;
-        var myRemoveDropdown = document.getElementById("remove_"+ id + "_btn");
+        var myRemoveDropdown = (level1.length !=0 ) ? document.getElementById("remove_" + id + "_btn"):0;
         var removebtnhtml =`
           ${level1.map(level => `
             <a class="dropdown-item" onclick = "remove(this.id)" id = ${"remove_"+id+"_"+level.Name}>${level.Name}</a>
           `).join('')}`;
-        myRemoveDropdown.innerHTML = removebtnhtml;
+        // myRemoveDropdown.innerHTML = removebtnhtml;
+        myRemoveDropdown.innerHTML = (level1.length !=0 ) ? removebtnhtml : "";
 
-      mylevel1.style.fontSize = "20px";
+        mylevel1.style.fontSize = "20px";
         mylevel1.style.color = "#212529";
         mylevel1.style.backgroundColor = "#C0C0C0";
         mylevel1.style.marginTop = "15px";
@@ -116,7 +119,7 @@ function showlevel2(ide){
       if(mylevel2.innerHTML == ""){
         var level2html = `
           <br>
-          <h3 class="text-center"> Level 2 parameters </h3>
+          <h3 class="text-center"> Level 2 Parameters </h3>
           <ul id = "level2">
             ${level2.map(level => `
             <li>
@@ -135,12 +138,15 @@ function showlevel2(ide){
           </ul>`
         ;
         mylevel2.innerHTML = level2html;
-        var myRemoveDropdown = (level2.length !=0 ) ? document.getElementById("remove_"+ ide + "_btn") : 0;
+        // var myRemoveDropdown = (level2.length !=0 ) ? document.getElementById("remove_"+ ide + "_btn") : 0;
+        var myRemoveDropdown =  document.getElementById("remove_"+ ide + "_btn");
+
         var removebtnhtml =`
           ${level2.map(level => `
             <a class="dropdown-item" onclick = "remove(this.id)" id = ${"remove_"+ide+"_"+level.Name}>${level.Name}</a>
           `).join('')}`;
         (level2.length !=0 )? myRemoveDropdown.innerHTML = removebtnhtml : "";
+        // myRemoveDropdown.innerHTML = removebtnhtml ;
 
         mylevel2.style.fontSize = "16px";
         mylevel2.style.backgroundColor = "#E0E0E0";
@@ -156,19 +162,20 @@ function showlevel2(ide){
 }
 
 function Addbtn(id){
+
   document.getElementById("modaladdbtn").setAttribute("name",id);
   $(function(){
     $("#modalText").focus();
   });
-  // document.getElementById("modalText").focus();
   id = id.slice(0,-4);
   names = id.split("_");
   if(names.length ==1){
     document.getElementById("exampleModalLabel").innerHTML = "Add new Role";
   }
   else if(names.length ==2 || names.length ==3){
-    document.getElementById("exampleModalLabel").innerHTML = "Add new paramter";
+    document.getElementById("exampleModalLabel").innerHTML = "Add new parameter";
   }
+  document.getElementById("modalText").value = "";
 }
 
 function remove(id){
@@ -193,9 +200,13 @@ function remove(id){
       "data":JSON.stringify({FirstLevelName:level1,
       Role: role}),
       "success": function(res){
+        $("#alertStatusText").show();
+        document.getElementById("alertStatusText").innerHTML = "Removed";
+        setTimeout(function() { $("#alertStatusText").hide();},2000);
       }
     });
   }
+
   else if(arr.length ==3){
     level2 = arr[2];
     var mydiv = btn.parentNode.parentNode.parentNode.parentNode.parentNode;
@@ -212,18 +223,25 @@ function remove(id){
       Role: role,
       SecondLevelName: level2}),
       "success": function(res){
-        console.log("deleted role, lv1 and lv2 : " + role + " " + level1 + " " + level2);
-
+          $("#alertStatusText").show();
+          document.getElementById("alertStatusText").innerHTML = "Removed";
+          setTimeout(function() { $("#alertStatusText").hide();},2000);
       }
     });
   }
 }
 
-
 function modalADD(ide){
   id = ide.slice(0,-4);
   names = id.split("_");
   var myOBJ;
+  var newtext = document.getElementById("modalText").value;
+  // var space=/\s/.test(newtext);
+  var space=/[\s@><!&^%$#*\\/]/.test(newtext);
+  if(space == true){
+    alert("Special characters are not allowed");
+    return;
+  }
   if(names.length ==1){
     document.getElementById("exampleModalLabel").innerHTML = "Role";
     myOBJ = {
@@ -243,6 +261,9 @@ function modalADD(ide){
       "success": function(res){
         level2 = res;
         window.location.reload();
+        document.getElementById("alertStatusText").innerHTML = "Added";
+        $("#alertStatusText").show();
+        setTimeout(function() { $("#alertStatusText").hide();},2000);
       }
     });
   }
@@ -268,6 +289,9 @@ function modalADD(ide){
       "data":JSON.stringify(myOBJ),
       "success": function(res){
         level2 = res;
+        $("#alertStatusText").show();
+        document.getElementById("alertStatusText").innerHTML = "Added";
+        setTimeout(function() { $("#alertStatusText").hide();},2000);
       }
     });
   }
@@ -292,14 +316,18 @@ function modalADD(ide){
       "data":JSON.stringify(myOBJ),
       "success": function(res){
         level2 = res;
+        $("#alertStatusText").show();
+        document.getElementById("alertStatusText").innerHTML = "Added";
+        setTimeout(function() { $("#alertStatusText").hide();},2000);
       }
     });
   }
+  $('#exampleModal').modal('hide');
 }
 
 
 function textValidation(){
-  if(event.key == "<" || event.key == ">" || event.keyCode == 32 || event.key == "_" ){
+  if(event.key == "<" || event.key == ">" || event.keyCode == 32 || event.key == "_" || event.key == "\\" || event.key == "/"  ){
     event.preventDefault();
   }
 }

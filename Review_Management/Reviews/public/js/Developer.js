@@ -141,6 +141,9 @@ function showlevel2(id){
             });
 
             var table_headings = `
+            <div class="alert alert-danger" id = ${id+"alert"} role="alert">
+              Rating must be in the range <strong> 1 - 10 </strong>
+            </div>
             <div class = " table-responsive">
             <table class = "table table-bordered  table-hover table-striped" id = "review_table">
               <thead>
@@ -157,7 +160,7 @@ function showlevel2(id){
                 </th>
                 `:``}
                 <th scope="col">
-                    <p>  Self Rating* </p>
+                    <p>  Self Rating<span class="text-danger">*</span> </p>
                     <p> (1-10) </p>
                 </th>
                 ${qa_reviewed ? `
@@ -205,6 +208,8 @@ function showlevel2(id){
             (mylevel2.parentNode).style.border = "2px solid #5C9BD1";
             (mylevel2.parentNode).style.padding = "20px";
             mylevel2.innerHTML = table_headings;
+
+            $("#"+id+"alert").hide();
           }
         });
       }
@@ -219,26 +224,20 @@ function showlevel2(id){
 }
 
 function submitlevel1(id){
+  // id = level1 parameter name
   var response =[];
+  var flag = 0;
   myOBJ.forEach(function(element){
     if( (element.Own_Review) || (element.Own_Rating) ){}
     else{
-
       elementReview = document.getElementById("Review"+(element.Name.split(" ").join(""))).value;
       elementRating = document.getElementById("Rating"+(element.Name.split(" ").join(""))).value;
-
       if((!elementReview && !Number(elementRating)))  {
       }
       else{
         if( Number(elementRating)<1 || Number(elementRating)>10 ){
-          var addhtml =
-          `<div class="alert alert-danger alert-dismissible fade show" role="alert">
-            Rating must be in the range <strong>1 to 10</strong>
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>`;
-          document.getElementById("alert").innerHTML = addhtml;
+          flag = 1;
+          $("#"+id+"alert").show();
           return;
         }
         else{
@@ -257,10 +256,14 @@ function submitlevel1(id){
       }
     }
   });
+  if(flag == 1){
+    return;
+  }
+  console.log(response);
   response.forEach(function(myresponse){
     if(!(myresponse.Own_Review == "" && myresponse.Own_Rating == "" )){
       $.ajax({
-        "async": true,
+        "async": false,
         "crossDomain": true,
         "url": "http://localhost:3333/employee/review",
         "method": "POST",
@@ -281,7 +284,7 @@ function submitlevel1(id){
 }
 
 function numValidation(){
-  if(event.key == "e" || event.key == "E" ){
+  if(event.key == "e" || event.key == "E"|| event.key == "-" ){
     event.preventDefault();
   }
 }

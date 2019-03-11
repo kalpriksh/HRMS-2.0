@@ -177,6 +177,9 @@ function showlevel2(id){
             });
 
             var table_headings = `
+            <div class="alert alert-danger" id = ${id+"alert"} role="alert">
+              Rating must be in the range <strong> 1 - 10 </strong>
+            </div>
             <div class = " table-responsive">
             <table class = "table table-hover table-bordered table-striped" id = "review_table">
               <thead>
@@ -194,12 +197,12 @@ function showlevel2(id){
                 </th>
                 ${self_reviewed ? `
                 <th scope="col">
-                    <p>  Self Rating* </p>
+                    <p>  Self Rating </p>
                     <p> (1-10) </p>
                 </th>
                 `:``}
                 <th scope="col">
-                    <p>  QA Rating </p>
+                    <p>  QA Rating<span class="text-danger">*</span> </p>
                     <p> (1-10) </p>
                 </th>
 
@@ -243,6 +246,7 @@ function showlevel2(id){
             (mylevel2.parentNode).style.border = "2px solid blue";
             (mylevel2.parentNode).style.padding = "20px";
             mylevel2.innerHTML = table_headings;
+            $("#"+id+"alert").hide();
           }
         });
       }
@@ -258,6 +262,8 @@ function showlevel2(id){
 
 function submitlevel1(id){
   var response =[];
+  var flag = 0;
+
   myOBJ.forEach(function(element){
     if( (element.QA_Review) || (element.QA_Rating) ){
     }
@@ -270,14 +276,8 @@ function submitlevel1(id){
       }
       else{
         if(Number(elementRating)<1 || Number(elementRating)>10 ){
-          var addhtml =
-          `<div class="alert alert-danger alert-dismissible fade show" role="alert">
-            Rating must be in the range <strong>1 to 10</strong>
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>`;
-          document.getElementById("alert").innerHTML = addhtml;
+          flag = 1;
+          $("#"+id+"alert").show();
           return ;
         }
         else{
@@ -296,10 +296,13 @@ function submitlevel1(id){
       }
     }
   });
+  if(flag == 1){
+    return;
+  }
   response.forEach(function(myresponse){
     if(!(myresponse.QA_Review == "" && myresponse.QA_Rating == "" )){
       $.ajax({
-        "async": true,
+        "async": false,
         "crossDomain": true,
         "url": "http://localhost:3333/employee/review",
         "method": "POST",

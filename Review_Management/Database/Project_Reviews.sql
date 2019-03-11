@@ -91,8 +91,7 @@ go
 create procedure DisplayTableEntries
 as
 begin
-	select * from ProjectRole
-	select * from FirstLevel
+ 	select * from FirstLevel
 	select * from SecondLevel
 	select * from RolesFirstLevel
 	select * from FirstSecondLevel

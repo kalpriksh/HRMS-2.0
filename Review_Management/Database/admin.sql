@@ -132,7 +132,7 @@ as
 go
 
 /*to delete till level 2 parameters for particular role and lv1*/
-create  procedure RemoveParameters @Role varchar(50),@FirstLevelName varchar(50),@SecondLevelName varchar(50)
+create procedure RemoveParameters @Role varchar(50),@FirstLevelName varchar(50),@SecondLevelName varchar(50)
 as
 	declare @x int; declare @y int; declare @z int;
 	exec @x = getRolesId @Role; exec @y= getFirstLevelId @FirstLevelName; exec @z= getSecondLevelId @SecondLevelName;
@@ -146,23 +146,24 @@ as
 				begin
 				delete from EmployeeReviews where RoleId=@x and FirstLevelId=@y and SecondLevelId = @z
 				delete from FirstSecondLevel where RoleId=@x and FirstLevelId=@y and SecondLevelId = @z
-				delete from  RolesFirstLevel where RoleId= @x and FirstLevelId=@y
-				end
+				
 			end
+		end
 	end
 go
-DisplayTableEntries
+
 exec RemoveParameters 'CM','Leadership','Problem Solving'
 
 /*to delete till Lv 1 from particular role*/
-create procedure RemoveLv1Parameter
+alter procedure RemoveLv1Parameter
 @Role varchar(30),
 @FirstLevelName varchar(30)
 as
 	declare @x int , @y int;
 	exec @x = getRolesId @Role; exec @y= getFirstLevelId @FirstLevelName; select @x,@y
-	if exists(select * from FirstSecondLevel where FirstLevelId=@y and RoleId=@x )	
+	if exists(select * from RolesFirstLevel where FirstLevelId=@y and RoleId=@x )	
 	begin
+		delete from  EmployeeReviews where RoleId= @x and FirstLevelId=@y
 		delete from FirstSecondLevel where RoleId=@x and FirstLevelId=@y
 		delete from  RolesFirstLevel where RoleId= @x and FirstLevelId=@y
 	end
@@ -171,9 +172,13 @@ go
 
 exec RemoveLv1Parameter 'ProjectOwner','Development'
 
-drop procedure RemoveParmeters
+drop procedure RemoveParameters
 drop procedure RemoveRole
 exec RemoveRole Cat;
 select * from ProjectRole
 select * from ProjectTeamDetails
 select * from RolesFirstLevel
+
+delete from EmployeeReviews where id > 20
+
+DisplayTableEntries
